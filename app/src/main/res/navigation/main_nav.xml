@@ -1,6 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_nav">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/fragmentOnBoard">
 
+    <fragment
+        android:id="@+id/fragmentOnBoard"
+        android:name="com.neko.hiepdph.toiletseries.main.onboard.FragmentOnBoard"
+        android:label="FragmentOnBoard" />
+    <fragment
+        android:id="@+id/fragmentHome"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.home.FragmentHome"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/fragmentVideoToilet"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.videotoilet.FragmentVideoToilet"
+        android:label="FragmentVideoToilet" />
+    <fragment
+        android:id="@+id/fragmentListVideoToilet"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.listvideotoilet.FragmentListVideoToilet"
+        android:label="FragmentListVideoToilet" />
 </navigation>

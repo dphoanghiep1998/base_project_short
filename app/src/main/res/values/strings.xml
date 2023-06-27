@@ -2,7 +2,6 @@
     <string name="app_name" translatable="false">Skibydi Toilet Video Call</string>
     <string name="app_lovin_sdk_key" translatable="false">lBnu4FPbTxGUi8cqgwNENfRfqINTVk8B9NxC2Japp2DqKPThsIhPCF7zcC6wr9_IN8OLTcG9SR4dT4OJwQPTBf</string>
     <string name="ads_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <!--    <string name="ads_app_id" translatable="false">ca-app-pub-4636496778732615~4906346045</string>-->
     <string name="facebook_app_id" translatable="false">3444392725803614</string>
     <string name="facebook_client_token" translatable="false">a5737a4cf618def85f9a70ef772c1c14</string>
     <string name="adjust_token_key" translatable="false">gkmigt32ia68</string>
@@ -27,4 +26,8 @@
     <string name="confirm_internet">Some action are\'nt \navailable OFFLINE.\nPlease check your internet connection</string>
     <string name="custom_ok">Ok</string>
     <string name="retry">Retry</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="skibidy_toilet_video">Skibidi Toilet\nVideo</string>
+    <string name="other_call">Other call</string>
 </resources>

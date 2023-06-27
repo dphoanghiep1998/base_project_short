@@ -18,4 +18,6 @@
     <color name="black_text">#282944</color>
     <color name="gradient_seek_1">#1BE7F6</color>
     <color name="gradient_seek_2">#418DE7</color>
+    <color name="text_accent">#FCB315</color>
+    <color name="text_blue">#02F0FF</color>
 </resources>

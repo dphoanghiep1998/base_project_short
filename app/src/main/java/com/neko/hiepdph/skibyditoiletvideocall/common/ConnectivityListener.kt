@@ -16,7 +16,6 @@ class ConnectivityListener constructor(
 
     var isWifiEnabled: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     var isConnectivityChanged: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
-    var dataCache: MutableLiveData<Pair<List<ScanResult>, WifiInfo>> = MutableLiveData()
 
 
     override fun onReceive(context: Context?, intent: Intent?) {

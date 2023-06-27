@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/ic_main"
+    tools:context=".view.main.home.FragmentHome">
+
+    <ImageView
+        android:id="@+id/video_call"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:src="@drawable/ic_video_call"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/message"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/message"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:src="@drawable/ic_message"
+        app:layout_constraintBottom_toBottomOf="@id/video_call"
+        app:layout_constraintEnd_toStartOf="@id/call"
+        app:layout_constraintStart_toEndOf="@id/video_call" />
+
+    <ImageView
+        android:id="@+id/call"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:src="@drawable/ic_call"
+        app:layout_constraintBottom_toBottomOf="@id/video_call"
+        app:layout_constraintEnd_toStartOf="@id/gallery"
+        app:layout_constraintStart_toEndOf="@id/message" />
+
+    <ImageView
+        android:id="@+id/gallery"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:src="@drawable/ic_gallery"
+        app:layout_constraintBottom_toBottomOf="@id/video_call"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/call" />
+
+    <TextView
+        android:id="@+id/tv_skibidy_video"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/app_font_700"
+        android:gravity="center"
+        android:text="@string/skibidy_toilet_video"
+        android:textColor="@color/text_accent"
+        android:layout_marginBottom="@dimen/_24sdp"
+        app:layout_constraintEnd_toEndOf="@id/video_call"
+        app:layout_constraintBottom_toTopOf="@id/video_call"
+        app:layout_constraintStart_toStartOf="@id/video_call" />
+
+    <ImageView
+        android:id="@+id/imv_toilet_video"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:src="@drawable/ic_video_toilet"
+        android:layout_marginBottom="@dimen/_6sdp"
+        app:layout_constraintBottom_toTopOf="@id/tv_skibidy_video"
+        app:layout_constraintEnd_toEndOf="@id/tv_skibidy_video"
+        app:layout_constraintStart_toStartOf="@id/tv_skibidy_video" />
+
+
+    <TextView
+        android:id="@+id/tv_other_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/app_font_700"
+        android:gravity="center"
+        android:text="@string/other_call"
+        android:textColor="@color/text_blue"
+        app:layout_constraintTop_toTopOf="@id/tv_skibidy_video"
+        app:layout_constraintStart_toStartOf="@id/gallery"
+        app:layout_constraintEnd_toEndOf="@id/gallery" />
+
+    <ImageView
+        android:id="@+id/imv_other_Call"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:src="@drawable/ic_video_other_call"
+        android:layout_marginBottom="@dimen/_6sdp"
+        app:layout_constraintBottom_toTopOf="@id/tv_other_call"
+        app:layout_constraintEnd_toEndOf="@id/tv_other_call"
+        app:layout_constraintStart_toStartOf="@id/tv_other_call" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
