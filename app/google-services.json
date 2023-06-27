@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "427002057855",
+    "project_id": "toilet-f1cb6",
+    "storage_bucket": "toilet-f1cb6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427002057855:android:8a0a937ab195dd92a91b4a",
+        "android_client_info": {
+          "package_name": "com.neko.toilet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427002057855-qf61bmmb141jell95fcsuc5n94k0b7uj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7UkLEJE_mST5kxNtZXem73RQ8E_MRR6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427002057855-qf61bmmb141jell95fcsuc5n94k0b7uj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

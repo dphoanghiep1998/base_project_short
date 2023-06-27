@@ -1,0 +1,213 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs'
+
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+}
+
+android {
+    namespace 'com.neko.hiepdph.skibyditoiletvideocall'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.neko.toilet"
+        minSdk 23
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        def date = new Date()
+        def formattedDate = date.format('dd-MM')
+        Calendar calendar = GregorianCalendar.getInstance()
+        def hour = calendar.get(Calendar.HOUR_OF_DAY)
+        def minute = calendar.get(Calendar.MINUTE)
+        setProperty("archivesBaseName", "Skibydi Toilet Video Call" + versionCode + "_" + versionName + "_${formattedDate}_${hour}h${minute}")
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+        buildConfig = true
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+        density {
+            // This property is set to true by default.
+            enableSplit = true
+        }
+        abi {
+            // This property is set to true by default.
+            enableSplit = true
+        }
+    }
+    flavorDimensions "ads"
+
+    productFlavors {
+        noads {
+            dimension "ads"
+            buildConfigField('String', 'ads_open_id', '""')
+
+            buildConfigField('String', 'inter_splash_id', '""')
+            buildConfigField('String', 'inter_splash_id2', '""')
+            buildConfigField('String', 'inter_splash_id3', '""')
+
+
+            buildConfigField('String', 'native_intro_id', '""')
+            buildConfigField('String', 'native_intro_id2', '""')
+            buildConfigField('String', 'native_intro_id3', '""')
+
+            buildConfigField('String', 'banner_home_id', '""')
+            buildConfigField('String', 'banner_home_id2', '""')
+            buildConfigField('String', 'banner_home_id3', '""')
+
+            buildConfigField('String', 'inter_video_id', '""')
+            buildConfigField('String', 'inter_video_id2', '""')
+            buildConfigField('String', 'inter_video_id3', '""')
+
+            buildConfigField('String', 'native_video_id', '""')
+            buildConfigField('String', 'native_video_id2', '""')
+            buildConfigField('String', 'native_video_id3', '""')
+
+
+            buildConfigField('String', 'reward_app_id', '""')
+            buildConfigField('String', 'reward_app_id2', '""')
+            buildConfigField('String', 'reward_app_id3', '""')
+
+
+        }
+        adstest {
+            dimension "ads"
+            buildConfigField('String', 'ads_open_id', '"ca-app-pub-3940256099942544/3419835294"')
+
+            buildConfigField('String', 'inter_splash_id', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_splash_id2', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_splash_id3', '"ca-app-pub-3940256099942544/1033173712"')
+
+            buildConfigField('String', 'native_intro_id', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_intro_id2', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_intro_id3', '"ca-app-pub-3940256099942544/2247696110"')
+
+            buildConfigField('String', 'banner_home_id', '"ca-app-pub-3940256099942544/6300978111"')
+            buildConfigField('String', 'banner_home_id2', '"ca-app-pub-3940256099942544/6300978111"')
+            buildConfigField('String', 'banner_home_id3', '"ca-app-pub-3940256099942544/6300978111"')
+
+            buildConfigField('String', 'inter_video_id', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_video_id2', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_video_id3', '"ca-app-pub-3940256099942544/1033173712"')
+
+            buildConfigField('String', 'native_video_id', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_video_id2', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_video_id3', '"ca-app-pub-3940256099942544/2247696110"')
+
+            buildConfigField('String', 'reward_app_id', '"ca-app-pub-3940256099942544/5224354917"')
+            buildConfigField('String', 'reward_app_id2', '"ca-app-pub-3940256099942544/5224354917"')
+            buildConfigField('String', 'reward_app_id3', '"ca-app-pub-3940256099942544/5224354917"')
+        }
+        adsreal {
+            dimension "ads"
+            buildConfigField('String', 'ads_open_id', '"ca-app-pub-3940256099942544/3419835294"')
+
+            buildConfigField('String', 'inter_splash_id', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_splash_id2', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_splash_id3', '"ca-app-pub-3940256099942544/1033173712"')
+
+            buildConfigField('String', 'native_intro_id', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_intro_id2', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_intro_id3', '"ca-app-pub-3940256099942544/2247696110"')
+
+            buildConfigField('String', 'banner_home_id', '"ca-app-pub-3940256099942544/6300978111"')
+            buildConfigField('String', 'banner_home_id2', '"ca-app-pub-3940256099942544/6300978111"')
+            buildConfigField('String', 'banner_home_id3', '"ca-app-pub-3940256099942544/6300978111"')
+
+            buildConfigField('String', 'inter_video_id', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_video_id2', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_video_id3', '"ca-app-pub-3940256099942544/1033173712"')
+
+            buildConfigField('String', 'native_video_id', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_video_id2', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_video_id3', '"ca-app-pub-3940256099942544/2247696110"')
+
+            buildConfigField('String', 'reward_app_id', '"ca-app-pub-3940256099942544/5224354917"')
+            buildConfigField('String', 'reward_app_id2', '"ca-app-pub-3940256099942544/5224354917"')
+            buildConfigField('String', 'reward_app_id3', '"ca-app-pub-3940256099942544/5224354917"')
+        }
+    }
+}
+
+dependencies {
+    implementation project(path: ':libads')
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    def nav_version = "2.6.0"
+    def lifecycle_version = "2.6.1"
+    def lottieVersion = "3.4.0"
+
+    //navigation components
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    //lotties
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+    //viewmodel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    //livedata
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    //dot
+    implementation("com.tbuonomo:dotsindicator:4.3")
+    implementation 'com.github.zhpanvip:viewpagerindicator:1.2.2'
+    //ssp, sdp
+    implementation 'com.intuit.ssp:ssp-android:1.1.0'
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
+    //preference
+    implementation 'androidx.preference:preference-ktx:1.2.0'
+    implementation 'com.google.code.gson:gson:2.10.1'
+//    implementation 'com.google.android.gms:play-services-ads:22.1.0'
+
+    implementation "com.google.android.datatransport:transport-runtime:3.1.9"
+    //FIREBASE
+    implementation 'com.google.firebase:firebase-crashlytics:18.3.7'
+    implementation 'com.google.firebase:firebase-analytics:21.3.0'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+    implementation 'com.google.ads.mediation:mintegral:16.4.61.0'
+    implementation 'com.google.ads.mediation:applovin:11.10.1.0'
+    implementation 'com.google.ads.mediation:facebook:6.14.0.0'
+    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+    implementation 'com.google.ads.mediation:vungle:6.12.1.0'
+    implementation 'com.google.ads.mediation:pangle:5.2.0.3.0'
+    implementation 'com.google.firebase:firebase-core:21.1.1'
+
+
+/*Adjust tracking*/
+    implementation 'com.adjust.sdk:adjust-android:4.33.0'
+    implementation 'com.android.installreferrer:installreferrer:2.2'
+    implementation 'com.google.android.gms:play-services-ads-identifier:18.0.1'
+// Add the following if you are using the Adjust SDK inside web views on your app
+    implementation 'com.adjust.sdk:adjust-android-webbridge:4.33.0'
+}

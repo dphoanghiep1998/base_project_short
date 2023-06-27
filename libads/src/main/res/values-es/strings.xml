@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Automatically translated by Globalization Translator (https://github.com/wilinz/globalization-translator)-->
+<resources> 
+  <string name="loading_ads">Cargando anuncios, por favor espere...</string>  
+  <string name="this_action_contains_ads">(Esta acción puede contener anuncios)</string> 
+</resources>

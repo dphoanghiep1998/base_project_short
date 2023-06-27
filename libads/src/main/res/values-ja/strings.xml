@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Automatically translated by Globalization Translator (https://github.com/wilinz/globalization-translator)-->
+<resources> 
+  <string name="loading_ads">広告を読み込んでいます。お待ちください...</string>  
+  <string name="this_action_contains_ads">( このアクションには広告が含まれる場合があります )</string> 
+</resources>

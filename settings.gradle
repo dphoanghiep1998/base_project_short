@@ -1,0 +1,15 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        mavenCentral()
+        maven {
+            url 'https://artifact.bytedance.com/repository/pangle/'
+        }
+    }
+}
+
+rootProject.name = "Skibydi Toilet Video Call"
+include ':app'
+include ':libads'
