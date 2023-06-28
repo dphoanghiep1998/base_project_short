@@ -12,12 +12,16 @@
     <color name="blur">#CC000000</color>
     <color name="blur_ads">#99000000</color>
     <color name="primary">#1BE7F6</color>
-    <color name="gradient_1">#FFDF7A</color>
-    <color name="gradient_2">#EA6E23</color>
+    <color name="gradient_1">#5B60FF</color>
+    <color name="gradient_2">#5125FF</color>
     <color name="gray">#DBDEEC</color>
     <color name="black_text">#282944</color>
-    <color name="gradient_seek_1">#1BE7F6</color>
-    <color name="gradient_seek_2">#418DE7</color>
+
     <color name="text_accent">#FCB315</color>
     <color name="text_blue">#02F0FF</color>
+    <color name="container_call">#FF1F2024</color>
+
+    <color name="progress_call">#1EE939</color>
+    <color name="progress_call_inactive">#66FFFFFF</color>
+
 </resources>

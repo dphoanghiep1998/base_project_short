@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/fragmentOnBoard">
+    app:startDestination="@id/fragmentCallSchedule">
 
     <fragment
         android:id="@+id/fragmentOnBoard"
@@ -22,4 +22,23 @@
         android:id="@+id/fragmentListVideoToilet"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.listvideotoilet.FragmentListVideoToilet"
         android:label="FragmentListVideoToilet" />
+    <fragment
+        android:id="@+id/fragmentCall"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCall"
+        android:label="fragment_call"
+        tools:layout="@layout/fragment_call" />
+    <fragment
+        android:id="@+id/fragmentCallSchedule"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallSchedule"
+        android:label="FragmentCallSchedule" />
+    <fragment
+        android:id="@+id/fragmentProgressCall"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentProgressCall"
+        android:label="fragment_progress_call"
+        tools:layout="@layout/fragment_progress_call" />
+    <fragment
+        android:id="@+id/fragmentCallScreen"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallScreen"
+        android:label="fragment_call_screen"
+        tools:layout="@layout/fragment_call_screen" />
 </navigation>

@@ -30,4 +30,16 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="skibidy_toilet_video">Skibidi Toilet\nVideo</string>
     <string name="other_call">Other call</string>
+    <string name="call_john_park">Call John Pork !</string>
+    <string name="schedule">Schedule</string>
+    <string name="fifteen_second">After 15s</string>
+    <string name="thirty_second">After 30s</string>
+    <string name="sixty_second">After 60s</string>
+    <string name="call_now">Call Now</string>
+    <string name="call_skibidy">Call Skibidi</string>
+    <string name="intruction_john_pork">Countdown to call John Pork</string>
+    <string name="skibidy_toilet">Skibidi Toilet</string>
+    <string name="incoming_video">Incoming Video</string>
+    <string name="decline">Decline</string>
+    <string name="accept">Accept</string>
 </resources>
