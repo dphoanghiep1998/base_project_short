@@ -23,5 +23,6 @@
 
     <color name="progress_call">#1EE939</color>
     <color name="progress_call_inactive">#66FFFFFF</color>
+    <color name="text_red">#FF000F</color>
 
 </resources>

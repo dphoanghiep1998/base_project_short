@@ -1,4 +1,4 @@
-package com.neko.hiepdph.skibyditoiletvideocall.view.main.home
+package com.neko.hiepdph.skibyditoiletvideocall.view.main.call
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,16 +8,17 @@ import androidx.fragment.app.Fragment
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
-import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentHomeBinding
+import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallCloseBinding
 
-class FragmentHome : Fragment() {
-    private lateinit var binding: FragmentHomeBinding
 
+class FragmentCallClose : Fragment() {
+
+    private lateinit var binding: FragmentCallCloseBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        binding = FragmentCallCloseBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -31,14 +32,8 @@ class FragmentHome : Fragment() {
     }
 
     private fun initButton() {
-        binding.imvToiletVideo.clickWithDebounce {
-            navigateToPage(R.id.fragmentHome, R.id.fragmentVideoToilet)
-        }
-        binding.call.clickWithDebounce {
-            navigateToPage(R.id.fragmentHome, R.id.fragmentCall)
-        }
-        binding.videoCall.clickWithDebounce {
-            navigateToPage(R.id.fragmentHome,R.id.fragmentCallScreen)
+        binding.btnClose.clickWithDebounce {
+            navigateToPage(R.id.fragmentCallClose,R.id.fragmentHome)
         }
     }
 

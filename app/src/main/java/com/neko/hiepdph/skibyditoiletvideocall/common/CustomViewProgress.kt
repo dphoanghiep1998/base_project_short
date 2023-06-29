@@ -14,6 +14,7 @@ import android.util.Log
 import android.view.View
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.picker.TextFontCache
+import org.w3c.dom.Text
 
 
 class CustomViewProgress @JvmOverloads constructor(
@@ -125,12 +126,12 @@ class CustomViewProgress @JvmOverloads constructor(
     fun setProgress(progress: Int) {
         val effect: PathEffect = DashPathEffect(intervals, length - length * progress / 100)
         progressPaint.pathEffect = effect
-        Log.d("TAG", "setProgress: " + length)
         invalidate()
     }
 
-    fun setTime(time:Long){
-
+    fun setTime(time:String){
+        timeText = time
+        invalidate()
     }
 
 }

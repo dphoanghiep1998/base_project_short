@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/fragmentCallSchedule">
+    app:startDestination="@id/fragmentHome">
 
     <fragment
         android:id="@+id/fragmentOnBoard"
@@ -30,15 +30,38 @@
     <fragment
         android:id="@+id/fragmentCallSchedule"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallSchedule"
-        android:label="FragmentCallSchedule" />
+        android:label="FragmentCallSchedule">
+
+        <action
+            android:id="@+id/action_fragmentCallSchedule_to_fragmentProgressCall"
+            app:destination="@id/fragmentProgressCall" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentProgressCall"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentProgressCall"
         android:label="fragment_progress_call"
-        tools:layout="@layout/fragment_progress_call" />
+        tools:layout="@layout/fragment_progress_call">
+        <argument
+            android:name="totalTime"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentCallScreen"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallScreen"
         android:label="fragment_call_screen"
         tools:layout="@layout/fragment_call_screen" />
+    <fragment
+        android:id="@+id/fragmentScreenAccept"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentScreenAccept"
+        android:label="fragment_screen_accept"
+        tools:layout="@layout/fragment_screen_accept" />
+    <fragment
+        android:id="@+id/fragmentCallDecline"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallDecline"
+        android:label="FragmentCallDecline" />
+    <fragment
+        android:id="@+id/fragmentCallClose"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallClose"
+        android:label="fragment_call_close"
+        tools:layout="@layout/fragment_call_close" />
 </navigation>
