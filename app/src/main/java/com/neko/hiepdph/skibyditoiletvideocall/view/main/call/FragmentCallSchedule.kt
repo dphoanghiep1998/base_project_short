@@ -73,5 +73,9 @@ class FragmentCallSchedule : Fragment() {
             val direction = FragmentCallScheduleDirections.actionFragmentCallScheduleToFragmentProgressCall(totalTime)
             findNavController().navigate(direction)
         }
+
+        binding.btnBack.clickWithDebounce {
+            findNavController().popBackStack()
+        }
     }
 }

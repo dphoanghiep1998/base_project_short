@@ -26,7 +26,14 @@
         android:id="@+id/fragmentCall"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCall"
         android:label="fragment_call"
-        tools:layout="@layout/fragment_call" />
+        tools:layout="@layout/fragment_call" >
+        <action
+            android:id="@+id/action_fragmentCall_to_fragmentCallScreen"
+            app:destination="@id/fragmentCallScreen" />
+        <action
+            android:id="@+id/action_fragmentCall_to_fragmentProgressCall"
+            app:destination="@id/fragmentProgressCall" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentCallSchedule"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallSchedule"
@@ -64,4 +71,14 @@
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallClose"
         android:label="fragment_call_close"
         tools:layout="@layout/fragment_call_close" />
+    <fragment
+        android:id="@+id/fragmentMessage"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.message.FragmentMessage"
+        android:label="fragment_message"
+        tools:layout="@layout/fragment_message" />
+    <fragment
+        android:id="@+id/fragmentOtherCall"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.othercall.FragmentOtherCall"
+        android:label="fragment_other_call"
+        tools:layout="@layout/fragment_other_call" />
 </navigation>

@@ -38,7 +38,13 @@ class FragmentHome : Fragment() {
             navigateToPage(R.id.fragmentHome, R.id.fragmentCall)
         }
         binding.videoCall.clickWithDebounce {
-            navigateToPage(R.id.fragmentHome,R.id.fragmentCallScreen)
+            navigateToPage(R.id.fragmentHome, R.id.fragmentCallScreen)
+        }
+        binding.message.clickWithDebounce {
+            navigateToPage(R.id.fragmentHome, R.id.fragmentMessage)
+        }
+        binding.imvOtherCall.clickWithDebounce {
+            navigateToPage(R.id.fragmentHome, R.id.fragmentOtherCall)
         }
     }
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.neko.hiepdph.skibyditoiletvideocall.R
@@ -43,7 +44,7 @@ class AppViewModel : ViewModel() {
         ), MonsterModel(
             10, R.drawable.ic_10, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_10.mp4"
         ), MonsterModel(
-            11, R.drawable.ic_11, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_11.mp4",true
+            11, R.drawable.ic_11, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_11.mp4", true
         ), MonsterModel(
             12, R.drawable.ic_12, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_12.mp4"
         ), MonsterModel(
@@ -57,11 +58,11 @@ class AppViewModel : ViewModel() {
         ), MonsterModel(
             17, R.drawable.ic_17, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_17.mp4"
         ), MonsterModel(
-            18, R.drawable.ic_18, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_18.mp4",true
+            18, R.drawable.ic_18, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_18.mp4", true
         ), MonsterModel(
             19, R.drawable.ic_19, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_19.mp4"
         ), MonsterModel(
-            20, R.drawable.ic_20, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_20.mp4",true
+            20, R.drawable.ic_20, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_20.mp4", true
         ), MonsterModel(
             21, R.drawable.ic_21, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_21.mp4"
         ), MonsterModel(
@@ -75,13 +76,13 @@ class AppViewModel : ViewModel() {
         ), MonsterModel(
             26, R.drawable.ic_26, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_26.mp4"
         ), MonsterModel(
-            27, R.drawable.ic_27, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_27.mp4",true
+            27, R.drawable.ic_27, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_27.mp4", true
         ), MonsterModel(
             28, R.drawable.ic_28, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_28.mp4"
         ), MonsterModel(
             29, R.drawable.ic_29, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_29.mp4"
         ), MonsterModel(
-            30, R.drawable.ic_30, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_30.mp4",true
+            30, R.drawable.ic_30, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_30.mp4", true
         ), MonsterModel(
             31, R.drawable.ic_31, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_31.mp4"
         ), MonsterModel(
@@ -89,7 +90,7 @@ class AppViewModel : ViewModel() {
         ), MonsterModel(
             33, R.drawable.ic_33, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_33.mp4"
         ), MonsterModel(
-            34, R.drawable.ic_34, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_34.mp4",true
+            34, R.drawable.ic_34, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_34.mp4", true
         ), MonsterModel(
             35, R.drawable.ic_35, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_35.mp4"
         ), MonsterModel(
@@ -99,7 +100,7 @@ class AppViewModel : ViewModel() {
         ), MonsterModel(
             39, R.drawable.ic_38, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_38.mp4"
         ), MonsterModel(
-            40, R.drawable.ic_39, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_39.mp4",true
+            40, R.drawable.ic_39, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_39.mp4", true
         ), MonsterModel(
             41, R.drawable.ic_40, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_40.mp4"
         )
@@ -147,7 +148,9 @@ class AppViewModel : ViewModel() {
         _player?.setMediaItem(mediaItem)
     }
 
-    fun playAudio(mediaItem: MediaItem, onEnd: () -> Unit) {
+    fun playAudio(
+        mediaItem: MediaItem, onEnd: () -> Unit, onPrepareDone: ((time: Long) -> Unit)? = null
+    ) {
 
         try {
             _player?.repeatMode = Player.REPEAT_MODE_OFF
@@ -162,7 +165,9 @@ class AppViewModel : ViewModel() {
                 }
 
                 override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-                    super.onPlayerStateChanged(playWhenReady, playbackState)
+                    if (playbackState == ExoPlayer.STATE_READY) {
+                        onPrepareDone?.invoke(_player!!.duration)
+                    }
 
 
                 }
