@@ -1,20 +1,31 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.call
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Typeface
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
+import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallScheduleBinding
 
 class FragmentCallSchedule : Fragment() {
     private lateinit var binding: FragmentCallScheduleBinding
     private var minute = 0L
     private var second = 0L
+    private var action: (() -> Unit)? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -25,6 +36,11 @@ class FragmentCallSchedule : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        action = {
+            val totalTime = minute + second
+            val direction = FragmentCallScheduleDirections.actionFragmentCallScheduleToFragmentProgressCall(totalTime)
+            findNavController().navigate(direction)
+        }
     }
 
     private fun initView() {
@@ -68,14 +84,45 @@ class FragmentCallSchedule : Fragment() {
         }
 
         binding.imvCallVideo.clickWithDebounce {
-            val totalTime = minute + second
-            Log.d("TAG", "initView: "+totalTime)
-            val direction = FragmentCallScheduleDirections.actionFragmentCallScheduleToFragmentProgressCall(totalTime)
-            findNavController().navigate(direction)
+            checkPermission()
         }
 
         binding.btnBack.clickWithDebounce {
             findNavController().popBackStack()
+        }
+    }
+    private fun checkPermission(action: (() -> Unit)? = null) {
+        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(), Manifest.permission.CAMERA
+                )
+            ) {
+                cameraLauncher.launch(
+                    Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.fromParts("package", requireActivity().packageName, null)
+                    )
+                )
+            } else {
+                launcher.launch(Manifest.permission.CAMERA)
+
+            }
+        } else {
+            action?.invoke()
+        }
+    }
+
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                action?.invoke()
+            }
+        }
+
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            action?.invoke()
         }
     }
 }

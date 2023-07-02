@@ -6,16 +6,18 @@
     android:layout_marginTop="@dimen/_12sdp"
     android:layout_marginHorizontal="@dimen/_6sdp">
 
-   <LinearLayout
-       app:layout_constraintTop_toTopOf="parent"
-       android:layout_width="match_parent"
-       android:layout_height="0dp"
-       android:background="@drawable/bg_image_other_call"
-       app:layout_constraintDimensionRatio="1:1">
+<!--   <LinearLayout-->
+<!--       app:layout_constraintTop_toTopOf="parent"-->
+<!--       android:layout_width="match_parent"-->
+<!--       android:layout_height="0dp"-->
+<!--       android:background="@drawable/bg_image_other_call"-->
+<!--       app:layout_constraintDimensionRatio="1:1">-->
        <ImageView
+           app:layout_constraintTop_toTopOf="parent"
            android:id="@+id/imv_avatar"
            android:scaleType="fitCenter"
+           app:layout_constraintDimensionRatio="1:1"
            android:layout_width="match_parent"
-           android:layout_height="match_parent"/>
-   </LinearLayout>
+           android:layout_height="0dp"/>
+<!--   </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

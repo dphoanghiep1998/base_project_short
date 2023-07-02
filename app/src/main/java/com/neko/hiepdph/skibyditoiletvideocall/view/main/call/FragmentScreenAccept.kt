@@ -1,11 +1,20 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.call
 
+import android.hardware.Camera
+import android.media.CamcorderProfile
+import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.SurfaceHolder
+import android.view.SurfaceHolder.Callback
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.google.android.exoplayer2.ExoPlayer
@@ -16,6 +25,10 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentScreenAcceptBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
 import java.util.Locale
 
 
@@ -27,6 +40,8 @@ class FragmentScreenAccept : Fragment() {
     private var countDownTimer: CountDownTimer? = null
     private var mTimeLeftInMillis: Long = 0
     private var timeRunning = false
+    private var camera: Camera? = null
+    private var mediaRecorder: MediaRecorder? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -39,6 +54,10 @@ class FragmentScreenAccept : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        recordVideo()
+        Handler(Looper.getMainLooper()).post {
+            startRecording()
+        }
     }
 
     private fun initView() {
@@ -111,19 +130,169 @@ class FragmentScreenAccept : Fragment() {
         binding.time.text = timeLeftFormatted
     }
 
+
+
+    private fun recordVideo() {
+        try {
+            binding.sufaceView.holder.addCallback(object : Callback {
+                override fun surfaceCreated(holder: SurfaceHolder) {
+                    try {
+                        val cameraId = getFrontCameraId()
+                        if (cameraId == -1) {
+                            return
+                        }
+                        camera = Camera.open(cameraId).also {
+                            camera?.setDisplayOrientation(90)
+                            camera?.setPreviewDisplay(holder)
+                            camera?.startPreview()
+                        }
+
+                    } catch (e: IOException) {
+                        Log.d("TAG", "surfaceCreated: " + e)
+                        Toast.makeText(
+                            requireContext(),
+                            "Error setting up camera preview",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } catch (e: RuntimeException) {
+                        e.printStackTrace()
+                    }
+                }
+
+                override fun surfaceChanged(
+                    holder: SurfaceHolder,
+                    format: Int,
+                    width: Int,
+                    height: Int
+                ) {
+                    if (holder.surface == null) {
+                        return
+                    }
+                    try {
+                        camera?.stopPreview()
+                    } catch (e: Exception) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error changing camera preview",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                    try {
+                        camera?.setDisplayOrientation(90)
+                        camera?.setPreviewDisplay(holder)
+                        camera?.startPreview()
+                    } catch (e: IOException) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Error setting up camera preview",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+
+                override fun surfaceDestroyed(holder: SurfaceHolder) {
+                    releaseCamera()
+                }
+
+            })
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun startRecording() {
+        try {
+            camera?.unlock()
+
+            mediaRecorder = MediaRecorder()
+            mediaRecorder?.setCamera(camera)
+            mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+            mediaRecorder?.setVideoSource(MediaRecorder.VideoSource.CAMERA)
+            mediaRecorder?.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH))
+            mediaRecorder?.setOutputFile(getOutputMediaFile()?.absolutePath)
+            mediaRecorder?.setPreviewDisplay(binding.sufaceView?.holder?.surface)
+
+            mediaRecorder?.prepare()
+            mediaRecorder?.start()
+
+            Toast.makeText(requireContext(), "Recording started", Toast.LENGTH_SHORT).show()
+        } catch (e: IOException) {
+            Log.d("TAG", "startRecording: " + e)
+            Toast.makeText(requireContext(), "Error starting recording", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun stopRecording() {
+        try {
+            mediaRecorder?.stop()
+            mediaRecorder?.reset()
+            mediaRecorder?.release()
+            mediaRecorder = null
+
+            camera?.lock()
+
+            Toast.makeText(requireContext(), "Recording stopped", Toast.LENGTH_SHORT).show()
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "Error stopping recording", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun releaseCamera() {
+        camera?.stopPreview()
+        camera?.release()
+        camera = null
+    }
+
+    private fun getOutputMediaFile(): File? {
+        val mediaStorageDir = File(
+            Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_DCIM
+            ), "Camera"
+        )
+
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                return null
+            }
+        }
+
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val mediaFile = File(
+            mediaStorageDir.path + File.separator +
+                    "VID_$timeStamp.mp4"
+        )
+
+        return mediaFile
+    }
+
+
+    private fun getFrontCameraId(): Int {
+        val cameraCount = Camera.getNumberOfCameras()
+        var cameraId = -1
+        for (i in 0 until cameraCount) {
+            val cameraInfo = Camera.CameraInfo()
+            Camera.getCameraInfo(i, cameraInfo)
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+                cameraId = i
+                break
+            }
+        }
+        return cameraId
+    }
+
+
     override fun onPause() {
         super.onPause()
         pauseTimer()
+        viewModel.pausePlayer()
+        stopRecording()
     }
 
     override fun onStop() {
         super.onStop()
         pauseTimer()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
         viewModel.pausePlayer()
+        stopRecording()
     }
 
 

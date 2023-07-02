@@ -149,9 +149,59 @@ class AppViewModel : ViewModel() {
     }
 
     fun playAudio(
-        mediaItem: MediaItem, onEnd: () -> Unit, onPrepareDone: ((time: Long) -> Unit)? = null
+        mediaItem: MediaItem,
+        onEnd: () -> Unit,
+        onPrepareDone: ((time: Long) -> Unit)? = null,
+        repeat: Int = Player.REPEAT_MODE_OFF
     ) {
 
+        try {
+            _player?.repeatMode = repeat
+            playerListener1?.let { _player?.removeListener(it) }
+            playerListener?.let { _player?.removeListener(it) }
+            _player?.stop()
+
+            playerListener = object : Player.Listener {
+                override fun onIsLoadingChanged(isLoading: Boolean) {
+                    super.onIsLoadingChanged(isLoading)
+                    isLoadingVideo.postValue(isLoading)
+                }
+
+                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+                    if (playbackState == ExoPlayer.STATE_READY) {
+                        onPrepareDone?.invoke(_player!!.duration)
+                    }
+
+
+                }
+
+                override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
+                    super.onMediaItemTransition(mediaItem, reason)
+//                    _player?.stop()
+                }
+
+                override fun onPlaybackStateChanged(playbackState: Int) {
+                    super.onPlaybackStateChanged(playbackState)
+                    if (playbackState == Player.STATE_ENDED || playbackState == Player.STATE_IDLE) {
+                        onEnd()
+                    }
+                }
+            }
+            _player?.setMediaItem(mediaItem)
+            _player?.addListener(playerListener!!)
+            _player?.prepare()
+            _player?.playWhenReady = true
+
+        } catch (e: Exception) {
+        }
+
+    }
+
+    fun playAudio(
+        mediaItem: MediaItem,
+        onEnd: () -> Unit,
+        onPrepareDone: ((time: Long) -> Unit)? = null,
+    ) {
         try {
             _player?.repeatMode = Player.REPEAT_MODE_OFF
             playerListener1?.let { _player?.removeListener(it) }
@@ -174,7 +224,7 @@ class AppViewModel : ViewModel() {
 
                 override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
                     super.onMediaItemTransition(mediaItem, reason)
-                    _player?.stop()
+//                    _player?.stop()
                 }
 
                 override fun onPlaybackStateChanged(playbackState: Int) {

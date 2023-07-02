@@ -44,6 +44,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
     <SurfaceView
+        android:id="@+id/sufaceView"
         app:layout_constraintTop_toBottomOf="@id/time"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/_12sdp"

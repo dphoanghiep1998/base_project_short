@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 class AdapterMessage : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var data: MutableList<MessageModel> = mutableListOf()
     private var loading = false
+    private var scope = CoroutineScope(Dispatchers.Main)
     fun insertMessage(messageModel: MessageModel) {
         data.add(messageModel)
         notifyItemInserted(data.size)
@@ -81,7 +82,7 @@ class AdapterMessage : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             1 -> {
                 with(holder as MessageReceivedViewHolder) {
-                    CoroutineScope(Dispatchers.Main).launch {
+                    scope.launch {
                         if (!loading) {
                             this.cancel()
                             return@launch
@@ -95,8 +96,6 @@ class AdapterMessage : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         binding.tvReceived.text = data[position].contentReceived
                         loading = false
                     }
-
-
                 }
             }
         }

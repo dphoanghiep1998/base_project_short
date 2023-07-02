@@ -1,9 +1,16 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.call
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.neko.hiepdph.skibyditoiletvideocall.R
@@ -14,6 +21,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallBinding
 
 class FragmentCall : Fragment() {
     private lateinit var binding: FragmentCallBinding
+    private var action: (() -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -26,6 +34,9 @@ class FragmentCall : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        action = {
+            navigateToPage(R.id.fragmentCall, R.id.fragmentCallScreen)
+        }
     }
 
     private fun initView() {
@@ -58,7 +69,7 @@ class FragmentCall : Fragment() {
         }
 
         binding.btnCallNow.clickWithDebounce {
-            navigateToPage(R.id.fragmentCall, R.id.fragmentCallScreen)
+            checkPermission()
         }
 
         binding.btnBack.clickWithDebounce {
@@ -66,5 +77,38 @@ class FragmentCall : Fragment() {
         }
     }
 
+    private fun checkPermission(action: (() -> Unit)? = null) {
+        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(), Manifest.permission.CAMERA
+                )
+            ) {
+                cameraLauncher.launch(
+                    Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.fromParts("package", requireActivity().packageName, null)
+                    )
+                )
+            } else {
+                launcher.launch(Manifest.permission.CAMERA)
+
+            }
+        } else {
+            action?.invoke()
+        }
+    }
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                action?.invoke()
+            }
+        }
+
+
+    private val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            action?.invoke()
+        }
+    }
 
 }
