@@ -22,12 +22,16 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
+import com.neko.hiepdph.skibyditoiletvideocall.common.hide
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
+import com.neko.hiepdph.skibyditoiletvideocall.common.show
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.GalleryModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentScreenAcceptBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -42,6 +46,8 @@ class FragmentScreenAccept : Fragment() {
     private var timeRunning = false
     private var camera: Camera? = null
     private var mediaRecorder: MediaRecorder? = null
+    private var count = 0L
+    private var path = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -61,6 +67,7 @@ class FragmentScreenAccept : Fragment() {
     }
 
     private fun initView() {
+        binding.btnDecline.hide()
         if (viewModel.getPlayer() == null) {
             mPlayer = ExoPlayer.Builder(requireContext()).setSeekForwardIncrementMs(15000).build()
             binding.playerView.apply {
@@ -90,17 +97,24 @@ class FragmentScreenAccept : Fragment() {
 
     private fun initButton() {
         binding.btnDecline.clickWithDebounce {
+            viewModel.insertGallery(
+                GalleryModel(
+                    -1, "", Calendar.getInstance().timeInMillis, count, path, 0
+                )
+            )
             navigateToPage(R.id.fragmentScreenAccept, R.id.fragmentCallClose)
         }
     }
 
     private fun startTimer(time: Long) {
-        var count = 0L
         countDownTimer = object : CountDownTimer(time, 1000L) {
             override fun onTick(p0: Long) {
                 mTimeLeftInMillis = p0
                 count += 1000L
                 updateCountText(count)
+                if (count > 3000) {
+                    binding.btnDecline.show()
+                }
 
             }
 
@@ -131,7 +145,6 @@ class FragmentScreenAccept : Fragment() {
     }
 
 
-
     private fun recordVideo() {
         try {
             binding.sufaceView.holder.addCallback(object : Callback {
@@ -150,9 +163,7 @@ class FragmentScreenAccept : Fragment() {
                     } catch (e: IOException) {
                         Log.d("TAG", "surfaceCreated: " + e)
                         Toast.makeText(
-                            requireContext(),
-                            "Error setting up camera preview",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "Error setting up camera preview", Toast.LENGTH_SHORT
                         ).show()
                     } catch (e: RuntimeException) {
                         e.printStackTrace()
@@ -160,10 +171,7 @@ class FragmentScreenAccept : Fragment() {
                 }
 
                 override fun surfaceChanged(
-                    holder: SurfaceHolder,
-                    format: Int,
-                    width: Int,
-                    height: Int
+                    holder: SurfaceHolder, format: Int, width: Int, height: Int
                 ) {
                     if (holder.surface == null) {
                         return
@@ -172,9 +180,7 @@ class FragmentScreenAccept : Fragment() {
                         camera?.stopPreview()
                     } catch (e: Exception) {
                         Toast.makeText(
-                            requireContext(),
-                            "Error changing camera preview",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "Error changing camera preview", Toast.LENGTH_SHORT
                         ).show()
                     }
                     try {
@@ -183,9 +189,7 @@ class FragmentScreenAccept : Fragment() {
                         camera?.startPreview()
                     } catch (e: IOException) {
                         Toast.makeText(
-                            requireContext(),
-                            "Error setting up camera preview",
-                            Toast.LENGTH_SHORT
+                            requireContext(), "Error setting up camera preview", Toast.LENGTH_SHORT
                         ).show()
                     }
                 }
@@ -209,7 +213,8 @@ class FragmentScreenAccept : Fragment() {
             mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
             mediaRecorder?.setVideoSource(MediaRecorder.VideoSource.CAMERA)
             mediaRecorder?.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH))
-            mediaRecorder?.setOutputFile(getOutputMediaFile()?.absolutePath)
+            path = getOutputMediaFile()?.absolutePath.toString()
+            mediaRecorder?.setOutputFile(path)
             mediaRecorder?.setPreviewDisplay(binding.sufaceView?.holder?.surface)
 
             mediaRecorder?.prepare()
@@ -258,8 +263,7 @@ class FragmentScreenAccept : Fragment() {
 
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val mediaFile = File(
-            mediaStorageDir.path + File.separator +
-                    "VID_$timeStamp.mp4"
+            mediaStorageDir.path + File.separator + "VID_$timeStamp.mp4"
         )
 
         return mediaFile

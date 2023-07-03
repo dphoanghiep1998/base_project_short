@@ -53,6 +53,9 @@ class FragmentHome : Fragment() {
         binding.imvOtherCall.clickWithDebounce {
             navigateToPage(R.id.fragmentHome, R.id.fragmentOtherCall)
         }
+        binding.gallery.clickWithDebounce {
+            navigateToPage(R.id.fragmentHome,R.id.fragmentGallery)
+        }
     }
 
 

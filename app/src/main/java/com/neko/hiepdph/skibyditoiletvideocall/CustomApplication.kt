@@ -25,8 +25,9 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
 import com.neko.hiepdph.skibyditoiletvideocall.common.DialogFragmentLoadingOpenAds
 import com.neko.hiepdph.skibyditoiletvideocall.common.isInternetAvailable
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.MainActivity
+import dagger.hilt.android.HiltAndroidApp
 
-
+@HiltAndroidApp
 class CustomApplication : Application(), Application.ActivityLifecycleCallbacks, LifecycleObserver {
     private var currentActivity: Activity? = null
     private var appOpenAdsManager: AppOpenAdManager? = null

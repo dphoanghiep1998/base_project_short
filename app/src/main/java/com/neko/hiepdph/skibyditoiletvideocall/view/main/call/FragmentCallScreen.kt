@@ -3,8 +3,6 @@ package com.neko.hiepdph.skibyditoiletvideocall.view.main.call
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.SurfaceTexture
-import android.hardware.Camera
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -18,7 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -28,7 +25,6 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallScreenBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
-import kotlinx.coroutines.launch
 
 class FragmentCallScreen : Fragment() {
     private lateinit var binding: FragmentCallScreenBinding
@@ -88,9 +84,18 @@ class FragmentCallScreen : Fragment() {
     }
 
     private fun checkPermission(action: (() -> Unit)? = null) {
-        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+        if (
+            requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+            requireContext().checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d("TAG", "checkPermission: true")
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(), Manifest.permission.CAMERA
+                    requireActivity(),
+                    Manifest.permission.CAMERA
+                ) && ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.RECORD_AUDIO
                 )
             ) {
                 cameraLauncher.launch(
@@ -100,10 +105,14 @@ class FragmentCallScreen : Fragment() {
                     )
                 )
             } else {
-                launcher.launch(Manifest.permission.CAMERA)
-
+                launcher.launch(
+                    arrayOf(
+                        Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
+                    )
+                )
             }
         } else {
+            Log.d("TAG", "checkPermission: false")
             action?.invoke()
         }
     }
@@ -111,17 +120,25 @@ class FragmentCallScreen : Fragment() {
 
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && requireContext().checkSelfPermission(
+                    Manifest.permission.RECORD_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 action?.invoke()
             }
         }
 
 
-    private val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            action?.invoke()
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+            if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && requireContext().checkSelfPermission(
+                    Manifest.permission.RECORD_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                action?.invoke()
+            }
         }
-    }
+
 
     override fun onPause() {
         super.onPause()

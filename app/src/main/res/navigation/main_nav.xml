@@ -81,4 +81,9 @@
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.othercall.FragmentOtherCall"
         android:label="fragment_other_call"
         tools:layout="@layout/fragment_other_call" />
+    <fragment
+        android:id="@+id/fragmentGallery"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.gallery.FragmentGallery"
+        android:label="fragment_gallery"
+        tools:layout="@layout/fragment_gallery" />
 </navigation>

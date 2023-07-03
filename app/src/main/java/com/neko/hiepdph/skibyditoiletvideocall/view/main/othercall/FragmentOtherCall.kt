@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
-import com.neko.hiepdph.skibyditoiletvideocall.data.OtherCallModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentOtherCallBinding
 
 class FragmentOtherCall : Fragment() {

@@ -3,7 +3,7 @@ package com.neko.hiepdph.skibyditoiletvideocall.view.main.message
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.neko.hiepdph.skibyditoiletvideocall.data.MessageModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.MessageModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.LayoutItemMessageReceivedBinding
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.LayoutItemMessageSendBinding
 import kotlinx.coroutines.CoroutineScope

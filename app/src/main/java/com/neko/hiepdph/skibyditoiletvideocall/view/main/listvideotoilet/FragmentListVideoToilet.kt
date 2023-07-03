@@ -1,7 +1,6 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.listvideotoilet
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +17,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
 import com.neko.hiepdph.skibyditoiletvideocall.common.RewardAdsEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.showRewardAds
-import com.neko.hiepdph.skibyditoiletvideocall.data.MonsterModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.MonsterModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentListVideoToiletBinding
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.home.AdapterHome
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel

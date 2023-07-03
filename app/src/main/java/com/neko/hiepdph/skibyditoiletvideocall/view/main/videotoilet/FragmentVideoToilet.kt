@@ -31,7 +31,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.pushEvent
 import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.common.showInterAds
 import com.neko.hiepdph.skibyditoiletvideocall.common.showRewardAds
-import com.neko.hiepdph.skibyditoiletvideocall.data.MonsterModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.MonsterModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentVideoToiletBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 

@@ -1,6 +1,7 @@
 package com.neko.hiepdph.skibyditoiletvideocall.common
 
 object Constant {
+    const val APP_DB = "APP_DB_TOILET"
     const val KEY_LIST_POS = "KEY_LIST_POS"
     const val KEY_VIDEO_PLAYED = "KEY_VIDEO_PLAYED"
     const val VOLUME = "VOLUME"

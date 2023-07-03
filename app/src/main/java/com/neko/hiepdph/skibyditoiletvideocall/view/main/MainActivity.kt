@@ -19,9 +19,11 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.changeStatusBarColor
 import com.neko.hiepdph.skibyditoiletvideocall.common.createContext
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.ActivityMainBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.Locale
 
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel by viewModels<AppViewModel>()

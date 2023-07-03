@@ -1,4 +1,4 @@
-package com.neko.hiepdph.skibyditoiletvideocall.data
+package com.neko.hiepdph.skibyditoiletvideocall.data.model
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

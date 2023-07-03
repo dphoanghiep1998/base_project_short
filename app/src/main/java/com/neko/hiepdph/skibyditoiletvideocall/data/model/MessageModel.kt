@@ -1,4 +1,4 @@
-package com.neko.hiepdph.skibyditoiletvideocall.data
+package com.neko.hiepdph.skibyditoiletvideocall.data.model
 
 data class MessageModel(
     val contentSent: String,

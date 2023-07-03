@@ -1,9 +1,17 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.message
 
+import android.Manifest
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -11,13 +19,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
-import com.neko.hiepdph.skibyditoiletvideocall.data.MessageModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.MessageModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentMessageBinding
 
 class FragmentMessage : Fragment() {
     private lateinit var binding: FragmentMessageBinding
     private var adapterMessage: AdapterMessage? = null
     private var adapterScripted: AdapterScripted? = null
+    private var action: (() -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -30,6 +39,8 @@ class FragmentMessage : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        action = { navigateToPage(R.id.fragmentMessage, R.id.fragmentCallScreen) }
+
     }
 
     private fun initView() {
@@ -42,7 +53,7 @@ class FragmentMessage : Fragment() {
             navigateToPage(R.id.fragmentMessage, R.id.fragmentCall)
         }
         binding.btnCallVideo.clickWithDebounce {
-            navigateToPage(R.id.fragmentMessage, R.id.fragmentCallScreen)
+            checkPermission(action)
         }
         binding.icBack.clickWithDebounce {
             findNavController().popBackStack()
@@ -89,6 +100,60 @@ class FragmentMessage : Fragment() {
         adapterMessage?.insertReceivedMessage(newModel)
         adapterMessage?.setLoading(true)
     }
+
+    private fun checkPermission(action: (() -> Unit)? = null) {
+
+        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || requireContext().checkSelfPermission(
+                Manifest.permission.RECORD_AUDIO
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d("TAG", "checkPermission: true")
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(), Manifest.permission.CAMERA
+                ) && ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(), Manifest.permission.RECORD_AUDIO
+                )
+            ) {
+                cameraLauncher.launch(
+                    Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.fromParts("package", requireActivity().packageName, null)
+                    )
+                )
+            } else {
+                launcher.launch(
+                    arrayOf(
+                        Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
+                    )
+                )
+            }
+        } else {
+            Log.d("TAG", "checkPermission: false")
+            action?.invoke()
+        }
+    }
+
+
+    private val cameraLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && requireContext().checkSelfPermission(
+                    Manifest.permission.RECORD_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                action?.invoke()
+            }
+        }
+
+
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+            if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && requireContext().checkSelfPermission(
+                    Manifest.permission.RECORD_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                action?.invoke()
+            }
+        }
 
 
 }

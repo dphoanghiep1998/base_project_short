@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -78,9 +79,18 @@ class FragmentCall : Fragment() {
     }
 
     private fun checkPermission(action: (() -> Unit)? = null) {
-        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+
+        if (
+            requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
+            requireContext().checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.d("TAG", "checkPermission: true")
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(), Manifest.permission.CAMERA
+                    requireActivity(),
+                    Manifest.permission.CAMERA
+                ) && ActivityCompat.shouldShowRequestPermissionRationale(
+                    requireActivity(),
+                    Manifest.permission.RECORD_AUDIO
                 )
             ) {
                 cameraLauncher.launch(
@@ -90,25 +100,38 @@ class FragmentCall : Fragment() {
                     )
                 )
             } else {
-                launcher.launch(Manifest.permission.CAMERA)
-
+                launcher.launch(
+                    arrayOf(
+                        Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
+                    )
+                )
             }
         } else {
+            Log.d("TAG", "checkPermission: false")
             action?.invoke()
         }
     }
+
+
     private val cameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && requireContext().checkSelfPermission(
+                    Manifest.permission.RECORD_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
                 action?.invoke()
             }
         }
 
 
-    private val launcher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            action?.invoke()
+    private val launcher =
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) {
+            if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED && requireContext().checkSelfPermission(
+                    Manifest.permission.RECORD_AUDIO
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                action?.invoke()
+            }
         }
-    }
 
 }

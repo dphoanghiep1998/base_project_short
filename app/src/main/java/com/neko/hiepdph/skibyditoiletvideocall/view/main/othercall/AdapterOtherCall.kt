@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
-import com.neko.hiepdph.skibyditoiletvideocall.data.OtherCallModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.LayoutItemOtherCallBinding
 
 class AdapterOtherCall(private val onClickItem: (OtherCallModel) -> Unit) :

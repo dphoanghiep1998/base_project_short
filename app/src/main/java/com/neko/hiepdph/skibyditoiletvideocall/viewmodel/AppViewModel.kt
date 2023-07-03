@@ -4,14 +4,21 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.ConnectionType
-import com.neko.hiepdph.skibyditoiletvideocall.data.MonsterModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.database.repositories.AppRepo
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.GalleryModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.MonsterModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AppViewModel : ViewModel() {
+@HiltViewModel
+class AppViewModel @Inject constructor(val repo:AppRepo) : ViewModel() {
     private var _player: Player? = null
     private var playerListener: Player.Listener? = null
     private var playerListener1: Player.Listener? = null
@@ -280,6 +287,14 @@ class AppViewModel : ViewModel() {
 
     fun removeIsConnectivityChangedSource(data: LiveData<Boolean>) {
         isConnectivityChanged.removeSource(data)
+    }
+
+    fun getListGallery():LiveData<List<GalleryModel>> = repo.getALlGallery()
+
+    fun insertGallery(model:GalleryModel){
+        viewModelScope.launch {
+            repo.insertGallery(model)
+        }
     }
 
 }
