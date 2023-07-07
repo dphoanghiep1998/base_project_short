@@ -47,4 +47,6 @@
     <string name="gallery">GALLERY</string>
     <string name="video">Video %s</string>
     <string name="preview">PREVIEW</string>
+    <string name="confirm_delete">Do you wanna delete this video ?</string>
+    <string name="delete">Delete</string>
 </resources>

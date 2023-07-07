@@ -53,6 +53,7 @@
     <ImageView
         android:foreground="?selectableItemBackgroundBorderless"
         android:id="@+id/share"
+        android:visibility="gone"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"
         android:layout_marginEnd="@dimen/_6sdp"

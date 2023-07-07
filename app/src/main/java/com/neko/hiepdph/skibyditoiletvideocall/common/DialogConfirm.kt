@@ -12,7 +12,10 @@ import com.neko.hiepdph.skibyditoiletvideocall.databinding.DialogConfirmBinding
 
 
 class DialogConfirm(
-    context: Context, private val onPressPositive: (() -> Unit),private val isCloseApp :Boolean = false,
+    context: Context,
+    private val onPressPositive: (() -> Unit),
+    private val isCloseApp: Boolean = false,
+    private val isDelete: Boolean = false
 ) : Dialog(context) {
     private lateinit var binding: DialogConfirmBinding
 
@@ -33,12 +36,19 @@ class DialogConfirm(
 
 
     private fun initView() {
-        if(!isCloseApp){
-            binding.tvContent.text = context.getString(R.string.confirm)
-            binding.btnAccept.text = context.getString(R.string.watch)
-        } else{
-            binding.tvContent.text = context.getString(R.string.confirm_close)
-            binding.btnAccept.text = context.getString(R.string.yes)
+
+        if (isDelete) {
+            binding.tvContent.text = context.getString(R.string.confirm_delete)
+            binding.btnAccept.text = context.getString(R.string.delete)
+        }else{
+            if (!isCloseApp) {
+                binding.tvContent.text = context.getString(R.string.confirm)
+                binding.btnAccept.text = context.getString(R.string.watch)
+
+            } else {
+                binding.tvContent.text = context.getString(R.string.confirm_close)
+                binding.btnAccept.text = context.getString(R.string.yes)
+            }
         }
         binding.btnDeny.setOnClickListener {
             dismiss()

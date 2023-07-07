@@ -63,9 +63,9 @@ class AdapterGallery(
             binding.tvVideo.text =
                 String.format(itemView.context.getString(R.string.video), item.id.toString())
             binding.tvTime.text = getDateConvertedToResult(item.time)
-            binding.share.clickWithDebounce {
-                onClickShare.invoke(item)
-            }
+//            binding.share.clickWithDebounce {
+//                onClickShare.invoke(item)
+//            }
 
             binding.delete.clickWithDebounce {
                 onClickDeleteItem.invoke(item)

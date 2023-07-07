@@ -9,7 +9,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.neko.hiepdph.skibyditoiletvideocall.R
+import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
+import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentGalleryBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 
@@ -32,7 +35,7 @@ class FragmentGallery : Fragment() {
     }
 
     private fun observeGallery() {
-        viewModel.getListGallery().observe(viewLifecycleOwner){
+        viewModel.getListGallery().observe(viewLifecycleOwner) {
             adapterGallery?.setData(it)
         }
     }
@@ -49,7 +52,15 @@ class FragmentGallery : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapterGallery = AdapterGallery(onClickItem = {}, onClickDeleteItem = {}, onClickShare = {})
+        adapterGallery = AdapterGallery(onClickItem = {
+            val direction = FragmentGalleryDirections.actionFragmentGalleryToFragmentPreview(it)
+            findNavController().navigate(direction)
+        }, onClickDeleteItem = {
+            val dialogConfirm = DialogConfirm(requireContext(), onPressPositive = {
+                viewModel.deleteItemGallery(it)
+            }, isCloseApp = false, true)
+            dialogConfirm.show()
+        }, onClickShare = {})
         val linearLayoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.rcvGallery.layoutManager = linearLayoutManager

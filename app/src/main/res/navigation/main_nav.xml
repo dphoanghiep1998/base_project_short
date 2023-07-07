@@ -85,5 +85,18 @@
         android:id="@+id/fragmentGallery"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.gallery.FragmentGallery"
         android:label="fragment_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_gallery" >
+        <action
+            android:id="@+id/action_fragmentGallery_to_fragmentPreview"
+            app:destination="@id/fragmentPreview" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentPreview"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.gallery.FragmentPreview"
+        android:label="fragment_preview"
+        tools:layout="@layout/fragment_preview" >
+        <argument
+            android:name="galleryModel"
+            app:argType="com.neko.hiepdph.skibyditoiletvideocall.data.model.GalleryModel" />
+    </fragment>
 </navigation>

@@ -227,6 +227,7 @@ class AppViewModel @Inject constructor(val repo:AppRepo) : ViewModel() {
                     }
 
 
+
                 }
 
                 override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -268,6 +269,11 @@ class AppViewModel @Inject constructor(val repo:AppRepo) : ViewModel() {
         playerListener1?.let { _player?.removeListener(it) }
     }
 
+    fun resumePlayer() {
+        _player?.play()
+
+    }
+
     fun resetAll() {
         if (_player?.isPlaying == true || _player?.isLoading == true) {
             _player?.stop()
@@ -294,6 +300,11 @@ class AppViewModel @Inject constructor(val repo:AppRepo) : ViewModel() {
     fun insertGallery(model:GalleryModel){
         viewModelScope.launch {
             repo.insertGallery(model)
+        }
+    }
+    fun deleteItemGallery(model:GalleryModel){
+        viewModelScope.launch {
+            repo.deleteGallery(model.id)
         }
     }
 

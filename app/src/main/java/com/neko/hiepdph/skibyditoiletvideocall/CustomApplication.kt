@@ -2,6 +2,7 @@ package com.neko.hiepdph.skibyditoiletvideocall
 
 import android.app.Activity
 import android.app.Application
+import android.app.Dialog
 import android.os.Bundle
 import androidx.lifecycle.*
 import com.adjust.sdk.Adjust
@@ -41,7 +42,7 @@ class CustomApplication : Application(), Application.ActivityLifecycleCallbacks,
     var interstitialPreloadAdManager: InterstitialPreloadAdManager? = null
 
     var adaptiveBannerManager: AdaptiveBannerManager? = null
-    private var dialog: DialogFragmentLoadingOpenAds? = null
+    private var dialog: Dialog? = null
 
     companion object {
         lateinit var app: CustomApplication
@@ -91,17 +92,15 @@ class CustomApplication : Application(), Application.ActivityLifecycleCallbacks,
         )
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
+    @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private fun onMoveToForeground() {
         if (!InterstitialPreloadAdManager.isShowingAds && !InterstitialSingleReqAdManager.isShowingAds && !RewardAdsManager.isShowing && !AppOpenAdManager.isShowingAd && currentActivity !is AdActivity) {
             currentActivity?.let {
                 if (currentActivity is MainActivity) {
                     if (isInternetAvailable(applicationContext)) {
-                        dialog = DialogFragmentLoadingOpenAds()
+                        dialog = DialogFragmentLoadingOpenAds().onCreateDialog(it)
+                        dialog?.show()
 
-                        dialog?.show(
-                            (currentActivity as MainActivity).supportFragmentManager, dialog?.tag
-                        )
                         appOpenAdsManager?.loadAd(onAdLoader = {
                             appOpenAdsManager?.showAdIfAvailable(it)
                             dialog?.dismiss()
@@ -120,10 +119,10 @@ class CustomApplication : Application(), Application.ActivityLifecycleCallbacks,
     }
 
     override fun onActivityStarted(p0: Activity) {
+        currentActivity = p0
     }
 
     override fun onActivityResumed(p0: Activity) {
-        currentActivity = p0
         Adjust.onResume()
     }
 

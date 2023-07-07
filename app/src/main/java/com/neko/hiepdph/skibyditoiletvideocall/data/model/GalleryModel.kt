@@ -1,7 +1,10 @@
 package com.neko.hiepdph.skibyditoiletvideocall.data.model
 
+import android.os.Parcelable
 import com.neko.hiepdph.skibyditoiletvideocall.data.database.entity.GalleryEntity
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class GalleryModel(
     val id: Int = -1,
     val name: String,
@@ -9,7 +12,7 @@ data class GalleryModel(
     val videoLength: Long,
     val videoPath: String,
     val videoType: Int
-) {
+) : Parcelable {
     fun toGalleryEntity(): GalleryEntity {
         val fileId = if (id == -1) 0 else id
         return GalleryEntity(

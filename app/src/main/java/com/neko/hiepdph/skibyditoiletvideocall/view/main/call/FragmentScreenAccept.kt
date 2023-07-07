@@ -236,9 +236,9 @@ class FragmentScreenAccept : Fragment() {
 
             camera?.lock()
 
-            Toast.makeText(requireContext(), "Recording stopped", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireContext(), "Recording stopped", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-            Toast.makeText(requireContext(), "Error stopping recording", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(requireContext(), "Error stopping recording", Toast.LENGTH_SHORT).show()
         }
     }
 
