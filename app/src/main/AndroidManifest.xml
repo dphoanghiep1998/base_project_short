@@ -13,17 +13,16 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.CAPTURE_VIDEO_OUTPUT"
+    <uses-permission
+        android:name="android.permission.CAPTURE_VIDEO_OUTPUT"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT"
+    <uses-permission
+        android:name="android.permission.CAPTURE_AUDIO_OUTPUT"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
-
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
         tools:node="remove" />
@@ -39,16 +38,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SkibydiToiletVideoCall"
         tools:targetApi="31">
-        <!--        <activity-->
-        <!--            android:name=".view.splash.SplashActivity"-->
-        <!--            android:exported="true"-->
-        <!--            android:screenOrientation="portrait">-->
-        <!--            <intent-filter>-->
-        <!--                <action android:name="android.intent.action.MAIN" />-->
 
-        <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-        <!--            </intent-filter>-->
-        <!--        </activity>-->
+        <!-- <activity -->
+        <!-- android:name=".view.splash.SplashActivity" -->
+        <!-- android:exported="true" -->
+        <!-- android:screenOrientation="portrait"> -->
+        <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <!-- </activity> -->
         <activity
             android:name=".view.main.MainActivity"
             android:exported="true"
@@ -58,13 +57,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!--        <providers-->
-        <!--            android:name="com.facebook.FacebookContentProvider"-->
-        <!--            android:authorities="com.facebook.FacebookContentProvider3444392725803614"-->
-        <!--            android:exported="false" />-->
-
+        </activity> <!-- <providers -->
+        <!-- android:name="com.facebook.FacebookContentProvider" -->
+        <!-- android:authorities="com.facebook.FacebookContentProvider3444392725803614" -->
+        <!-- android:exported="false" /> -->
         <meta-data
             android:name="applovin.sdk.key"
             android:value="@string/app_lovin_sdk_key" />

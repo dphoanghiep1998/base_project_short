@@ -16,6 +16,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -23,6 +25,7 @@ import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallScreenBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 
@@ -33,6 +36,7 @@ class FragmentCallScreen : Fragment() {
     private var handler: Handler? = null
     private var runnable: Runnable? = null
     private var mPlayer: Player? = null
+    private val args by navArgs<FragmentCallScreenArgs>()
 
 
     override fun onCreateView(
@@ -47,7 +51,20 @@ class FragmentCallScreen : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         action = {
-            navigateToPage(R.id.fragmentCallScreen, R.id.fragmentScreenAccept)
+            if(args == null && args.characterModel == null){
+                val direction =
+                    FragmentCallScreenDirections.actionFragmentCallScreenToFragmentScreenAccept(
+                       OtherCallModel(0,"john pork",R.raw.john_porn,4)
+                    )
+                findNavController().navigate(direction)
+            }else{
+                val direction =
+                    FragmentCallScreenDirections.actionFragmentCallScreenToFragmentScreenAccept(
+                        args.characterModel
+                    )
+                findNavController().navigate(direction)
+            }
+
         }
 
         setupSound()

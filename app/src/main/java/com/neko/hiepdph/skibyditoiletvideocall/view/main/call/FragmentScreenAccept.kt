@@ -17,9 +17,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavArgs
+import androidx.navigation.fragment.navArgs
+
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
@@ -48,6 +52,7 @@ class FragmentScreenAccept : Fragment() {
     private var mediaRecorder: MediaRecorder? = null
     private var count = 0L
     private var path = ""
+    private val arg by navArgs<FragmentScreenAcceptArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -85,7 +90,8 @@ class FragmentScreenAccept : Fragment() {
         }
 
         initButton()
-        viewModel.playAudio(MediaItem.fromUri("https://github.com/ConfigNeko/FakeWC/raw/main/lv_38.mp4"),
+
+        viewModel.playAudio(MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(arg.characterModel.videoRaw)),
             onEnd = {
                 navigateToPage(R.id.fragmentScreenAccept, R.id.fragmentCallClose)
             },
@@ -104,6 +110,11 @@ class FragmentScreenAccept : Fragment() {
             )
             navigateToPage(R.id.fragmentScreenAccept, R.id.fragmentCallClose)
         }
+    }
+
+    private fun useRecord() {
+        val size = camera?.Size(400, 400)
+
     }
 
     private fun startTimer(time: Long) {
@@ -134,6 +145,7 @@ class FragmentScreenAccept : Fragment() {
         countDownTimer?.cancel()
         timeRunning = false
     }
+
 
     private fun updateCountText(time: Long) {
         val minutes = (time / 1000).toInt() / 60
@@ -216,7 +228,7 @@ class FragmentScreenAccept : Fragment() {
             path = getOutputMediaFile()?.absolutePath.toString()
             mediaRecorder?.setOutputFile(path)
             mediaRecorder?.setPreviewDisplay(binding.sufaceView?.holder?.surface)
-
+            mediaRecorder?.setOrientationHint(90)
             mediaRecorder?.prepare()
             mediaRecorder?.start()
 
@@ -283,7 +295,6 @@ class FragmentScreenAccept : Fragment() {
         }
         return cameraId
     }
-
 
     override fun onPause() {
         super.onPause()

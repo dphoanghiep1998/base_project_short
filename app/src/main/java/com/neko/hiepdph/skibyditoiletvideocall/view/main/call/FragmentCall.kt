@@ -78,7 +78,7 @@ class FragmentCall : Fragment() {
         }
     }
 
-    private fun checkPermission(action: (() -> Unit)? = null) {
+    private fun checkPermission() {
 
         if (
             requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||

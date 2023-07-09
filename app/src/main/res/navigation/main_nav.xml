@@ -13,7 +13,11 @@
         android:id="@+id/fragmentHome"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.home.FragmentHome"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_fragmentHome_to_fragmentCallScreen"
+            app:destination="@id/fragmentCallScreen" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentVideoToilet"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.videotoilet.FragmentVideoToilet"
@@ -56,12 +60,23 @@
         android:id="@+id/fragmentCallScreen"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallScreen"
         android:label="fragment_call_screen"
-        tools:layout="@layout/fragment_call_screen" />
+        tools:layout="@layout/fragment_call_screen" >
+        <action
+            android:id="@+id/action_fragmentCallScreen_to_fragmentScreenAccept"
+            app:destination="@id/fragmentScreenAccept" />
+        <argument
+            android:name="characterModel"
+            app:argType="com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentScreenAccept"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentScreenAccept"
         android:label="fragment_screen_accept"
-        tools:layout="@layout/fragment_screen_accept" />
+        tools:layout="@layout/fragment_screen_accept" >
+        <argument
+            android:name="characterModel"
+            app:argType="com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentCallDecline"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallDecline"
@@ -75,12 +90,20 @@
         android:id="@+id/fragmentMessage"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.message.FragmentMessage"
         android:label="fragment_message"
-        tools:layout="@layout/fragment_message" />
+        tools:layout="@layout/fragment_message" >
+        <action
+            android:id="@+id/action_fragmentMessage_to_fragmentCallScreen"
+            app:destination="@id/fragmentCallScreen" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentOtherCall"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.othercall.FragmentOtherCall"
         android:label="fragment_other_call"
-        tools:layout="@layout/fragment_other_call" />
+        tools:layout="@layout/fragment_other_call" >
+        <action
+            android:id="@+id/action_fragmentOtherCall_to_fragmentCallScreen"
+            app:destination="@id/fragmentCallScreen" />
+    </fragment>
     <fragment
         android:id="@+id/fragmentGallery"
         android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.gallery.FragmentGallery"
@@ -89,6 +112,9 @@
         <action
             android:id="@+id/action_fragmentGallery_to_fragmentPreview"
             app:destination="@id/fragmentPreview" />
+        <action
+            android:id="@+id/action_fragmentGallery_to_fragmentScreenAccept"
+            app:destination="@id/fragmentScreenAccept" />
     </fragment>
     <fragment
         android:id="@+id/fragmentPreview"

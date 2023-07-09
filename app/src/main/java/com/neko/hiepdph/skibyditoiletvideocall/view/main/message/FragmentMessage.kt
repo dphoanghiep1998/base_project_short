@@ -20,6 +20,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.MessageModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentMessageBinding
 
 class FragmentMessage : Fragment() {
@@ -39,7 +40,17 @@ class FragmentMessage : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        action = { navigateToPage(R.id.fragmentMessage, R.id.fragmentCallScreen) }
+        action = {
+            val direction = FragmentMessageDirections.actionFragmentMessageToFragmentCallScreen(
+                OtherCallModel(
+                    0,
+                    "john pork",
+                    R.raw.john_porn,
+                    4
+                )
+            )
+            findNavController().navigate(direction)
+        }
 
     }
 

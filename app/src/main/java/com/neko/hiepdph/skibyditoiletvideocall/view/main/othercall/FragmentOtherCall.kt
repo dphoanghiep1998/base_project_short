@@ -13,6 +13,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentOtherCallBinding
+import com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallScreenDirections
 
 class FragmentOtherCall : Fragment() {
     private lateinit var binding: FragmentOtherCallBinding
@@ -39,13 +40,14 @@ class FragmentOtherCall : Fragment() {
 
     private fun initRecyclerView() {
         val listData = mutableListOf(
-            OtherCallModel(R.drawable.ic_momo, "MOMO"),
-            OtherCallModel(R.drawable.ic_valak, "VALAK"),
-            OtherCallModel(R.drawable.ic_wednesday, "WEDNESDAY"),
-            OtherCallModel(R.drawable.ic_momy_longleg, "MOMMY"),
+            OtherCallModel(R.drawable.ic_momo, "MOMO",R.raw.momo,0),
+            OtherCallModel(R.drawable.ic_valak, "VALAK",R.raw.nun,1),
+            OtherCallModel(R.drawable.ic_wednesday, "WEDNESDAY",R.raw.wednesday,2),
+            OtherCallModel(R.drawable.ic_momy_longleg, "MOMMY",R.raw.mommy,3),
         )
         adapterOtherCall = AdapterOtherCall(onClickItem = {
-            navigateToPage(R.id.fragmentOtherCall,R.id.fragmentCallScreen)
+            val direction = FragmentOtherCallDirections.actionFragmentOtherCallToFragmentCallScreen(it)
+            findNavController().navigate(direction)
         })
         val gridLayoutManager = GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         binding.rcvOtherCall.layoutManager = gridLayoutManager

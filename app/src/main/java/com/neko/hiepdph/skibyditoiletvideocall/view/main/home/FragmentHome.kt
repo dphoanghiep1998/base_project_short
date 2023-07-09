@@ -1,16 +1,9 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.home
 
-import android.Manifest
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
@@ -45,6 +38,7 @@ class FragmentHome : Fragment() {
             navigateToPage(R.id.fragmentHome, R.id.fragmentCall)
         }
         binding.videoCall.clickWithDebounce {
+            val
             navigateToPage(R.id.fragmentHome, R.id.fragmentCallScreen)
         }
         binding.message.clickWithDebounce {
