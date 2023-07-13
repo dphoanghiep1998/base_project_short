@@ -40,23 +40,23 @@ class AdapterGallery(
         with(holder) {
             val item = data[position]
             when (item.videoType) {
-                0 -> {
+                4 -> {
                     binding.imvAvatar.setImageResource(R.drawable.ic_gallrey_skibidy)
                 }
 
-                1 -> {
+                0 -> {
                     binding.imvAvatar.setImageResource(R.drawable.ic_gallrey_momo)
                 }
 
-                2 -> {
+                1 -> {
                     binding.imvAvatar.setImageResource(R.drawable.ic_gallrey_valak)
                 }
 
-                3 -> {
+                2 -> {
                     binding.imvAvatar.setImageResource(R.drawable.ic_gallrey_wednesday)
                 }
 
-                4 -> {
+                3 -> {
                     binding.imvAvatar.setImageResource(R.drawable.ic_gallrey_mmll)
                 }
             }

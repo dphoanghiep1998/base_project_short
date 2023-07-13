@@ -10,7 +10,7 @@
                 <size android:height="5dp"/>
                 <corners
                     android:radius="5dp" />
-                <gradient android:startColor="@color/gradient_1" android:endColor="@color/gradient_2"/>
+               <solid android:color="#1EE939"/>
             </shape>
         </clip>
     </item>

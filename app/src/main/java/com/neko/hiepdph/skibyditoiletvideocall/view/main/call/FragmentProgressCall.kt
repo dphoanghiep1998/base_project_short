@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.neko.hiepdph.skibyditoiletvideocall.R
-import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentProgressCallBinding
 import java.util.Locale
 
@@ -28,6 +30,7 @@ class FragmentProgressCall : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentProgressCallBinding.inflate(inflater, container, false)
+        changeBackPressCallBack()
         return binding.root
     }
 
@@ -37,10 +40,18 @@ class FragmentProgressCall : Fragment() {
         startTimer()
 
     }
+    private fun changeBackPressCallBack() {
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
 
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+    }
 
     private fun startTimer() {
-        countDownTimer = object : CountDownTimer(args.totalTime , 1000L) {
+        countDownTimer = object : CountDownTimer(args.totalTime, 1000L) {
             override fun onTick(p0: Long) {
                 mTimeLeftInMillis = p0
                 updateCountdownText()
@@ -48,7 +59,12 @@ class FragmentProgressCall : Fragment() {
 
             override fun onFinish() {
                 timeRunning = false
-                navigateToPage(R.id.fragmentProgressCall, R.id.fragmentCallScreen)
+                val model =  OtherCallModel(0,R.drawable.ic_banner_progress_call,"Skibidi Toilet",R.raw.john_porn,4)
+                val direction =
+                    FragmentProgressCallDirections.actionFragmentProgressCallToFragmentCallScreen(
+                        model
+                    )
+                findNavController().navigate(direction)
             }
 
         }

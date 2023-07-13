@@ -22,13 +22,14 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.createContext
 import com.neko.hiepdph.skibyditoiletvideocall.common.isInternetAvailable
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.ActivitySplashBinding
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.MainActivity
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
 import kotlin.system.exitProcess
 
-
+@AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding

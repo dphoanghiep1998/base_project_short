@@ -9,6 +9,9 @@ import android.provider.Settings
 import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
+import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
 import com.neko.hiepdph.skibyditoiletvideocall.common.ConnectionType
 import com.neko.hiepdph.skibyditoiletvideocall.common.ConnectivityListener
@@ -40,26 +43,30 @@ class MainActivity : AppCompatActivity() {
         })
 
         hideNavigationBar()
-//        checkInit()
+        checkInit()
         initData()
         observeConnectivityChange()
         observeConnectionType()
         registerConnectivityListener()
     }
 
-//    private fun checkInit() {
-//        val navHostFragment =
-//            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
-//
-//        val controller = navHostFragment.navController
-//
-//        if (!AppSharePreference.INSTANCE.getPassSetting(false)) {
-//            controller.navigate(R.id.fragmentOnBoard)
-//        } else {
-//            controller.navigate(R.id.fragmentVideo)
-//        }
-//
-//    }
+    private fun checkInit() {
+        val navHostFragment =
+            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
+
+        val controller = navHostFragment.navController
+        if (!AppSharePreference.INSTANCE.getSetLangFirst(false)) {
+            controller.navigate(R.id.fragmentLanguage)
+        } else {
+            if (!CustomApplication.app.isChangeLanga) {
+                controller.navigate(R.id.fragmentOnBoard)
+            } else {
+                controller.navigate(R.id.fragmentHome)
+                CustomApplication.app.isChangeLanga = false
+            }
+        }
+
+    }
 
     private fun registerConnectivityListener() {
         connectivityListener = ConnectivityListener(applicationContext)

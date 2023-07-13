@@ -9,10 +9,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
-import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
+import com.neko.hiepdph.skibyditoiletvideocall.common.hide
+import com.neko.hiepdph.skibyditoiletvideocall.common.show
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentGalleryBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 
@@ -37,6 +37,11 @@ class FragmentGallery : Fragment() {
     private fun observeGallery() {
         viewModel.getListGallery().observe(viewLifecycleOwner) {
             adapterGallery?.setData(it)
+            if (it.isEmpty()) {
+                binding.tvEmpty.show()
+            } else {
+                binding.tvEmpty.hide()
+            }
         }
     }
 

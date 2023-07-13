@@ -67,7 +67,13 @@
         app:layout_constraintEnd_toEndOf="@id/tv_skibidy_video"
         app:layout_constraintStart_toStartOf="@id/tv_skibidy_video" />
 
-
+    <ImageView
+        android:layout_marginTop="@dimen/_20sdp"
+        android:id="@+id/imv_flag"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        app:layout_constraintEnd_toEndOf="@id/imv_other_Call"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/tv_other_call"
         android:layout_width="wrap_content"

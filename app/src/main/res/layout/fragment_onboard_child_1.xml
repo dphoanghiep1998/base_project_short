@@ -8,7 +8,7 @@
         android:id="@+id/imv_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_1"
+        android:src="@drawable/ic_onboard_1"
         app:layout_constraintBottom_toTopOf="@id/container_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

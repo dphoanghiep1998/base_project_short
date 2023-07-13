@@ -17,9 +17,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavArgs
 import androidx.navigation.fragment.navArgs
-
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
@@ -105,7 +103,13 @@ class FragmentScreenAccept : Fragment() {
         binding.btnDecline.clickWithDebounce {
             viewModel.insertGallery(
                 GalleryModel(
-                    -1, "", Calendar.getInstance().timeInMillis, count, path, 0
+                    -1,
+                    "",
+                    Calendar.getInstance().timeInMillis,
+                    count,
+                    arg.characterModel.videoRaw,
+                    path,
+                    arg?.characterModel?.videoType ?: 4
                 )
             )
             navigateToPage(R.id.fragmentScreenAccept, R.id.fragmentCallClose)
@@ -173,10 +177,7 @@ class FragmentScreenAccept : Fragment() {
                         }
 
                     } catch (e: IOException) {
-                        Log.d("TAG", "surfaceCreated: " + e)
-                        Toast.makeText(
-                            requireContext(), "Error setting up camera preview", Toast.LENGTH_SHORT
-                        ).show()
+
                     } catch (e: RuntimeException) {
                         e.printStackTrace()
                     }
@@ -191,18 +192,14 @@ class FragmentScreenAccept : Fragment() {
                     try {
                         camera?.stopPreview()
                     } catch (e: Exception) {
-                        Toast.makeText(
-                            requireContext(), "Error changing camera preview", Toast.LENGTH_SHORT
-                        ).show()
+
                     }
                     try {
                         camera?.setDisplayOrientation(90)
                         camera?.setPreviewDisplay(holder)
                         camera?.startPreview()
                     } catch (e: IOException) {
-                        Toast.makeText(
-                            requireContext(), "Error setting up camera preview", Toast.LENGTH_SHORT
-                        ).show()
+
                     }
                 }
 
@@ -228,14 +225,12 @@ class FragmentScreenAccept : Fragment() {
             path = getOutputMediaFile()?.absolutePath.toString()
             mediaRecorder?.setOutputFile(path)
             mediaRecorder?.setPreviewDisplay(binding.sufaceView?.holder?.surface)
-            mediaRecorder?.setOrientationHint(90)
+            mediaRecorder?.setOrientationHint(270)
             mediaRecorder?.prepare()
             mediaRecorder?.start()
 
-            Toast.makeText(requireContext(), "Recording started", Toast.LENGTH_SHORT).show()
         } catch (e: IOException) {
             Log.d("TAG", "startRecording: " + e)
-            Toast.makeText(requireContext(), "Error starting recording", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -308,6 +303,11 @@ class FragmentScreenAccept : Fragment() {
         pauseTimer()
         viewModel.pausePlayer()
         stopRecording()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.resetPlayer()
     }
 
 

@@ -42,12 +42,7 @@ class FragmentMessage : Fragment() {
         initView()
         action = {
             val direction = FragmentMessageDirections.actionFragmentMessageToFragmentCallScreen(
-                OtherCallModel(
-                    0,
-                    "john pork",
-                    R.raw.john_porn,
-                    4
-                )
+                OtherCallModel(0,R.drawable.ic_banner_progress_call,"Skibidi Toilet",R.raw.john_porn,4)
             )
             findNavController().navigate(direction)
         }

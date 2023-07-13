@@ -33,11 +33,16 @@ class CustomApplication : Application(), Application.ActivityLifecycleCallbacks,
     private var currentActivity: Activity? = null
     private var appOpenAdsManager: AppOpenAdManager? = null
     var adsShowed = false
+    var isChangeLanga = false
+
+
     var nativeADIntro: MutableLiveData<NativeAd>? = MutableLiveData(null)
     var nativeADHome: MutableLiveData<NativeAd>? = MutableLiveData(null)
+    var nativeADLanguage: MutableLiveData<NativeAd>? = MutableLiveData(null)
 
     var mNativeAdManagerIntro: NativeAdsManager? = null
     var mNativeAdManagerHome: NativeAdsManager? = null
+    var mNativeAdManagerLanguage: NativeAdsManager? = null
 
     var interstitialPreloadAdManager: InterstitialPreloadAdManager? = null
 

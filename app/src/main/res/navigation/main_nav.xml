@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_fragmentCall_to_fragmentProgressCall"
             app:destination="@id/fragmentProgressCall" />
+        <action
+            android:id="@+id/action_fragmentCall_to_fragmentCallScreen2"
+            app:destination="@id/fragmentCallScreen" />
     </fragment>
     <fragment
         android:id="@+id/fragmentCallSchedule"
@@ -55,6 +58,9 @@
         <argument
             android:name="totalTime"
             app:argType="long" />
+        <action
+            android:id="@+id/action_fragmentProgressCall_to_fragmentCallScreen"
+            app:destination="@id/fragmentCallScreen" />
     </fragment>
     <fragment
         android:id="@+id/fragmentCallScreen"
@@ -125,4 +131,12 @@
             android:name="galleryModel"
             app:argType="com.neko.hiepdph.skibyditoiletvideocall.data.model.GalleryModel" />
     </fragment>
+    <fragment
+        android:id="@+id/fragmentLanguage"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.language.FragmentLanguage"
+        android:label="FragmentLanguage" />
+    <fragment
+        android:id="@+id/fragmentLanguageMain"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.language.FragmentLanguageMain"
+        android:label="FragmentLanguageMain" />
 </navigation>

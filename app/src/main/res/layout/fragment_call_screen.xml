@@ -90,15 +90,28 @@
         app:layout_constraintEnd_toEndOf="@id/imv_decline"
         app:layout_constraintStart_toStartOf="@id/imv_decline" />
 
-    <ImageView
+<!--    <ImageView-->
+    <!--        android:id="@+id/imv_accept"-->
+    <!--        android:layout_width="@dimen/_50sdp"-->
+    <!--        android:layout_height="@dimen/_50sdp"-->
+    <!--        android:layout_marginEnd="@dimen/_26sdp"-->
+    <!--        android:layout_marginBottom="@dimen/_12sdp"-->
+    <!--        android:src="@drawable/ic_accept"-->
+    <!--        app:layout_constraintBottom_toTopOf="@id/tv_accept"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent" />-->
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/imv_accept"
-        android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
         android:layout_marginEnd="@dimen/_26sdp"
         android:layout_marginBottom="@dimen/_12sdp"
-        android:src="@drawable/ic_accept"
         app:layout_constraintBottom_toTopOf="@id/tv_accept"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:lottie_rawRes="@raw/calling_anim"
+        android:scaleX="2.5"
+        android:scaleY="2.5"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"/>
 
     <TextView
         android:id="@+id/tv_accept"

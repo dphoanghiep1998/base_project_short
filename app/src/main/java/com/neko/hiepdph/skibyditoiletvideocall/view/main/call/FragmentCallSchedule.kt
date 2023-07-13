@@ -91,7 +91,7 @@ class FragmentCallSchedule : Fragment() {
             findNavController().popBackStack()
         }
     }
-    private fun checkPermission(action: (() -> Unit)? = null) {
+    private fun checkPermission() {
 
         if (
             requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
@@ -120,7 +120,7 @@ class FragmentCallSchedule : Fragment() {
                 )
             }
         } else {
-            Log.d("TAG", "checkPermission: false")
+            Log.d("TAG", "checkPermission: true")
             action?.invoke()
         }
     }

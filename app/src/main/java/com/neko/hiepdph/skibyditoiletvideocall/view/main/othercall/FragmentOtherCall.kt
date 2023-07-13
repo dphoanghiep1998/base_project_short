@@ -40,10 +40,10 @@ class FragmentOtherCall : Fragment() {
 
     private fun initRecyclerView() {
         val listData = mutableListOf(
-            OtherCallModel(R.drawable.ic_momo, "MOMO",R.raw.momo,0),
-            OtherCallModel(R.drawable.ic_valak, "VALAK",R.raw.nun,1),
-            OtherCallModel(R.drawable.ic_wednesday, "WEDNESDAY",R.raw.wednesday,2),
-            OtherCallModel(R.drawable.ic_momy_longleg, "MOMMY",R.raw.mommy,3),
+            OtherCallModel(R.drawable.ic_momo,R.drawable.ic_momo_circle, "Spooky Momo",R.raw.momo,0),
+            OtherCallModel(R.drawable.ic_valak, R.drawable.ic_nun_circle,"The Nun",R.raw.nun,1),
+            OtherCallModel(R.drawable.ic_wednesday, R.drawable.ic_wed_circle,"Wednesday",R.raw.wednesday,2),
+            OtherCallModel(R.drawable.ic_momy_longleg, R.drawable.ic_mm_circle,"Mommy Long Leg",R.raw.mommy,3),
         )
         adapterOtherCall = AdapterOtherCall(onClickItem = {
             val direction = FragmentOtherCallDirections.actionFragmentOtherCallToFragmentCallScreen(it)

@@ -1,0 +1,20 @@
+{
+  "version": 3,
+  "artifactType": {
+    "type": "APK",
+    "kind": "Directory"
+  },
+  "applicationId": "com.neko.toilet",
+  "variantName": "adstestRelease",
+  "elements": [
+    {
+      "type": "SINGLE",
+      "filters": [],
+      "attributes": [],
+      "versionCode": 1,
+      "versionName": "1.0",
+      "outputFile": "Skibydi Toilet Video Call1_1.0_10-07_17h44-adstest-release.apk"
+    }
+  ],
+  "elementType": "File"
+}

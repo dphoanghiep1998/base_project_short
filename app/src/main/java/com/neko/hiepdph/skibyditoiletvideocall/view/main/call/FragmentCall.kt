@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallBinding
 
 
@@ -36,7 +37,9 @@ class FragmentCall : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         action = {
-            navigateToPage(R.id.fragmentCall, R.id.fragmentCallScreen)
+            val model = OtherCallModel(0,R.drawable.ic_banner_progress_call,"Skibidi Toilet",R.raw.john_porn,4)
+            val direction = FragmentCallDirections.actionFragmentCallToFragmentCallScreen(model)
+            findNavController().navigate(direction)
         }
     }
 

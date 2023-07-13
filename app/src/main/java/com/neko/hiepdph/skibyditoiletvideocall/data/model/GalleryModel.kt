@@ -10,13 +10,14 @@ data class GalleryModel(
     val name: String,
     val time: Long,
     val videoLength: Long,
-    val videoPath: String,
+    val videoPath: Int,
+    val cameraVideoPath: String,
     val videoType: Int
 ) : Parcelable {
     fun toGalleryEntity(): GalleryEntity {
         val fileId = if (id == -1) 0 else id
         return GalleryEntity(
-            fileId, name, time, videoLength, videoPath, videoType
+            fileId, name, time, videoLength, videoPath, cameraVideoPath, videoType
         )
     }
 }

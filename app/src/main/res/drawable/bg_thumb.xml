@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item>
-        <shape android:shape="oval">
-        <solid android:color="@color/progress_call"/>
-        </shape>
-        <size
-            android:width="35dp"
-            android:height="35dp" />
-    </item>
-</layer-list>
+<shape android:shape="oval" xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#1EE939"/>
+    <size
+        android:width="30dp"
+        android:height="30dp" />
+</shape>

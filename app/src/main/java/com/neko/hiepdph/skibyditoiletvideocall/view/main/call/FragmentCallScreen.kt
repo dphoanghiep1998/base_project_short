@@ -51,13 +51,20 @@ class FragmentCallScreen : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         action = {
-            if(args == null && args.characterModel == null){
+            if (args == null && args.characterModel == null) {
                 val direction =
                     FragmentCallScreenDirections.actionFragmentCallScreenToFragmentScreenAccept(
-                       OtherCallModel(0,"john pork",R.raw.john_porn,4)
+                        OtherCallModel(
+                            0,
+                            R.drawable.ic_banner_progress_call,
+                            "Skibidi Toilet",
+                            R.raw.john_porn,
+                            4
+                        )
                     )
                 findNavController().navigate(direction)
-            }else{
+            } else {
+
                 val direction =
                     FragmentCallScreenDirections.actionFragmentCallScreenToFragmentScreenAccept(
                         args.characterModel
@@ -65,6 +72,10 @@ class FragmentCallScreen : Fragment() {
                 findNavController().navigate(direction)
             }
 
+        }
+        if (args != null && args.characterModel != null) {
+            binding.title.text = args.characterModel.name
+            binding.imvBanner.setImageResource(args.characterModel.circleImage)
         }
 
         setupSound()
@@ -102,17 +113,15 @@ class FragmentCallScreen : Fragment() {
 
     private fun checkPermission(action: (() -> Unit)? = null) {
 
-        if (
-            requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-            requireContext().checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || requireContext().checkSelfPermission(
+                Manifest.permission.RECORD_AUDIO
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             Log.d("TAG", "checkPermission: true")
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.CAMERA
+                    requireActivity(), Manifest.permission.CAMERA
                 ) && ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.RECORD_AUDIO
+                    requireActivity(), Manifest.permission.RECORD_AUDIO
                 )
             ) {
                 cameraLauncher.launch(

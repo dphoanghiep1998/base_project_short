@@ -10,6 +10,7 @@ data class GalleryEntity(
     val name: String,
     val time: Long,
     val videoLength: Long,
-    val videoPath: String,
+    val videoPath: Int,
+    val cameraVideoPath: String,
     val videoType: Int
 ) {}
