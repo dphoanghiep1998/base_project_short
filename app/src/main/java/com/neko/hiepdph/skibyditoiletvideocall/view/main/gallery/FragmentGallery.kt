@@ -1,6 +1,7 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.gallery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,6 +59,7 @@ class FragmentGallery : Fragment() {
 
     private fun initRecyclerView() {
         adapterGallery = AdapterGallery(onClickItem = {
+            Log.d("TAG", "initRecyclerView: "+it.cameraVideoPath)
             val direction = FragmentGalleryDirections.actionFragmentGalleryToFragmentPreview(it)
             findNavController().navigate(direction)
         }, onClickDeleteItem = {

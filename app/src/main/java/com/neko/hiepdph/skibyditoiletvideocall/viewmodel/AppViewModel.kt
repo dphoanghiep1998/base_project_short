@@ -1,5 +1,6 @@
 package com.neko.hiepdph.skibyditoiletvideocall.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -127,7 +128,6 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
     }
 
 
-
     fun setCurrentModel(monsterModel: MonsterModel) {
         currentModel = monsterModel
     }
@@ -138,7 +138,6 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
 
         }
     }
-
 
 
     fun setupPlayer2(player: Player) {
@@ -159,26 +158,28 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
         _player?.seekTo(0)
     }
 
-    fun seekTo2(pos:Long){
+    fun seekTo2(pos: Long) {
         _player2?.seekTo(pos)
+        if(_player2?.isPlaying == false){
+            _player2?.play()
+        }
     }
 
-    fun seekTo1(pos:Long){
+    fun seekTo1(pos: Long) {
         _player?.seekTo(pos)
+        if(_player?.isPlaying == false){
+            _player?.play()
+        }
     }
 
 
     fun isPlaying(): Boolean {
         return _player?.isPlaying == true
     }
-
-    fun setMediaItemList(list: List<MediaItem>) {
-        _player?.setMediaItems(list)
+    fun isPlaying2(): Boolean {
+        return _player2?.isPlaying == true
     }
 
-    fun setMediaItem(mediaItem: MediaItem) {
-        _player?.setMediaItem(mediaItem)
-    }
 
     fun playAudio(
         mediaItem: MediaItem,
@@ -192,6 +193,7 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
             playerListener1?.let { _player?.removeListener(it) }
             playerListener?.let { _player?.removeListener(it) }
             _player?.stop()
+            _player?.clearMediaItems()
 
             playerListener = object : Player.Listener {
                 override fun onIsLoadingChanged(isLoading: Boolean) {
@@ -203,14 +205,8 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
                     if (playbackState == ExoPlayer.STATE_READY) {
                         onPrepareDone?.invoke(_player!!.duration)
                     }
-
-
                 }
 
-                override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                    super.onMediaItemTransition(mediaItem, reason)
-//                    _player?.stop()
-                }
 
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     super.onPlaybackStateChanged(playbackState)
@@ -229,16 +225,17 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
 
     }
 
-    fun playAudio(
+    fun  playAudio(
         mediaItem: MediaItem,
         onEnd: () -> Unit,
         onPrepareDone: ((time: Long) -> Unit)? = null,
     ) {
         try {
             _player?.repeatMode = Player.REPEAT_MODE_OFF
-            playerListener1?.let { _player?.removeListener(it) }
             playerListener?.let { _player?.removeListener(it) }
+            playerListener1?.let { _player?.removeListener(it) }
             _player?.stop()
+            _player?.clearMediaItems()
 
             playerListener = object : Player.Listener {
                 override fun onIsLoadingChanged(isLoading: Boolean) {
@@ -246,21 +243,14 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
                     isLoadingVideo.postValue(isLoading)
                 }
 
-                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-                    if (playbackState == ExoPlayer.STATE_READY) {
-                        onPrepareDone?.invoke(_player!!.duration)
-                    }
-
-
-                }
-
-                override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
-                    super.onMediaItemTransition(mediaItem, reason)
-//                    _player?.stop()
-                }
 
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     super.onPlaybackStateChanged(playbackState)
+                    Log.d("TAG", "onPlaybackStateChanged: " + playbackState)
+
+                    if (playbackState == ExoPlayer.STATE_READY) {
+                        onPrepareDone?.invoke(_player!!.duration)
+                    }
                     if (playbackState == Player.STATE_ENDED || playbackState == Player.STATE_IDLE) {
                         onEnd()
                     }
@@ -272,6 +262,7 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
             _player?.playWhenReady = true
 
         } catch (e: Exception) {
+            e.printStackTrace()
         }
 
     }
@@ -285,6 +276,7 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
             _player2?.repeatMode = Player.REPEAT_MODE_OFF
             playerListener2?.let { _player2?.removeListener(it) }
             _player2?.stop()
+            _player2?.clearMediaItems()
 
             playerListener2 = object : Player.Listener {
                 override fun onIsLoadingChanged(isLoading: Boolean) {
@@ -292,16 +284,14 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
                     isLoadingVideo.postValue(isLoading)
                 }
 
-                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-                    if (playbackState == ExoPlayer.STATE_READY) {
-                        onPrepareDone?.invoke(_player!!.duration)
-                    }
-
-
-                }
 
                 override fun onPlaybackStateChanged(playbackState: Int) {
                     super.onPlaybackStateChanged(playbackState)
+                    Log.d("TAG", "onPlaybackStateChanged: " + playbackState)
+
+                    if (playbackState == ExoPlayer.STATE_READY) {
+                        onPrepareDone?.invoke(_player!!.duration)
+                    }
                     if (playbackState == Player.STATE_ENDED || playbackState == Player.STATE_IDLE) {
                         onEnd()
                     }
@@ -339,13 +329,10 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
 
     fun pausePlayer() {
         _player?.pause()
-        playerListener?.let { _player?.removeListener(it) }
-        playerListener1?.let { _player?.removeListener(it) }
     }
 
     fun pausePlayer2() {
         _player2?.pause()
-        playerListener2?.let { _player2?.removeListener(it) }
     }
 
     fun resumePlayer() {

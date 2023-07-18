@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.neko.hiepdph.skibyditoiletvideocall.R
@@ -15,6 +16,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.supportedLanguages
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentHomeBinding
 import java.util.Locale
+import kotlin.system.exitProcess
 
 class FragmentHome : Fragment() {
     private lateinit var binding: FragmentHomeBinding
@@ -24,9 +26,19 @@ class FragmentHome : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentHomeBinding.inflate(inflater, container, false)
+        changeBackPressCallBack()
         return binding.root
     }
+    private fun changeBackPressCallBack() {
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                requireActivity().finishActivity(0)
+                exitProcess(-1)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()

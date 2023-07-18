@@ -10,6 +10,7 @@ import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
+import com.google.android.exoplayer2.ExoPlayer
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
@@ -48,6 +49,17 @@ class MainActivity : AppCompatActivity() {
         observeConnectivityChange()
         observeConnectionType()
         registerConnectivityListener()
+        if (viewModel.getPlayer() == null) {
+            val mPlayer = ExoPlayer.Builder(this).setSeekForwardIncrementMs(15000).build()
+            viewModel.setupPlayer(mPlayer)
+
+        }
+
+        if (viewModel.getPlayer2() == null) {
+            val mPlayer = ExoPlayer.Builder(this).setSeekForwardIncrementMs(15000).build()
+            viewModel.setupPlayer2(mPlayer)
+
+        }
     }
 
     private fun checkInit() {
@@ -198,6 +210,8 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         unregisterConnectivityListener()
+        viewModel.resetPlayer()
+        viewModel.resetPlayer2()
     }
 
     private fun openConnectivitySetting() {

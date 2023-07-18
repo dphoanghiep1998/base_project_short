@@ -46,6 +46,8 @@
         app:layout_constraintTop_toBottomOf="@id/title" />
     <SurfaceView
         android:id="@+id/sufaceView"
+        android:visibility="visible"
+        android:translationZ="100dp"
         app:layout_constraintTop_toBottomOf="@id/time"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="@dimen/_12sdp"

@@ -29,7 +29,7 @@
             android:id="@+id/avatar"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:src="@drawable/ic_banner_progress_call"
+            android:src="@drawable/ic_banner_mes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/ic_back"
             app:layout_constraintTop_toTopOf="parent" />

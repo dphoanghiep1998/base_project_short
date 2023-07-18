@@ -1,31 +1,25 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.call
 
+import android.graphics.PixelFormat
 import android.hardware.Camera
-import android.media.CamcorderProfile
 import android.media.MediaRecorder
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Environment
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.SurfaceHolder
 import android.view.SurfaceHolder.Callback
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
-import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
-import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.common.show
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.GalleryModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentScreenAcceptBinding
@@ -42,7 +36,6 @@ class FragmentScreenAccept : Fragment() {
 
     private lateinit var binding: FragmentScreenAcceptBinding
     private val viewModel by activityViewModels<AppViewModel>()
-    private var mPlayer: Player? = null
     private var countDownTimer: CountDownTimer? = null
     private var mTimeLeftInMillis: Long = 0
     private var timeRunning = false
@@ -57,45 +50,45 @@ class FragmentScreenAccept : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentScreenAcceptBinding.inflate(inflater, container, false)
+        changeBackPressCallBack()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        recordVideo()
-        Handler(Looper.getMainLooper()).post {
-            startRecording()
-        }
     }
+
 
     private fun initView() {
         binding.btnDecline.hide()
-        if (viewModel.getPlayer() == null) {
-            mPlayer = ExoPlayer.Builder(requireContext()).setSeekForwardIncrementMs(15000).build()
-            binding.playerView.apply {
-                player = mPlayer
-                keepScreenOn = true
-
-            }
-            viewModel.setupPlayer(mPlayer!!)
-
-        } else {
-            binding.playerView.apply {
-                player = viewModel.getPlayer()
-                keepScreenOn = true
-            }
-        }
-
         initButton()
-
         viewModel.playAudio(MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(arg.characterModel.videoRaw)),
             onEnd = {
-                navigateToPage(R.id.fragmentScreenAccept, R.id.fragmentCallClose)
+                viewModel.insertGallery(
+                    GalleryModel(
+                        -1,
+                        "",
+                        Calendar.getInstance().timeInMillis,
+                        count,
+                        arg.characterModel.videoRaw,
+                        path,
+                        arg?.characterModel?.videoType ?: 4
+                    )
+                )
+                val direction =
+                    FragmentScreenAcceptDirections.actionFragmentScreenAcceptToFragmentCallClose(arg.characterModel)
+                findNavController().navigate(direction)
             },
             onPrepareDone = {
-                startTimer(it)
-
+                if (!timeRunning) {
+                    startTimer()
+                }
+                binding.playerView.apply {
+                    player = viewModel.getPlayer()
+                    keepScreenOn = true
+                }
+                startRecording()
             })
     }
 
@@ -112,17 +105,15 @@ class FragmentScreenAccept : Fragment() {
                     arg?.characterModel?.videoType ?: 4
                 )
             )
-            navigateToPage(R.id.fragmentScreenAccept, R.id.fragmentCallClose)
+            val direction =
+                FragmentScreenAcceptDirections.actionFragmentScreenAcceptToFragmentCallClose(arg.characterModel)
+            findNavController().navigate(direction)
         }
     }
 
-    private fun useRecord() {
-        val size = camera?.Size(400, 400)
 
-    }
-
-    private fun startTimer(time: Long) {
-        countDownTimer = object : CountDownTimer(time, 1000L) {
+    private fun startTimer() {
+        countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000L) {
             override fun onTick(p0: Long) {
                 mTimeLeftInMillis = p0
                 count += 1000L
@@ -139,24 +130,19 @@ class FragmentScreenAccept : Fragment() {
 
         }
         timeRunning = true
-
-
-
         countDownTimer?.start()
     }
 
     private fun pauseTimer() {
+        Log.d("TAG", "pauseTimer: ")
         countDownTimer?.cancel()
         timeRunning = false
     }
 
-
     private fun updateCountText(time: Long) {
         val minutes = (time / 1000).toInt() / 60
         val seconds = (time / 1000).toInt() % 60
-
         val timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds)
-
         binding.time.text = timeLeftFormatted
     }
 
@@ -175,10 +161,16 @@ class FragmentScreenAccept : Fragment() {
                             camera?.setPreviewDisplay(holder)
                             camera?.startPreview()
                         }
+                        binding.sufaceView.visibility = View.VISIBLE
+                        binding.sufaceView.setZOrderMediaOverlay(true)
+                        binding.sufaceView.setZOrderOnTop(true)
+                        Log.d("TAG", "surfaceCreated: " +  binding.sufaceView.visibility)
 
                     } catch (e: IOException) {
-
+                        Log.d("TAG", "surfaceCreated: co loii")
+                        e.printStackTrace()
                     } catch (e: RuntimeException) {
+                        Log.d("TAG", "surfaceCreated: co loi")
                         e.printStackTrace()
                     }
                 }
@@ -186,21 +178,23 @@ class FragmentScreenAccept : Fragment() {
                 override fun surfaceChanged(
                     holder: SurfaceHolder, format: Int, width: Int, height: Int
                 ) {
-                    if (holder.surface == null) {
-                        return
-                    }
-                    try {
-                        camera?.stopPreview()
-                    } catch (e: Exception) {
-
-                    }
-                    try {
-                        camera?.setDisplayOrientation(90)
-                        camera?.setPreviewDisplay(holder)
-                        camera?.startPreview()
-                    } catch (e: IOException) {
-
-                    }
+//                    if (holder.surface == null) {
+//                        return
+//                    }
+//                    try {
+//                        camera?.stopPreview()
+//                    } catch (e: Exception) {
+//                        e.printStackTrace()
+//
+//                    }
+//                    try {
+//                        camera?.setDisplayOrientation(90)
+//                        camera?.setPreviewDisplay(holder)
+//                        camera?.startPreview()
+//                    } catch (e: IOException) {
+//                        e.printStackTrace()
+//
+//                    }
                 }
 
                 override fun surfaceDestroyed(holder: SurfaceHolder) {
@@ -215,16 +209,21 @@ class FragmentScreenAccept : Fragment() {
 
     private fun startRecording() {
         try {
-            camera?.unlock()
-
             mediaRecorder = MediaRecorder()
+
+            camera?.unlock()
             mediaRecorder?.setCamera(camera)
+
             mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
             mediaRecorder?.setVideoSource(MediaRecorder.VideoSource.CAMERA)
-            mediaRecorder?.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH))
-            path = getOutputMediaFile()?.absolutePath.toString()
+
+            mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+            mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+            mediaRecorder?.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP)
+            path = getOutputMediaFile()?.path.toString()
             mediaRecorder?.setOutputFile(path)
-            mediaRecorder?.setPreviewDisplay(binding.sufaceView?.holder?.surface)
+
+            mediaRecorder?.setPreviewDisplay(binding.sufaceView.holder.surface)
             mediaRecorder?.setOrientationHint(270)
             mediaRecorder?.prepare()
             mediaRecorder?.start()
@@ -242,10 +241,19 @@ class FragmentScreenAccept : Fragment() {
             mediaRecorder = null
 
             camera?.lock()
-
-//            Toast.makeText(requireContext(), "Recording stopped", Toast.LENGTH_SHORT).show()
         } catch (e: Exception) {
-//            Toast.makeText(requireContext(), "Error stopping recording", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun pauseRecording() {
+        try {
+            mediaRecorder?.pause()
+            mediaRecorder?.reset()
+            mediaRecorder?.release()
+            mediaRecorder = null
+
+            camera?.lock()
+        } catch (e: Exception) {
         }
     }
 
@@ -257,9 +265,7 @@ class FragmentScreenAccept : Fragment() {
 
     private fun getOutputMediaFile(): File? {
         val mediaStorageDir = File(
-            Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM
-            ), "Camera"
+            requireActivity().filesDir, "video"
         )
 
         if (!mediaStorageDir.exists()) {
@@ -269,11 +275,10 @@ class FragmentScreenAccept : Fragment() {
         }
 
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-        val mediaFile = File(
+
+        return File(
             mediaStorageDir.path + File.separator + "VID_$timeStamp.mp4"
         )
-
-        return mediaFile
     }
 
 
@@ -294,20 +299,37 @@ class FragmentScreenAccept : Fragment() {
     override fun onPause() {
         super.onPause()
         pauseTimer()
-        viewModel.pausePlayer()
         stopRecording()
+        viewModel.pausePlayer()
     }
 
     override fun onStop() {
         super.onStop()
         pauseTimer()
-        viewModel.pausePlayer()
         stopRecording()
+        viewModel.pausePlayer()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.resetPlayer()
+    override fun onResume() {
+        super.onResume()
+
+        recordVideo()
+
+        if (!timeRunning) {
+            startTimer()
+//            stopRecording()
+            viewModel.resumePlayer()
+        }
+    }
+
+
+    private fun changeBackPressCallBack() {
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
     }
 
 

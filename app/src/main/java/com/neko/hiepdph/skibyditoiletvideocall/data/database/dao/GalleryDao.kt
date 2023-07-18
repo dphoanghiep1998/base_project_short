@@ -22,7 +22,7 @@ interface GalleryDao {
     @Query("delete from gallery where id=:id")
     fun deleteGallery(id: Int)
 
-    @Query("select * from gallery")
+    @Query("select * from gallery order by id desc")
     fun getAllGallery(): LiveData<List<GalleryModel>>
 
 

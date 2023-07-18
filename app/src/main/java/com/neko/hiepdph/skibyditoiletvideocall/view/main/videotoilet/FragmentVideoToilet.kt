@@ -80,6 +80,14 @@ class FragmentVideoToilet : Fragment() {
     }
 
     private fun initButton() {
+        val mCurrentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
+        if (mCurrentVolume != null) {
+            if(mCurrentVolume > 0){
+                requireActivity().findViewById<ImageView>(R.id.volume_toggle).setImageResource(R.drawable.ic_volume_up)
+            }else{
+                requireActivity().findViewById<ImageView>(R.id.volume_toggle).setImageResource(R.drawable.ic_volume_mute)
+            }
+        }
         requireActivity().findViewById<ImageView>(R.id.play_again).clickWithDebounce {
             viewModel.reloadVideo()
         }
@@ -178,6 +186,12 @@ class FragmentVideoToilet : Fragment() {
             }, InterAdsEnum.VIDEO)
         }
 
+
+        requireActivity().findViewById<ImageView>(R.id.btn_back_controller).clickWithDebounce {
+            Log.d("TAG", "initButton: ")
+           findNavController().navigate(R.id.action_fragmentVideoToilet_to_fragmentHome )
+        }
+
         requireActivity().findViewById<ImageView>(R.id.volume_toggle).clickWithDebounce {
             val mCurrentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
             if (mCurrentVolume != null) {
@@ -246,9 +260,6 @@ class FragmentVideoToilet : Fragment() {
 
 
     private fun setupPlayer() {
-        val mPlayer = ExoPlayer.Builder(requireContext()).setSeekForwardIncrementMs(15000).build()
-        viewModel.setupPlayer(mPlayer)
-
         binding.playerView.apply {
             setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS)
             player = viewModel.getPlayer()

@@ -42,7 +42,9 @@ class FragmentMessage : Fragment() {
         initView()
         action = {
             val direction = FragmentMessageDirections.actionFragmentMessageToFragmentCallScreen(
-                OtherCallModel(0,R.drawable.ic_banner_progress_call,"Skibidi Toilet",R.raw.john_porn,4)
+                OtherCallModel(
+                    0, R.drawable.ic_banner_progress_call, "Skibidi Toilet", R.raw.john_porn, 4
+                )
             )
             findNavController().navigate(direction)
         }
@@ -68,15 +70,29 @@ class FragmentMessage : Fragment() {
 
     private fun initRecyclerView() {
         val data = mutableListOf(
-            MessageModel("Hi", "Hi cc"),
-            MessageModel("Im good, what about you", "you cc"),
-            MessageModel("Lmao", "lmao cc"),
-            MessageModel("DCM", "dcm cc"),
-            MessageModel("F**", "f cc"),
-            MessageModel("L~", "l cc"),
-            MessageModel("C", "c cc"),
-            MessageModel("B", "b cc"),
-        )
+            MessageModel(getString(R.string.question_1), getString(R.string.answer_1)),
+            MessageModel(getString(R.string.question_2), getString(R.string.answer_2)),
+            MessageModel(getString(R.string.question_3), getString(R.string.answer_3)),
+            MessageModel(getString(R.string.question_4), getString(R.string.answer_4)),
+            MessageModel(getString(R.string.question_5), getString(R.string.answer_5)),
+            MessageModel(getString(R.string.question_6), getString(R.string.answer_6)),
+            MessageModel(getString(R.string.question_7), getString(R.string.answer_7)),
+            MessageModel(getString(R.string.question_8), getString(R.string.answer_8)),
+            MessageModel(getString(R.string.question_9), getString(R.string.answer_9)),
+            MessageModel(getString(R.string.question_10), getString(R.string.answer_10)),
+            MessageModel(getString(R.string.question_11), getString(R.string.answer_11)),
+            MessageModel(getString(R.string.question_12), getString(R.string.answer_12)),
+            MessageModel(getString(R.string.question_13), getString(R.string.answer_13)),
+            MessageModel(getString(R.string.question_14), getString(R.string.answer_14)),
+            MessageModel(getString(R.string.question_15), getString(R.string.answer_15)),
+            MessageModel(getString(R.string.question_16), getString(R.string.answer_16)),
+            MessageModel(getString(R.string.question_17), getString(R.string.answer_17)),
+            MessageModel(getString(R.string.question_18), getString(R.string.answer_18)),
+            MessageModel(getString(R.string.question_19), getString(R.string.answer_19)),
+            MessageModel(getString(R.string.question_20), getString(R.string.answer_20)),
+
+
+            )
 
 
         adapterMessage = AdapterMessage()
@@ -84,6 +100,9 @@ class FragmentMessage : Fragment() {
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.rcvMessage.layoutManager = linearLayoutManager
         binding.rcvMessage.adapter = adapterMessage
+        autoMaticAnswer(MessageModel("", getString(R.string.answer)))
+
+//        adapterMessage?.insertReceivedMessage(MessageModel("", getString(R.string.answer)))
 
 
 

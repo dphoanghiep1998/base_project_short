@@ -8,6 +8,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.databinding.LayoutItemMessageRece
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.LayoutItemMessageSendBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -17,9 +18,17 @@ class AdapterMessage : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var data: MutableList<MessageModel> = mutableListOf()
     private var loading = false
     private var scope = CoroutineScope(Dispatchers.Main)
+    private var mRecyclerView: RecyclerView? = null
+    private var job :Job ?= null
     fun insertMessage(messageModel: MessageModel) {
         data.add(messageModel)
         notifyItemInserted(data.size)
+        mRecyclerView?.smoothScrollToPosition(data.size)
+    }
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        mRecyclerView = recyclerView
     }
 
     fun setLoading(status: Boolean) {
@@ -29,10 +38,12 @@ class AdapterMessage : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun insertReceivedMessage(messageModel: MessageModel) {
         if (loading) {
+            job?.cancel()
             data.removeAt(data.size - 2)
         }
         data.add(messageModel)
         notifyItemInserted(data.size)
+        mRecyclerView?.smoothScrollToPosition(data.size)
     }
 
 
@@ -82,7 +93,7 @@ class AdapterMessage : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
             1 -> {
                 with(holder as MessageReceivedViewHolder) {
-                    scope.launch {
+                    job = scope.launch {
                         if (!loading) {
                             this.cancel()
                             return@launch
@@ -93,9 +104,10 @@ class AdapterMessage : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         binding.tvReceived.text = ".."
                         delay(500)
                         binding.tvReceived.text = "..."
-                        binding.tvReceived.text = data[position].contentReceived
+                        binding.tvReceived.text = data[data.size-1].contentReceived
                         loading = false
                     }
+                    job?.start()
                 }
             }
         }

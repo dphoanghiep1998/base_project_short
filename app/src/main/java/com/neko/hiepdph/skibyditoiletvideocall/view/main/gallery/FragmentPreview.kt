@@ -1,6 +1,7 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.gallery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
@@ -27,11 +27,12 @@ import kotlinx.coroutines.launch
 
 class FragmentPreview : Fragment() {
     private lateinit var binding: FragmentPreviewBinding
-    private var mPlayer: ExoPlayer? = null
-    private var mPlayer2: ExoPlayer? = null
     private val viewModel by activityViewModels<AppViewModel>()
     private val navArgs by navArgs<FragmentPreviewArgs>()
     private var job: Job? = null
+    private var isPause = false
+    private var isStarted = false
+    private var isDone = false
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -47,66 +48,87 @@ class FragmentPreview : Fragment() {
     }
 
     private fun initView() {
-        if (viewModel.getPlayer() == null) {
-            mPlayer = ExoPlayer.Builder(requireContext()).setSeekForwardIncrementMs(15000).build()
-            binding.playerView.apply {
-                player = mPlayer
-                keepScreenOn = true
 
-            }
-
-            viewModel.setupPlayer(mPlayer!!)
-
-        } else {
-            binding.playerView.apply {
-                player = viewModel.getPlayer()
-                keepScreenOn = true
-            }
+        binding.playerView.apply {
+            player = viewModel.getPlayer2()
+            keepScreenOn = true
         }
+        binding.cameraView.apply {
+            player = viewModel.getPlayer()
+            keepScreenOn = true
 
-        if (viewModel.getPlayer2() == null) {
-            mPlayer2 = ExoPlayer.Builder(requireContext()).setSeekForwardIncrementMs(15000).build()
-            binding.cameraView.apply {
-                player = mPlayer2
-                keepScreenOn = true
-
-            }
-            viewModel.setupPlayer2(mPlayer2!!)
-        } else {
-            binding.cameraView.apply {
-                player = viewModel.getPlayer2()
-                keepScreenOn = true
-
-            }
         }
-        viewModel.playAudio(MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(navArgs.galleryModel.videoPath)),
+        Log.d("TAG", "initView: "+navArgs.galleryModel.cameraVideoPath)
+        viewModel.playAudio(MediaItem.fromUri(navArgs.galleryModel.cameraVideoPath),
             onPrepareDone = {
-
-            },
-            onEnd = {
-
-            })
-
-        viewModel.playAudio2(MediaItem.fromUri(navArgs.galleryModel.cameraVideoPath),
-            onPrepareDone = {
-                updateSeekBar(viewModel.getPlayer2())
+                if (isStarted) {
+                    return@playAudio
+                }
+                isStarted = true
+                Log.d("TAG", "initView: ")
+                updateSeekBar(viewModel.getPlayer())
                 binding.btnPlayPause.setImageResource(R.drawable.ic_pause)
+                when (navArgs.galleryModel.videoType) {
+                    0 -> {
+                        viewModel.playAudio2(MediaItem.fromUri(
+                            RawResourceDataSource.buildRawResourceUri(
+                                R.raw.momo
+                            )
+                        ), onEnd = {})
+                    }
+
+                    1 -> {
+                        viewModel.playAudio2(MediaItem.fromUri(
+                            RawResourceDataSource.buildRawResourceUri(
+                                R.raw.nun
+                            )
+                        ), onEnd = {})
+                    }
+
+                    2 -> {
+                        viewModel.playAudio2(MediaItem.fromUri(
+                            RawResourceDataSource.buildRawResourceUri(
+                                R.raw.wednesday
+                            )
+                        ), onEnd = {})
+                    }
+
+                    3 -> {
+                        viewModel.playAudio2(MediaItem.fromUri(
+                            RawResourceDataSource.buildRawResourceUri(
+                                R.raw.mommy
+                            )
+                        ), onEnd = {})
+                    }
+
+                    4 -> {
+                        viewModel.playAudio2(MediaItem.fromUri(
+                            RawResourceDataSource.buildRawResourceUri(
+                                R.raw.john_porn
+                            )
+                        ), onEnd = {})
+                    }
+                }
             },
             onEnd = {
+                isDone = true
                 viewModel.pausePlayer()
+                viewModel.pausePlayer2()
                 job?.cancel()
                 binding.btnPlayPause.setImageResource(R.drawable.ic_play)
             })
+        viewModel.pausePlayer2()
 
         initButton()
     }
 
     private fun updateSeekBar(player: Player?) {
         player?.let {
+            Log.d("TAG", "updateSeekBar: " + it.duration.toInt())
             binding.progressVideo.max = it.duration.toInt()
             job?.cancel()
             job = lifecycleScope.launch(Dispatchers.Main) {
-                while (true) {
+                while (!isPause) {
                     binding.progressVideo.progress = it.currentPosition.toInt()
                     delay(10)
                 }
@@ -120,11 +142,16 @@ class FragmentPreview : Fragment() {
                 }
 
                 override fun onStopTrackingTouch(p0: SeekBar?) {
-                    viewModel.seekTo2(binding.progressVideo.progress.toLong())
-                    viewModel.seekTo1(binding.progressVideo.progress.toLong())
+                    Log.d("TAG", "onStopTrackingTouch: " + binding.progressVideo.progress.toLong())
+//                    viewModel.seekTo2(binding.progressVideo.progress.toLong())
+//                    viewModel.seekTo1(binding.progressVideo.progress.toLong())
+                    viewModel.getPlayer2()?.seekTo(binding.progressVideo.progress.toLong())
+                    viewModel.getPlayer()?.seekTo(binding.progressVideo.progress.toLong())
+
                 }
 
             })
+            job?.start()
         }
 
     }
@@ -135,14 +162,34 @@ class FragmentPreview : Fragment() {
             findNavController().popBackStack()
         }
         binding.btnPlayPause.clickWithDebounce {
-            if (viewModel.isPlaying()) {
+            if (viewModel.isPlaying2()) {
                 viewModel.pausePlayer()
+                viewModel.pausePlayer2()
+                isPause = true
                 binding.btnPlayPause.setImageResource(R.drawable.ic_play)
             } else {
+                isPause = false
                 binding.btnPlayPause.setImageResource(R.drawable.ic_pause)
-                viewModel.resumePlayer()
+                if (!isDone) {
+                    viewModel.resumePlayer()
+                    viewModel.resumePlayer2()
+                } else {
+                    viewModel.seekTo1(0)
+                    viewModel.seekTo2(0)
+                    isDone = false
+                }
+
+                updateSeekBar(viewModel.getPlayer())
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.pausePlayer()
+        viewModel.pausePlayer2()
+        isPause = true
+        binding.btnPlayPause.setImageResource(R.drawable.ic_play)
     }
 
     override fun onDestroy() {

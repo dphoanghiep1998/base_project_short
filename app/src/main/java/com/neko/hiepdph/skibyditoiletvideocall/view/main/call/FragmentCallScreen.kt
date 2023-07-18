@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.exoplayer2.ExoPlayer
@@ -62,14 +63,17 @@ class FragmentCallScreen : Fragment() {
                             4
                         )
                     )
-                findNavController().navigate(direction)
+                lifecycleScope.launchWhenResumed {
+                    findNavController().navigate(direction)
+                }
             } else {
-
                 val direction =
                     FragmentCallScreenDirections.actionFragmentCallScreenToFragmentScreenAccept(
                         args.characterModel
                     )
-                findNavController().navigate(direction)
+                lifecycleScope.launchWhenResumed {
+                    findNavController().navigate(direction)
+                }
             }
 
         }
@@ -82,15 +86,16 @@ class FragmentCallScreen : Fragment() {
     }
 
     private fun setupSound() {
-        if (viewModel.getPlayer() == null) {
-            mPlayer = ExoPlayer.Builder(requireContext()).setSeekForwardIncrementMs(15000).build()
-            viewModel.setupPlayer(mPlayer!!)
-        }
+
+
         val mediaItem =
             MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(R.raw.sound_phone_ring))
         runnable = Runnable {
             viewModel.pausePlayer()
-            navigateToPage(R.id.fragmentCallScreen, R.id.fragmentCallDecline)
+            lifecycleScope.launchWhenResumed {
+                findNavController().navigate( R.id.fragmentCallDecline)
+            }
+            handler = null
         }
         viewModel.playAudio(mediaItem, onEnd = {}, repeat = Player.REPEAT_MODE_ONE)
         handler = Handler(Looper.getMainLooper())
@@ -176,4 +181,16 @@ class FragmentCallScreen : Fragment() {
         viewModel.pausePlayer()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if(handler!=null){
+            viewModel.resumePlayer()
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("TAG", "onDestroyView: ")
+        runnable?.let { handler?.removeCallbacks (it) }
+    }
 }
