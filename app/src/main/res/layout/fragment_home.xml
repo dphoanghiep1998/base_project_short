@@ -70,8 +70,8 @@
     <ImageView
         android:layout_marginTop="@dimen/_20sdp"
         android:id="@+id/imv_flag"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="@dimen/_35sdp"
         app:layout_constraintEnd_toEndOf="@id/imv_other_Call"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView

@@ -148,85 +148,29 @@ class FragmentScreenAccept : Fragment() {
 
 
     private fun recordVideo() {
-        try {
-            binding.sufaceView.holder.addCallback(object : Callback {
-                override fun surfaceCreated(holder: SurfaceHolder) {
-                    try {
-                        val cameraId = getFrontCameraId()
-                        if (cameraId == -1) {
-                            return
-                        }
-                        camera = Camera.open(cameraId).also {
-                            camera?.setDisplayOrientation(90)
-                            camera?.setPreviewDisplay(holder)
-                            camera?.startPreview()
-                        }
-                        binding.sufaceView.visibility = View.VISIBLE
-                        binding.sufaceView.setZOrderMediaOverlay(true)
-                        binding.sufaceView.setZOrderOnTop(true)
-                        Log.d("TAG", "surfaceCreated: " +  binding.sufaceView.visibility)
-
-                    } catch (e: IOException) {
-                        Log.d("TAG", "surfaceCreated: co loii")
-                        e.printStackTrace()
-                    } catch (e: RuntimeException) {
-                        Log.d("TAG", "surfaceCreated: co loi")
-                        e.printStackTrace()
-                    }
-                }
-
-                override fun surfaceChanged(
-                    holder: SurfaceHolder, format: Int, width: Int, height: Int
-                ) {
-//                    if (holder.surface == null) {
-//                        return
-//                    }
-//                    try {
-//                        camera?.stopPreview()
-//                    } catch (e: Exception) {
-//                        e.printStackTrace()
-//
-//                    }
-//                    try {
-//                        camera?.setDisplayOrientation(90)
-//                        camera?.setPreviewDisplay(holder)
-//                        camera?.startPreview()
-//                    } catch (e: IOException) {
-//                        e.printStackTrace()
-//
-//                    }
-                }
-
-                override fun surfaceDestroyed(holder: SurfaceHolder) {
-                    releaseCamera()
-                }
-
-            })
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        binding.sufaceView.openAsync(getFrontCameraId())
     }
 
     private fun startRecording() {
         try {
-            mediaRecorder = MediaRecorder()
-
-            camera?.unlock()
-            mediaRecorder?.setCamera(camera)
-
-            mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
-            mediaRecorder?.setVideoSource(MediaRecorder.VideoSource.CAMERA)
-
-            mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-            mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-            mediaRecorder?.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP)
-            path = getOutputMediaFile()?.path.toString()
-            mediaRecorder?.setOutputFile(path)
-
-            mediaRecorder?.setPreviewDisplay(binding.sufaceView.holder.surface)
-            mediaRecorder?.setOrientationHint(270)
-            mediaRecorder?.prepare()
-            mediaRecorder?.start()
+//            mediaRecorder = MediaRecorder()
+//
+//            camera?.unlock()
+//            mediaRecorder?.setCamera(camera)
+//
+//            mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+//            mediaRecorder?.setVideoSource(MediaRecorder.VideoSource.CAMERA)
+//
+//            mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+//            mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+//            mediaRecorder?.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP)
+//            path = getOutputMediaFile()?.path.toString()
+//            mediaRecorder?.setOutputFile(path)
+//
+//            mediaRecorder?.setPreviewDisplay(binding.sufaceView.surface)
+//            mediaRecorder?.setOrientationHint(270)
+//            mediaRecorder?.prepare()
+//            mediaRecorder?.start()
 
         } catch (e: IOException) {
             Log.d("TAG", "startRecording: " + e)
