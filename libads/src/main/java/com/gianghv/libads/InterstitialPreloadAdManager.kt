@@ -5,18 +5,17 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.gianghv.libads.utils.AdsConfigUtils
 import com.gianghv.libads.utils.Constants
 import com.gianghv.libads.utils.Utils
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
-
 class InterstitialPreloadAdManager constructor(
     private val context: Context,
     private val mIdAdsFull01: String,
-    private val mIdAdsFull02: String,
-    private val mIdAdsFull03: String
+    private val mIdAdsFull02: String
 ) {
     companion object {
         var isShowingAds = false
@@ -28,12 +27,6 @@ class InterstitialPreloadAdManager constructor(
     var loadAdsSuccess = false
 
 
-    fun initAds() {
-        val requestConfiguration = RequestConfiguration.Builder().build()
-        MobileAds.setRequestConfiguration(requestConfiguration)
-        loadAds()
-    }
-
 
     fun loadAds(
         onAdLoader: (() -> Unit)? = null, onAdLoadFail: (() -> Unit)? = null
@@ -42,27 +35,33 @@ class InterstitialPreloadAdManager constructor(
             onAdLoadFail?.invoke()
             return
         }
+        val requestConfiguration = RequestConfiguration.Builder().build()
+        MobileAds.setRequestConfiguration(requestConfiguration)
         handler = Handler(Looper.getMainLooper())
         runable = Runnable {
-            if (handler != null && !loadAdsSuccess) {
+            if (handler != null) {
                 onAdLoadFail?.invoke()
-                handler = null
             }
         }
-
         handler?.postDelayed(runable!!, Constants.TIME_OUT)
-        requestAdsPrepare(mIdAdsFull01, onAdLoader, onAdLoadFail = {
-            Log.d("TAG", "loadAds1: ")
-            requestAdsPrepare(mIdAdsFull02, onAdLoader, onAdLoadFail = {
-                Log.d("TAG", "loadAds2: ")
-                requestAdsPrepare(mIdAdsFull03, onAdLoader, onAdLoadFail = {
-                    Log.d("TAG", "loadAds3: ")
+
+        if (AdsConfigUtils(context).getDefConfigNumber() == 1) {
+            requestAdsPrepare(mIdAdsFull01, onAdLoader, onAdLoadFail = {
+                requestAdsPrepare(mIdAdsFull02, onAdLoader, onAdLoadFail = {
                     runable?.let { handler?.removeCallbacks(it) }
                     handler = null
                     onAdLoadFail?.invoke()
                 })
             })
-        })
+        } else {
+            requestAdsPrepare(mIdAdsFull02, onAdLoader, onAdLoadFail = {
+                requestAdsPrepare(mIdAdsFull01, onAdLoader, onAdLoadFail = {
+                    runable?.let { handler?.removeCallbacks(it) }
+                    handler = null
+                    onAdLoadFail?.invoke()
+                })
+            })
+        }
     }
 
     private fun requestAdsPrepare(
@@ -71,7 +70,6 @@ class InterstitialPreloadAdManager constructor(
         if (handler == null) {
             return
         }
-
         val adRequest = AdRequest.Builder().build()
         InterstitialAd.load(context, idAds, adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
@@ -83,9 +81,10 @@ class InterstitialPreloadAdManager constructor(
                 if (handler == null) {
                     return
                 }
+                runable?.let { handler?.removeCallbacks(it) }
+                handler = null
                 mInterstitialAd = interstitialAd
                 onAdLoader?.invoke()
-                handler = null
             }
         })
     }
@@ -97,8 +96,8 @@ class InterstitialPreloadAdManager constructor(
                 override fun onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent()
                     callBack?.onClose()
-                    loadAds()
                     isShowingAds = false
+
                 }
 
                 override fun onAdFailedToShowFullScreenContent(p0: AdError) {
@@ -115,12 +114,11 @@ class InterstitialPreloadAdManager constructor(
 
             }
             mInterstitialAd?.setOnPaidEventListener {
-                Utils.postRevenueAdjust(it, "Preload")
+                Utils.postRevenueAdjust(it, mInterstitialAd?.adUnitId)
             }
             mInterstitialAd?.show(activity) ?: callBack?.onError()
         } else {
             callBack?.onError()
-//            loadAds()
         }
     }
 
@@ -128,4 +126,6 @@ class InterstitialPreloadAdManager constructor(
         fun onClose()
         fun onError()
     }
+
+
 }

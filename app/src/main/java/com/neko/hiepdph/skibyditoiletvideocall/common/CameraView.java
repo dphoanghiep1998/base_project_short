@@ -278,7 +278,7 @@ public class CameraView extends FrameLayout {
 
     private File getOutputMediaFile() {
         File mediaStorageDir = new File(
-                Environment.getExternalStorageDirectory(), "video"
+               getContext().getFilesDir(), "video"
         );
 
         if (!mediaStorageDir.exists()) {

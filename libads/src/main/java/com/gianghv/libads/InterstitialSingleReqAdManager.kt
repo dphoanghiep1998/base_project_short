@@ -5,17 +5,18 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.gianghv.libads.utils.AdsConfigUtils
 import com.gianghv.libads.utils.Constants
 import com.gianghv.libads.utils.Utils
 import com.google.android.gms.ads.*
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
+
 class InterstitialSingleReqAdManager constructor(
     private val context: Context,
     private val mIdAdsFull01: String,
-    private val mIdAdsFull02: String,
-    private val mIdAdsFull03: String
+    private val mIdAdsFull02: String
 ) {
     companion object {
         var isShowingAds = false
@@ -60,15 +61,23 @@ class InterstitialSingleReqAdManager constructor(
     fun loadAds(
         onAdLoader: (() -> Unit)? = null, onAdLoadFail: (() -> Unit)? = null
     ) {
-        requestAdsPrepare(mIdAdsFull01, onAdLoader, onAdLoadFail = {
-            requestAdsPrepare(mIdAdsFull02, onAdLoader, onAdLoadFail = {
-                requestAdsPrepare(mIdAdsFull03, onAdLoader, onAdLoadFail = {
+        if (AdsConfigUtils(context).getDefConfigNumber() == 1) {
+            requestAdsPrepare(mIdAdsFull01, onAdLoader, onAdLoadFail = {
+                requestAdsPrepare(mIdAdsFull02, onAdLoader, onAdLoadFail = {
                     runable?.let { handler?.removeCallbacks(it) }
                     handler = null
                     onAdLoadFail?.invoke()
                 })
             })
-        })
+        } else {
+            requestAdsPrepare(mIdAdsFull02, onAdLoader, onAdLoadFail = {
+                requestAdsPrepare(mIdAdsFull01, onAdLoader, onAdLoadFail = {
+                    runable?.let { handler?.removeCallbacks(it) }
+                    handler = null
+                    onAdLoadFail?.invoke()
+                })
+            })
+        }
     }
 
     private fun requestAdsPrepare(
@@ -83,11 +92,13 @@ class InterstitialSingleReqAdManager constructor(
         val adRequest = AdRequest.Builder().build()
         InterstitialAd.load(context, idAds, adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(adError: LoadAdError) {
+                Log.e("FullScreenContent","onAdFailedToLoad")
                 mInterstitialAd = null
                 onAdLoadFail?.invoke()
             }
 
             override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                Log.e("FullScreenContent","onAdLoaded")
                 runable?.let { handler?.removeCallbacks(it) }
                 mInterstitialAd = interstitialAd
                 if (handler == null) {
@@ -108,12 +119,15 @@ class InterstitialSingleReqAdManager constructor(
             mInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                 override fun onAdDismissedFullScreenContent() {
                     super.onAdDismissedFullScreenContent()
+                    Log.e("FullScreenContent","onAdDismissedFullScreenContent")
                     listener.onAdsClose()
                 }
 
                 override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                     super.onAdFailedToShowFullScreenContent(p0)
-                    mInterstitialAd?.show(activity)
+                    isShowingAds = false
+                    Log.e("FullScreenContent","onAdFailedToShowFullScreenContent")
+                    listener.onAdsClose()
                 }
 
                 override fun onAdShowedFullScreenContent() {
@@ -121,7 +135,7 @@ class InterstitialSingleReqAdManager constructor(
                 }
             }
             mInterstitialAd?.setOnPaidEventListener {
-                Utils.postRevenueAdjust(it, "InterSingle")
+                Utils.postRevenueAdjust(it, mInterstitialAd?.adUnitId)
             }
             mInterstitialAd?.show(activity)
         } else {

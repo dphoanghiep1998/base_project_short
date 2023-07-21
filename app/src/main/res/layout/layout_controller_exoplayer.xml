@@ -22,7 +22,7 @@
         android:layout_marginStart="@dimen/_12sdp"
         android:layout_marginTop="@dimen/_12sdp"
         android:src="@drawable/ic_back"
-        android:foreground="?selectableItemBackgroundBorderless"
+        android:foreground="@drawable/ripple_effect_fg_round"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -32,7 +32,7 @@
         android:layout_height="@dimen/_30sdp"
         android:layout_marginEnd="@dimen/_12sdp"
         android:layout_marginTop="@dimen/_12sdp"
-        android:foreground="?selectableItemBackgroundBorderless"
+        android:foreground="@drawable/ripple_effect_fg_round"
         android:src="@drawable/ic_volume_up"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/list_video" />
@@ -43,7 +43,7 @@
         android:layout_height="@dimen/_40sdp"
         android:layout_marginBottom="@dimen/_20sdp"
         android:src="@drawable/ic_play_again"
-        android:foreground="?selectableItemBackgroundBorderless"
+        android:foreground="@drawable/ripple_effect_fg_round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/container_play"
         app:layout_constraintStart_toStartOf="parent" />
@@ -61,14 +61,15 @@
             android:id="@+id/exo_play"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:foreground="?selectableItemBackgroundBorderless"
+                    android:foreground="@drawable/ripple_effect_fg_round"
+
             android:src="@drawable/ic_play" />
 
         <ImageView
             android:id="@+id/exo_pause"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:foreground="?selectableItemBackgroundBorderless"
+            android:foreground="@drawable/ripple_effect_fg_round"
             android:src="@drawable/ic_pause" />
     </FrameLayout>
 
@@ -77,7 +78,7 @@
         android:id="@+id/next"
         android:layout_width="@dimen/_40sdp"
         android:layout_height="@dimen/_40sdp"
-        android:foreground="?selectableItemBackgroundBorderless"
+        android:foreground="@drawable/ripple_effect_fg_round"
         android:src="@drawable/ic_next"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/container_play"

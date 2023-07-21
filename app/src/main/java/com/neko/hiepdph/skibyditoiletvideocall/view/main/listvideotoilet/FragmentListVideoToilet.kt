@@ -58,14 +58,14 @@ class FragmentListVideoToilet : Fragment() {
             findNavController().popBackStack()
         }, onClickRewardAdsItem = { monsterModel, position ->
             val dialogConfirm = DialogConfirm(requireContext(), onPressPositive = {
-                showRewardAds(actionSuccess = {
+                showRewardAds(actionDoneWhenAdsNotComplete = {}, actionSuccess = {
                     viewModel.setCurrentModel(monsterModel)
                     findNavController().popBackStack()
                 }, actionFailed = {
                     Toast.makeText(
                         requireContext(), getString(R.string.require_internet), Toast.LENGTH_SHORT
                     ).show()
-                }, RewardAdsEnum.VIDEO)
+                }, type = RewardAdsEnum.VIDEO)
             })
             dialogConfirm.show()
         })

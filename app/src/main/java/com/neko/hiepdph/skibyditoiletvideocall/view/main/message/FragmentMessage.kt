@@ -10,25 +10,32 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.MessageModel
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentMessageBinding
+import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 
 class FragmentMessage : Fragment() {
     private lateinit var binding: FragmentMessageBinding
     private var adapterMessage: AdapterMessage? = null
     private var adapterScripted: AdapterScripted? = null
     private var action: (() -> Unit)? = null
-
+    private var isSeekBarBeingUpdated = false
+    private var isRecyclerViewBeingScrolled = false
+    private val viewModel by activityViewModels<AppViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -90,10 +97,15 @@ class FragmentMessage : Fragment() {
             MessageModel(getString(R.string.question_18), getString(R.string.answer_18)),
             MessageModel(getString(R.string.question_19), getString(R.string.answer_19)),
             MessageModel(getString(R.string.question_20), getString(R.string.answer_20)),
-            )
+        )
 
 
-        adapterMessage = AdapterMessage()
+        adapterMessage = AdapterMessage(onLoadDone = {
+            viewModel.playAudio(MediaItem.fromUri(
+                RawResourceDataSource.buildRawResourceUri(
+                    R.raw.sound_received
+                )), onEnd = {})
+        })
         val linearLayoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.rcvMessage.layoutManager = linearLayoutManager
@@ -101,8 +113,13 @@ class FragmentMessage : Fragment() {
         autoMaticAnswer(MessageModel("", getString(R.string.answer)))
 
         adapterScripted = AdapterScripted(onClickScriptedItem = {
+
             it.isSent = true
             adapterMessage?.insertMessage(it)
+            viewModel.playAudio(MediaItem.fromUri(
+                RawResourceDataSource.buildRawResourceUri(
+                    R.raw.sound_send
+                )), onEnd = {})
             autoMaticAnswer(it)
         })
         val linearLayoutManagerScripted =
@@ -111,6 +128,64 @@ class FragmentMessage : Fragment() {
         binding.rcvScripted.adapter = adapterScripted
 
         adapterScripted?.setData(data)
+        binding.rcvScripted.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (!isSeekBarBeingUpdated) {
+                    // Get the total width of the content in the RecyclerView
+                    val totalWidth = recyclerView.computeHorizontalScrollRange()
+                    // Get the current horizontal scroll position
+                    val scrollX = recyclerView.computeHorizontalScrollOffset()
+                    // Get the width of the RecyclerView's visible area
+                    val visibleWidth = recyclerView.computeHorizontalScrollExtent()
+                    // Calculate the progress for the SeekBar based on the scroll position
+                    val progress =
+                        (scrollX.toFloat() / (totalWidth - visibleWidth) * binding.scrollbar.max).toInt()
+                    // Update the SeekBar progress without triggering onSeekBarChangeListener
+                    isSeekBarBeingUpdated = true
+                    binding.scrollbar.progress = progress
+                    isSeekBarBeingUpdated = false
+                }
+            }
+        })
+        var previous = 0
+//        binding.scrollbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+//            override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+//                val totalWidth: Int = binding.rcvScripted.computeHorizontalScrollRange()
+//                // Get the width of the RecyclerView's visible area
+//                val visibleWidth: Int = binding.rcvScripted.computeHorizontalScrollExtent()
+//                // Calculate the scroll position for the RecyclerView based on the SeekBar progress
+//                if(p1 == binding.scrollbar.max){
+//                    (binding.rcvScripted.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+//                        0, -totalWidth
+//                    )
+//                    return
+//                }
+//                if (p1 > previous) {
+//                    val scrollX =
+//                        (binding.scrollbar.progress.toFloat() / binding.scrollbar.max.toFloat() * (totalWidth - visibleWidth))
+//                    (binding.rcvScripted.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+//                        0, scrollX.toInt() * -1
+//                    )
+//                } else {
+//                    val scrollX =
+//                        (binding.scrollbar.progress.toFloat() / binding.scrollbar.max.toFloat() * (visibleWidth - totalWidth))
+//                    (binding.rcvScripted.layoutManager as LinearLayoutManager).scrollToPositionWithOffset(
+//                        0, scrollX.toInt()
+//                    )
+//                }
+//                previous = p1
+//
+//            }
+//
+//            override fun onStartTrackingTouch(p0: SeekBar?) {
+////                isRecyclerViewBeingScrolled = true
+//            }
+//
+//            override fun onStopTrackingTouch(p0: SeekBar?) {
+//                isRecyclerViewBeingScrolled = false
+//            }
+//        })
     }
 
     private fun autoMaticAnswer(model: MessageModel) {
@@ -118,6 +193,7 @@ class FragmentMessage : Fragment() {
         newModel.isSent = false
         adapterMessage?.insertReceivedMessage(newModel)
         adapterMessage?.setLoading(true)
+
     }
 
     private fun checkPermission(action: (() -> Unit)? = null) {

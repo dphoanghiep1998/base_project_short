@@ -8,7 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.gianghv.libads.NativeAdsManager
+import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference.Companion.INSTANCE
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
@@ -21,12 +26,8 @@ import kotlin.system.exitProcess
 
 class FragmentLanguage : Fragment() {
     private lateinit var binding: FragmentLanguageBinding
-    private var currentLanguage = INSTANCE.getSavedLanguage(Locale.getDefault().language)
-
+    private var currentLanguage = Locale.getDefault().language
     private var adapter: AdapterLanguage? = null
-    private var handler: Handler? = null
-    private var runnable: Runnable? = null
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -42,28 +43,14 @@ class FragmentLanguage : Fragment() {
         changeBackPressCallBack()
     }
 
-    private fun changeBackPressCallBack() {
-        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                requireActivity().finishActivity(0)
-                exitProcess(-1)
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
-    }
-
     private fun initView() {
-        val mLanguageList: MutableList<Any> = supportedLanguages().toMutableList()
-        handleUnSupportLang(mLanguageList)
-
         initRecyclerView()
         initButton()
     }
 
     private fun initButton() {
+
         binding.btnCheck.clickWithDebounce {
-            requireContext().pushEvent("click_language_save")
             INSTANCE.saveIsSetLangFirst(true)
             INSTANCE.saveLanguage(currentLanguage)
             startActivity(requireActivity().intent)
@@ -76,25 +63,15 @@ class FragmentLanguage : Fragment() {
     private fun initRecyclerView() {
         val mLanguageList: MutableList<Any> = supportedLanguages().toMutableList()
         val mDisplayLangList: MutableList<Any> = supportDisplayLang().toMutableList()
-
-        mLanguageList.add(1, "adsApp")
-        mDisplayLangList.add(1, "adsApp")
-
-        adapter = AdapterLanguage(requireContext(), onCLickItem = {
-            Log.d("TAG", "initRecyclerView: ")
+        handleUnSupportLang(mLanguageList)
+        adapter = AdapterLanguage(requireContext(), onClickLanguage = {
             currentLanguage = it.language
-//            if (!INSTANCE.getSetLangFirst(false)) {
-//
-//                handler?.postDelayed(
-//                    runnable!!, 10000
-//                )
-//            }
         })
         adapter?.setData(mLanguageList, mDisplayLangList)
         binding.rcvLanguage.adapter = adapter
-        binding.rcvLanguage.layoutManager = LinearLayoutManager(requireContext())
+        binding.rcvLanguage.layoutManager =
+            GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         adapter?.setCurrentLanguage(getCurrentLanguage())
-
         insertAds()
     }
 
@@ -108,9 +85,7 @@ class FragmentLanguage : Fragment() {
             }
         }
         if (!support) {
-            if (!INSTANCE.getSetLangFirst(false)) {
-                currentLanguage = (mLanguageList[0] as Locale).language
-            }
+            currentLanguage = (mLanguageList[0] as Locale).language
         }
     }
 
@@ -119,23 +94,41 @@ class FragmentLanguage : Fragment() {
     }
 
     private fun insertAds() {
+        if (CustomApplication.app.mNativeAdManagerLanguage == null) {
+            CustomApplication.app.mNativeAdManagerLanguage = NativeAdsManager(
+                requireContext(), BuildConfig.native_language_id, BuildConfig.native_language_id2
+            )
+        }
         CustomApplication.app.nativeADLanguage?.observe(viewLifecycleOwner) {
             it?.let {
-                adapter?.insertAds(it)
+                Log.d("TAG", "insertAds: " + it)
+                binding.nativeAdMediumView.showShimmer(false)
+                binding.nativeAdMediumView.setNativeAd(it)
+                binding.nativeAdMediumView.visibility = View.VISIBLE
+            }
+            if (it == null) {
+                with(binding.nativeAdMediumView) {
+                    visibility = View.GONE
+                    showShimmer(true)
+                }
             }
         }
-        if (CustomApplication.app.nativeADLanguage?.value == null) {
-            CustomApplication.app.mNativeAdManagerLanguage?.loadAds(onLoadSuccess = {
-                CustomApplication.app.nativeADLanguage?.value = it
-            })
+        CustomApplication.app.mNativeAdManagerLanguage?.loadAds(onLoadSuccess = {
+            CustomApplication.app.nativeADLanguage?.value = it
+        })
+    }
+
+    private fun changeBackPressCallBack() {
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (!INSTANCE.getSetLangFirst(false)) {
+                    requireActivity().finishAffinity()
+                } else {
+                    findNavController().popBackStack()
+                }
+            }
         }
-    }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
-    override fun onDestroy() {
-        super.onDestroy()
-        runnable?.let { handler?.removeCallbacks(it) }
-        runnable = null
-        handler = null
     }
-
 }

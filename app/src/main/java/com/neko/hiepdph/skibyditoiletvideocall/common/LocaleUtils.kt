@@ -16,6 +16,7 @@ private object LocaleUtils {
 
     val supportedLocales: MutableList<Locale> = mutableListOf(
         ENGLISH,
+        VIETNAMESE,
         FRENCH,
         INDIA,
         JAPANESE,
@@ -29,6 +30,7 @@ private object LocaleUtils {
 
     val supportLanguages: MutableList<Pair<Int, Int>> = mutableListOf(
         Pair(R.string.ENGLISH, R.drawable.ic_language_english),
+        Pair(R.string.VIETNAM, R.drawable.ic_language_vietnam),
         Pair(R.string.FRENCH, R.drawable.ic_language_french),
         Pair(R.string.INDIA, R.drawable.ic_language_hindi),
         Pair(R.string.JAPANESE, R.drawable.ic_language_japan),
@@ -43,6 +45,7 @@ private object LocaleUtils {
 
 val ITALIA = Locale("it")
 val ENGLISH = Locale("en")
+val VIETNAMESE = Locale("vi")
 val JAPANESE = Locale("ja")
 val KOREAN = Locale("ko")
 val FRENCH = Locale("fr")

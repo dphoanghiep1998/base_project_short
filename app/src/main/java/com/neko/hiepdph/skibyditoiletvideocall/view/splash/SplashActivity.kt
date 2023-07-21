@@ -1,6 +1,7 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.splash
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
@@ -13,8 +14,12 @@ import com.gianghv.libads.InterstitialPreloadAdManager
 import com.gianghv.libads.InterstitialSingleReqAdManager
 import com.gianghv.libads.NativeAdsManager
 import com.gianghv.libads.RewardAdsManager
+import com.gianghv.libads.utils.AdsConfigUtils
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
+import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
 import com.neko.hiepdph.skibyditoiletvideocall.common.DialogFragmentLoadingInterAds
 import com.neko.hiepdph.skibyditoiletvideocall.common.changeStatusBarColor
@@ -31,13 +36,14 @@ import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
+
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
 
     private var status = 0
     private val initDone = AppSharePreference.INSTANCE.getSetLangFirst(false)
     private lateinit var app: CustomApplication
-    private var dialogLoadingInterAds: DialogFragmentLoadingInterAds? = null
+    private var dialogLoadingInterAds: Dialog? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,10 +51,36 @@ class SplashActivity : AppCompatActivity() {
         app = application as CustomApplication
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        dialogLoadingInterAds = DialogFragmentLoadingInterAds()
+        dialogLoadingInterAds = DialogFragmentLoadingInterAds().onCreateDialog(this)
+        fetchRemoteConfig()
         initAds()
         handleAds()
         changeStatusBarColor()
+        CustomApplication.app.adsShowed = false
+    }
+    private fun fetchRemoteConfig() {
+        val mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
+        val configSettings = FirebaseRemoteConfigSettings.Builder()
+            .setMinimumFetchIntervalInSeconds(3600)
+            .build()
+        mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
+        mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
+
+        mFirebaseRemoteConfig.fetchAndActivate()
+            .addOnCompleteListener(this) { task ->
+                val defPos = FirebaseRemoteConfig.getInstance()
+                    .getLong(AdsConfigUtils.DEF_POS)
+                AdsConfigUtils(this).putDefConfigNumber(defPos.toInt())
+                checkFinishPermission()
+            }.addOnFailureListener {
+                AdsConfigUtils(this).putDefConfigNumber(AdsConfigUtils.DEF_POS_VALUE)
+                checkFinishPermission()
+            }
+    }
+
+    private fun checkFinishPermission() {
+        status++
+        checkAdsLoad()
     }
 
     private fun initAds() {
@@ -56,7 +88,6 @@ class SplashActivity : AppCompatActivity() {
             this,
             BuildConfig.inter_splash_id,
             BuildConfig.inter_splash_id2,
-            BuildConfig.inter_splash_id3,
         )
 
 
@@ -64,55 +95,33 @@ class SplashActivity : AppCompatActivity() {
             this,
             BuildConfig.native_intro_id,
             BuildConfig.native_intro_id2,
-            BuildConfig.native_intro_id3,
         )
 
         CustomApplication.app.mNativeAdManagerHome = NativeAdsManager(
             this,
             BuildConfig.native_video_id,
             BuildConfig.native_video_id2,
-            BuildConfig.native_video_id3,
         )
     }
 
     private val callback = object : InterstitialPreloadAdManager.InterstitialAdListener {
         override fun onClose() {
+            CustomApplication.app.adsShowed = true
             navigateMain()
         }
 
         override fun onError() {
+            CustomApplication.app.adsShowed = true
             navigateMain()
         }
     }
 
     private fun checkAdsLoad() {
-
-        if (initDone && status >= 2) {
+        if (status == 2) {
             if (CustomApplication.app.interstitialPreloadAdManager?.loadAdsSuccess == true) {
                 handleAtLeast3Second(action = {
                     lifecycleScope.launchWhenResumed {
-                        dialogLoadingInterAds?.show(
-                            supportFragmentManager, dialogLoadingInterAds?.tag
-                        )
-                        lifecycleScope.launch(Dispatchers.Main) {
-                            delay(500)
-                            CustomApplication.app.interstitialPreloadAdManager?.showAds(
-                                this@SplashActivity, callback
-                            )
-                        }
-                    }
-
-                })
-            } else {
-                navigateMain()
-            }
-        } else if (status >= 3) {
-            if (CustomApplication.app.interstitialPreloadAdManager?.loadAdsSuccess == true) {
-                handleAtLeast3Second(action = {
-                    lifecycleScope.launchWhenResumed {
-                        dialogLoadingInterAds?.show(
-                            supportFragmentManager, dialogLoadingInterAds?.tag
-                        )
+                        dialogLoadingInterAds?.show()
                         delay(500)
                         CustomApplication.app.interstitialPreloadAdManager?.showAds(
                             this@SplashActivity, callback
@@ -123,8 +132,6 @@ class SplashActivity : AppCompatActivity() {
             } else {
                 navigateMain()
             }
-
-
         }
     }
 
@@ -135,18 +142,9 @@ class SplashActivity : AppCompatActivity() {
                 navigateMain()
             })
         } else {
-            if (initDone) {
-                Handler().postDelayed({
-                    loadSplashAds()
-                    loadNativeHomeAds()
-                }, 1000)
-            } else {
-                Handler().postDelayed({
-                    loadSplashAds()
-                    loadNativeIntroAds()
-                    loadNativeHomeAds()
-                }, 1000)
-            }
+            Handler().postDelayed({
+                loadSplashAds()
+            }, 1000)
         }
     }
 
@@ -171,35 +169,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
 
-    private fun loadNativeIntroAds() {
-        CustomApplication.app.mNativeAdManagerIntro?.loadAds(onLoadSuccess = {
-            app.nativeADIntro?.value = it
-            status++
-            if (!CustomApplication.app.adsShowed) {
-                checkAdsLoad()
-            }
-        }, onLoadFail = {
-            status++
-            if (!CustomApplication.app.adsShowed) {
-                checkAdsLoad()
-            }
-        })
-    }
 
-    private fun loadNativeHomeAds() {
-        CustomApplication.app.mNativeAdManagerHome?.loadAds(onLoadSuccess = {
-            app.nativeADHome?.value = it
-            status++
-            if (!CustomApplication.app.adsShowed) {
-                checkAdsLoad()
-            }
-        }, onLoadFail = {
-            status++
-            if (!CustomApplication.app.adsShowed) {
-                checkAdsLoad()
-            }
-        })
-    }
+
 
     private fun handleAtLeast3Second(action: () -> Unit) {
         Handler().postDelayed({
@@ -211,11 +182,15 @@ class SplashActivity : AppCompatActivity() {
         CustomApplication.app.interstitialPreloadAdManager?.loadAds(onAdLoadFail = {
             status++
             CustomApplication.app.interstitialPreloadAdManager?.loadAdsSuccess = false
-            checkAdsLoad()
+            if (!CustomApplication.app.adsShowed) {
+                checkAdsLoad()
+            }
         }, onAdLoader = {
             status++
             CustomApplication.app.interstitialPreloadAdManager?.loadAdsSuccess = true
-            checkAdsLoad()
+            if (!CustomApplication.app.adsShowed) {
+                checkAdsLoad()
+            }
         })
     }
 
@@ -245,5 +220,9 @@ class SplashActivity : AppCompatActivity() {
         InterstitialPreloadAdManager.isShowingAds = false
         InterstitialSingleReqAdManager.isShowingAds = false
         RewardAdsManager.isShowing = false
+        CustomApplication.app.interstitialPreloadAdManager = null
+        dialogLoadingInterAds?.dismiss()
+
     }
+
 }

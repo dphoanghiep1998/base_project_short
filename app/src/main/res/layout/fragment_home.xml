@@ -9,39 +9,43 @@
 
     <ImageView
         android:id="@+id/video_call"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_marginBottom="@dimen/_50sdp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_marginBottom="@dimen/_80sdp"
         android:src="@drawable/ic_video_call"
+        android:foreground="@drawable/ripple_effect_fg_round"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/message"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/message"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
         android:src="@drawable/ic_message"
+        android:foreground="@drawable/ripple_effect_fg_round"
         app:layout_constraintBottom_toBottomOf="@id/video_call"
         app:layout_constraintEnd_toStartOf="@id/call"
         app:layout_constraintStart_toEndOf="@id/video_call" />
 
     <ImageView
         android:id="@+id/call"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
         android:src="@drawable/ic_call"
+        android:foreground="@drawable/ripple_effect_fg_round"
         app:layout_constraintBottom_toBottomOf="@id/video_call"
         app:layout_constraintEnd_toStartOf="@id/gallery"
         app:layout_constraintStart_toEndOf="@id/message" />
 
     <ImageView
         android:id="@+id/gallery"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
         android:src="@drawable/ic_gallery"
         app:layout_constraintBottom_toBottomOf="@id/video_call"
         app:layout_constraintEnd_toEndOf="parent"
+        android:foreground="@drawable/ripple_effect_fg_round"
         app:layout_constraintStart_toEndOf="@id/call" />
 
     <TextView
@@ -59,10 +63,11 @@
 
     <ImageView
         android:id="@+id/imv_toilet_video"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
         android:src="@drawable/ic_video_toilet"
         android:layout_marginBottom="@dimen/_6sdp"
+        android:foreground="@drawable/ripple_effect_fg_round"
         app:layout_constraintBottom_toTopOf="@id/tv_skibidy_video"
         app:layout_constraintEnd_toEndOf="@id/tv_skibidy_video"
         app:layout_constraintStart_toStartOf="@id/tv_skibidy_video" />
@@ -72,6 +77,7 @@
         android:id="@+id/imv_flag"
         android:layout_width="@dimen/_35sdp"
         android:layout_height="@dimen/_35sdp"
+        android:foreground="@drawable/ripple_effect_fg_round"
         app:layout_constraintEnd_toEndOf="@id/imv_other_Call"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
@@ -88,10 +94,11 @@
 
     <ImageView
         android:id="@+id/imv_other_Call"
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
         android:src="@drawable/ic_video_other_call"
         android:layout_marginBottom="@dimen/_6sdp"
+        android:foreground="@drawable/ripple_effect_fg_round"
         app:layout_constraintBottom_toTopOf="@id/tv_other_call"
         app:layout_constraintEnd_toEndOf="@id/tv_other_call"
         app:layout_constraintStart_toStartOf="@id/tv_other_call" />

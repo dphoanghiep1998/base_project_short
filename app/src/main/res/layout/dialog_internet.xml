@@ -37,7 +37,7 @@
 
 
         <TextView
-            android:id="@+id/btn_accept"
+            android:id="@+id/btnAccept"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"

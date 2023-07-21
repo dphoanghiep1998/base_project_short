@@ -87,8 +87,8 @@
         app:np_textSize="@dimen/_20sdp" />
 
     <ImageView
-        android:layout_width="@dimen/_40sdp"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:id="@+id/imv_call_video"
         android:foreground="?selectableItemBackgroundBorderless"

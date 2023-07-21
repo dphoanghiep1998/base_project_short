@@ -1,5 +1,6 @@
 package com.neko.hiepdph.skibyditoiletvideocall.common
 
+import android.app.Activity
 import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
@@ -8,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.view.WindowManager
+import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.DialogFragment
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.DialogInternetBinding
@@ -15,13 +18,13 @@ import com.neko.hiepdph.skibyditoiletvideocall.databinding.DialogInternetBinding
 
 class DialogInternet(
     private val onPressPositive: (() -> Unit),
-) : DialogFragment(), BackPressDialogCallBack {
-    private lateinit var binding: DialogInternetBinding
+) {
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialog = DialogCallBack(requireContext(),this)
+    fun onCreateDialog(activity: Activity): Dialog {
+        val dialog = Dialog(activity)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.dialog_load_ads)
+        dialog.setContentView(R.layout.dialog_internet)
+
         val window = dialog.window
         val wlp = window!!.attributes
         wlp.gravity = Gravity.CENTER
@@ -32,37 +35,17 @@ class DialogInternet(
         dialog.window!!.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT
         )
+        initView(dialog)
         return dialog
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
-        binding = DialogInternetBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initView()
-    }
-
-    private fun initView() {
-        binding.btnAccept.clickWithDebounce {
+    private fun initView(dialog: Dialog) {
+        dialog.findViewById<TextView>(R.id.btnAccept).clickWithDebounce {
             onPressPositive.invoke()
         }
-        binding.containerMain.clickWithDebounce {
+        dialog.findViewById<ConstraintLayout>(R.id.container_main).clickWithDebounce {
 
         }
-
-        binding.root.clickWithDebounce {}
-    }
-
-    override fun shouldInterceptBackPress(): Boolean {
-        return true
-    }
-
-    override fun onBackPressIntercepted() {
 
     }
 

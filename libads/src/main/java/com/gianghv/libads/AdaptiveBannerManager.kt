@@ -1,30 +1,28 @@
 package com.gianghv.libads
 
 import android.app.Activity
-import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.DisplayMetrics
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import com.gianghv.libads.utils.AppLogger
-import com.gianghv.libads.utils.Constants
+import com.gianghv.libads.utils.AdsConfigUtils
 import com.gianghv.libads.utils.Utils
 import com.google.ads.mediation.admob.AdMobAdapter
-import com.google.android.gms.ads.*
-import com.google.android.gms.ads.admanager.AdManagerAdRequest
+import com.google.android.gms.ads.AdListener
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.admanager.AdManagerAdView
 
 class AdaptiveBannerManager(
     private val context: Activity,
     private val mIdBanner01: String,
-    private val mIdBanner02: String,
-    private val mIdBanner03: String
+    private val mIdBanner02: String
 ) {
+    var adView: AdManagerAdView? = null
+    var isBannerLoaded = false
+
     companion object {
-        var isBannerLoaded = false
-        var adView: AdManagerAdView? = null
     }
 
     private val adSize: AdSize
@@ -52,13 +50,19 @@ class AdaptiveBannerManager(
             return
         }
 
-        requestBannerAdsPrepare(mIdBanner01, parent, onAdLoader, onAdLoadFail = {
-            requestBannerAdsPrepare(mIdBanner02, parent, onAdLoader, onAdLoadFail = {
-                requestBannerAdsPrepare(mIdBanner03, parent, onAdLoader, onAdLoadFail = {
+        if (AdsConfigUtils(context).getDefConfigNumber() == 1) {
+            requestBannerAdsPrepare(mIdBanner01, parent, onAdLoader, onAdLoadFail = {
+                requestBannerAdsPrepare(mIdBanner02, parent, onAdLoader, onAdLoadFail = {
                     onAdLoadFail?.invoke()
                 })
             })
-        })
+        } else {
+            requestBannerAdsPrepare(mIdBanner02, parent, onAdLoader, onAdLoadFail = {
+                requestBannerAdsPrepare(mIdBanner01, parent, onAdLoader, onAdLoadFail = {
+                    onAdLoadFail?.invoke()
+                })
+            })
+        }
     }
 
     private fun requestBannerAdsPrepare(
@@ -99,7 +103,7 @@ class AdaptiveBannerManager(
     }
 
     fun loadAdViewToParent(parent: ViewGroup?) {
-        if(adView?.parent != null){
+        if (adView?.parent != null) {
             (adView?.parent as ViewGroup).removeAllViews()
         }
         parent?.removeAllViews()
@@ -107,11 +111,12 @@ class AdaptiveBannerManager(
         parent?.isVisible = true
 
     }
-    fun stopView(){
+
+    fun stopView() {
         adView?.pause()
     }
 
-    fun resumeView(){
+    fun resumeView() {
         adView?.resume()
     }
 }

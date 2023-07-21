@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "427002057855",
-    "project_id": "toilet-f1cb6",
-    "storage_bucket": "toilet-f1cb6.appspot.com"
+    "project_number": "687029302216",
+    "project_id": "skibydi-video-call-nekosoft",
+    "storage_bucket": "skibydi-video-call-nekosoft.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:427002057855:android:8a0a937ab195dd92a91b4a",
+        "mobilesdk_app_id": "1:687029302216:android:873701db93a51e490146fd",
         "android_client_info": {
-          "package_name": "com.neko.toilet"
+          "package_name": "com.skibidi.toilet.series.videocall.fakecall.fakemessage"
         }
       },
       "oauth_client": [
         {
-          "client_id": "427002057855-qf61bmmb141jell95fcsuc5n94k0b7uj.apps.googleusercontent.com",
+          "client_id": "687029302216-743kmpsr5d4sqpq7mp6qfb4rqicg4ls3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.skibidi.toilet.series.videocall.fakecall.fakemessage",
+            "certificate_hash": "c439bb9ccfba67a57f4ba5a108162e139f7a6c97"
+          }
+        },
+        {
+          "client_id": "687029302216-charqu3fhio3o4dmcfbk2enoimtgnraq.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB7UkLEJE_mST5kxNtZXem73RQ8E_MRR6M"
+          "current_key": "AIzaSyAbplYZN2APSh_Gzx6_LlWT2FnwezMnUjw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "427002057855-qf61bmmb141jell95fcsuc5n94k0b7uj.apps.googleusercontent.com",
+              "client_id": "687029302216-charqu3fhio3o4dmcfbk2enoimtgnraq.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

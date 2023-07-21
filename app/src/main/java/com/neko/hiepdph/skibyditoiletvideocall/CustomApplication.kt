@@ -12,11 +12,10 @@ import com.applovin.sdk.AppLovinMediationProvider
 import com.applovin.sdk.AppLovinSdk
 import com.facebook.appevents.AppEventsLogger
 import com.gianghv.libads.AdaptiveBannerManager
-import com.gianghv.libads.AppOpenAdManager
+import com.gianghv.libads.AppOpenResumeAdManager
 import com.gianghv.libads.InterstitialPreloadAdManager
 import com.gianghv.libads.InterstitialSingleReqAdManager
 import com.gianghv.libads.NativeAdsManager
-import com.gianghv.libads.RewardAdsManager
 import com.gianghv.libads.utils.Constants
 import com.google.android.gms.ads.AdActivity
 import com.google.android.gms.ads.MobileAds
@@ -31,7 +30,7 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class CustomApplication : Application(), Application.ActivityLifecycleCallbacks, LifecycleObserver {
     private var currentActivity: Activity? = null
-    private var appOpenAdsManager: AppOpenAdManager? = null
+    private var appOpenAdsManager: AppOpenResumeAdManager? = null
     var adsShowed = false
     var isChangeLanga = false
 
@@ -92,17 +91,18 @@ class CustomApplication : Application(), Application.ActivityLifecycleCallbacks,
     }
 
     private fun initOpenAds() {
-        appOpenAdsManager = AppOpenAdManager(
-            this, BuildConfig.ads_open_id
-        )
+//        appOpenAdsManager = AppOpenResumeAdManager(
+//            this, BuildConfig.open_app_id,
+//        )
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
     private fun onMoveToForeground() {
-        if (!InterstitialPreloadAdManager.isShowingAds && !InterstitialSingleReqAdManager.isShowingAds && !RewardAdsManager.isShowing && !AppOpenAdManager.isShowingAd && currentActivity !is AdActivity) {
+        if (!InterstitialPreloadAdManager.isShowingAds && !InterstitialSingleReqAdManager.isShowingAds && currentActivity !is AdActivity && !AppOpenResumeAdManager.isShowingAd) {
             currentActivity?.let {
                 if (currentActivity is MainActivity) {
                     if (isInternetAvailable(applicationContext)) {
+//                        dialog?.dismiss()
                         dialog = DialogFragmentLoadingOpenAds().onCreateDialog(it)
                         dialog?.show()
 

@@ -18,7 +18,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
 import com.neko.hiepdph.skibyditoiletvideocall.R
@@ -40,7 +39,7 @@ class FragmentVideoToilet : Fragment() {
     private val viewModel by activityViewModels<AppViewModel>()
     private var receiver: BroadcastReceiver? = null
     private var audioManager: AudioManager? = null
-
+    private var intentFilter:IntentFilter ?= null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -51,18 +50,19 @@ class FragmentVideoToilet : Fragment() {
             override fun onReceive(p0: Context?, mItent: Intent?) {
                 val currentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
                 if (currentVolume != null) {
-                    if(currentVolume > 0){
-                        requireActivity().findViewById<ImageView>(R.id.volume_toggle).setImageResource(R.drawable.ic_volume_up)
-                    }else{
-                        requireActivity().findViewById<ImageView>(R.id.volume_toggle).setImageResource(R.drawable.ic_volume_mute)
+                    if (currentVolume > 0) {
+                        requireActivity().findViewById<ImageView>(R.id.volume_toggle)
+                            .setImageResource(R.drawable.ic_volume_up)
+                    } else {
+                        requireActivity().findViewById<ImageView>(R.id.volume_toggle)
+                            .setImageResource(R.drawable.ic_volume_mute)
                     }
                 }
 
             }
 
         }
-        val intentFilter = IntentFilter()
-        intentFilter.addAction("android.media.VOLUME_CHANGED_ACTION")
+        intentFilter?.addAction("android.media.VOLUME_CHANGED_ACTION")
         requireActivity().registerReceiver(receiver, intentFilter)
         return binding.root
     }
@@ -82,10 +82,12 @@ class FragmentVideoToilet : Fragment() {
     private fun initButton() {
         val mCurrentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
         if (mCurrentVolume != null) {
-            if(mCurrentVolume > 0){
-                requireActivity().findViewById<ImageView>(R.id.volume_toggle).setImageResource(R.drawable.ic_volume_up)
-            }else{
-                requireActivity().findViewById<ImageView>(R.id.volume_toggle).setImageResource(R.drawable.ic_volume_mute)
+            if (mCurrentVolume > 0) {
+                requireActivity().findViewById<ImageView>(R.id.volume_toggle)
+                    .setImageResource(R.drawable.ic_volume_up)
+            } else {
+                requireActivity().findViewById<ImageView>(R.id.volume_toggle)
+                    .setImageResource(R.drawable.ic_volume_mute)
             }
         }
         requireActivity().findViewById<ImageView>(R.id.play_again).clickWithDebounce {
@@ -101,7 +103,7 @@ class FragmentVideoToilet : Fragment() {
                 }
                 if ((viewModel.data[index] as MonsterModel).isRewardContent) {
                     val dialogConfirm = DialogConfirm(requireContext(), onPressPositive = {
-                        showRewardAds(actionSuccess = {
+                        showRewardAds(actionDoneWhenAdsNotComplete = { index-- }, actionSuccess = {
                             viewModel.setCurrentModel(viewModel.data[index] as MonsterModel)
 
                             val dataPos =
@@ -110,8 +112,7 @@ class FragmentVideoToilet : Fragment() {
                             dataPos.remove(viewModel.getCurrentModel().id)
                             AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
                             requireContext().pushEvent("click_next_reward")
-                            viewModel.playAudio(
-                                MediaItem.fromUri(viewModel.getCurrentModel().content),
+                            viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content),
                                 onEnd = {})
                         }, actionFailed = {
                             Toast.makeText(
@@ -119,7 +120,7 @@ class FragmentVideoToilet : Fragment() {
                                 getString(R.string.require_internet),
                                 Toast.LENGTH_SHORT
                             ).show()
-                        }, RewardAdsEnum.VIDEO)
+                        }, type = RewardAdsEnum.VIDEO)
                     })
                     dialogConfirm.show()
                 } else {
@@ -131,8 +132,7 @@ class FragmentVideoToilet : Fragment() {
                                     .toMutableList()
                             dataPos.remove(viewModel.getCurrentModel().id)
                             AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
-                            viewModel.playAudio(
-                                MediaItem.fromUri(viewModel.getCurrentModel().content),
+                            viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content),
                                 onEnd = {})
                         }, InterAdsEnum.VIDEO)
 
@@ -143,8 +143,7 @@ class FragmentVideoToilet : Fragment() {
                                 .toMutableList()
                         dataPos.remove(viewModel.getCurrentModel().id)
                         AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
-                        viewModel.playAudio(
-                            MediaItem.fromUri(viewModel.getCurrentModel().content),
+                        viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content),
                             onEnd = {})
                     }
                 }
@@ -159,8 +158,7 @@ class FragmentVideoToilet : Fragment() {
                                 .toMutableList()
                         dataPos.remove(viewModel.getCurrentModel().id)
                         AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
-                        viewModel.playAudio(
-                            MediaItem.fromUri(viewModel.getCurrentModel().content),
+                        viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content),
                             onEnd = {})
                     }, InterAdsEnum.VIDEO)
 
@@ -171,8 +169,7 @@ class FragmentVideoToilet : Fragment() {
                         .toMutableList()
                     dataPos.remove(viewModel.getCurrentModel().id)
                     AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
-                    viewModel.playAudio(
-                        MediaItem.fromUri(viewModel.getCurrentModel().content),
+                    viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content),
                         onEnd = {})
                 }
 
@@ -189,18 +186,20 @@ class FragmentVideoToilet : Fragment() {
 
         requireActivity().findViewById<ImageView>(R.id.btn_back_controller).clickWithDebounce {
             Log.d("TAG", "initButton: ")
-           findNavController().navigate(R.id.action_fragmentVideoToilet_to_fragmentHome )
+            findNavController().navigate(R.id.action_fragmentVideoToilet_to_fragmentHome)
         }
 
         requireActivity().findViewById<ImageView>(R.id.volume_toggle).clickWithDebounce {
             val mCurrentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
             if (mCurrentVolume != null) {
-                if(mCurrentVolume > 0){
+                if (mCurrentVolume > 0) {
                     audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, 0, 0)
-                    requireActivity().findViewById<ImageView>(R.id.volume_toggle).setImageResource(R.drawable.ic_volume_mute)
-                }else{
+                    requireActivity().findViewById<ImageView>(R.id.volume_toggle)
+                        .setImageResource(R.drawable.ic_volume_mute)
+                } else {
                     audioManager?.setStreamVolume(AudioManager.STREAM_MUSIC, 5, 0)
-                    requireActivity().findViewById<ImageView>(R.id.volume_toggle).setImageResource(R.drawable.ic_volume_up)
+                    requireActivity().findViewById<ImageView>(R.id.volume_toggle)
+                        .setImageResource(R.drawable.ic_volume_up)
                 }
             }
         }
@@ -280,6 +279,13 @@ class FragmentVideoToilet : Fragment() {
     override fun onPause() {
         super.onPause()
         viewModel.pausePlayer()
+        requireActivity().unregisterReceiver(receiver)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        requireActivity().registerReceiver(receiver, intentFilter)
     }
 
     override fun onDestroy() {

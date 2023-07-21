@@ -1,5 +1,6 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -32,7 +33,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel by viewModels<AppViewModel>()
     private lateinit var connectivityListener: ConnectivityListener
-    private var dialogInternet: DialogInternet? = null
+    private var dialogInternet: Dialog? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         changeStatusBarColor()
         dialogInternet = DialogInternet(onPressPositive = {
             openConnectivitySetting()
-        })
+        }).onCreateDialog(this)
 
         hideNavigationBar()
         checkInit()
@@ -98,12 +99,12 @@ class MainActivity : AppCompatActivity() {
         viewModel.typeNetwork.observe(this) {
             it?.let {
                 if (it == ConnectionType.MOBILE || it == ConnectionType.WIFI) {
-                    if (dialogInternet?.isVisible == true) {
+                    if (dialogInternet?.isShowing == true) {
                         dialogInternet?.dismiss()
                     }
 
                 } else {
-                    dialogInternet?.show(supportFragmentManager, dialogInternet?.tag)
+                    dialogInternet?.show()
                 }
             }
         }

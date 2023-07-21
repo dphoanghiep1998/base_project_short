@@ -14,12 +14,13 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
-class AdapterMessage : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AdapterMessage(private val onLoadDone: () -> Unit) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var data: MutableList<MessageModel> = mutableListOf()
     private var loading = false
     private var scope = CoroutineScope(Dispatchers.Main)
     private var mRecyclerView: RecyclerView? = null
-    private var job :Job ?= null
+    private var job: Job? = null
     fun insertMessage(messageModel: MessageModel) {
         data.add(messageModel)
         notifyItemInserted(data.size)
@@ -104,7 +105,8 @@ class AdapterMessage : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                         binding.tvReceived.text = ".."
                         delay(500)
                         binding.tvReceived.text = "..."
-                        binding.tvReceived.text = data[data.size-1].contentReceived
+                        binding.tvReceived.text = data[data.size - 1].contentReceived
+                        onLoadDone?.invoke()
                         loading = false
                     }
                     job?.start()

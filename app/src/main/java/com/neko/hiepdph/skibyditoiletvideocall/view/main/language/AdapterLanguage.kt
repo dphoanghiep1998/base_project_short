@@ -10,22 +10,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.ads.nativead.NativeAd
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
-import com.neko.hiepdph.skibyditoiletvideocall.common.hide
-import com.neko.hiepdph.skibyditoiletvideocall.common.show
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.ItemLanguageNativeAdsBinding
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.LayoutItemLanguageBinding
-
-import java.util.Collections
 import java.util.Locale
 
-class AdapterLanguage(private val context: Context, private val onCLickItem: (Locale) -> Unit) :
-    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class AdapterLanguage(
+    private val context: Context, private val onClickLanguage: (locale: Locale) -> Unit
+) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var mRecyclerView: RecyclerView? = null
     private var insideNativeAd: NativeAd? = null
     private var listDataLang = mutableListOf<Any>()
     private var listDataDisplay = mutableListOf<Any>()
     private val diffCallback = DiffCallback(listDataLang, mutableListOf())
-
+    private var currentIndex = 0
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
         mRecyclerView = recyclerView
@@ -41,26 +38,19 @@ class AdapterLanguage(private val context: Context, private val onCLickItem: (Lo
         listDataDisplay.addAll(mListDisplay)
     }
 
-    private fun swap(secondPosition: Int) {
-        Collections.swap(listDataLang, 0, secondPosition)
-        Collections.swap(listDataDisplay, 0, secondPosition)
 
-        notifyItemChanged(0)
-        notifyItemChanged(secondPosition)
-        mRecyclerView?.smoothScrollToPosition(0)
-    }
 
     fun setCurrentLanguage(language: String) {
-        var pos = 0
+        var locale = Locale("en")
         listDataLang.forEachIndexed { index, l ->
             if (l is Locale) {
                 if (l.language == language) {
-                    pos = index
-                    onCLickItem.invoke(l)
+                    currentIndex = index
+                    locale = l
                 }
             }
         }
-        swap(pos)
+        onClickLanguage(locale)
     }
 
 
@@ -79,54 +69,48 @@ class AdapterLanguage(private val context: Context, private val onCLickItem: (Lo
         when (holder.itemViewType) {
             0 -> {
                 with(holder as LanguageViewHolder) {
-                    if (this.adapterPosition == 0) {
+                    if (this.adapterPosition == currentIndex) {
                         binding.tvCountry.setTextColor(
                             ContextCompat.getColor(
                                 context, R.color.white
                             )
                         )
-                        binding.container.background = ContextCompat.getDrawable(
+                        binding.root.background = ContextCompat.getDrawable(
                             context, R.drawable.infor_language_selected
                         )
                     } else {
+
                         binding.tvCountry.setTextColor(
                             ContextCompat.getColor(
                                 context, R.color.white
                             )
                         )
-                        binding.container.background = ContextCompat.getDrawable(
+                        binding.root.background = ContextCompat.getDrawable(
                             context, R.drawable.infor_language
                         )
                     }
-                    with(listDataLang[position] as Locale) {
-                        val display = listDataDisplay[position] as Pair<Int, Int>
+                    with(listDataLang[adapterPosition] as Locale) {
+                        val display = listDataDisplay[adapterPosition] as Pair<Int, Int>
                         binding.tvCountry.text = context.getString(display.first)
-                        binding.imvFlag.setImageDrawable(
-                            ContextCompat.getDrawable(
-                                context, display.second
-                            )
-                        )
+                        binding.imvFlag.setImageResource(display.second)
+
                         binding.root.clickWithDebounce {
-                            if (adapterPosition == 0) {
-                                return@clickWithDebounce
-                            }
-                            swap(adapterPosition)
-                            onCLickItem(this)
+                            currentIndex = adapterPosition
+                            notifyDataSetChanged()
+                            onClickLanguage(this)
                         }
                     }
                 }
-
             }
-
             1 -> {
                 with(holder as LanguageNativeAdsViewHolder) {
                     if (insideNativeAd != null) {
                         binding.nativeAdMediumView.showShimmer(false)
                         binding.nativeAdMediumView.setNativeAd(insideNativeAd!!)
                         binding.nativeAdMediumView.visibility = View.VISIBLE
-                        binding.root.show()
+                        binding.root.visibility = View.VISIBLE
                     } else {
-                        binding.root.hide()
+                        binding.root.visibility = View.GONE
                         with(binding.nativeAdMediumView) {
                             visibility = View.GONE
                             showShimmer(true)
@@ -146,7 +130,6 @@ class AdapterLanguage(private val context: Context, private val onCLickItem: (Lo
                 )
                 LanguageViewHolder(binding)
             }
-
             else -> {
                 val binding = ItemLanguageNativeAdsBinding.inflate(
                     LayoutInflater.from(parent.context), parent, false

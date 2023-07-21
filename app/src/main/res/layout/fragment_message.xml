@@ -81,13 +81,27 @@
         app:layout_constraintTop_toBottomOf="@id/container_header" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:background="#1F2024"
-        android:paddingVertical="@dimen/_12sdp"
         android:id="@+id/rcv_scripted"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#1F2024"
+        android:paddingTop="@dimen/_12sdp"
+        android:clipToPadding="false"
+        android:paddingBottom="@dimen/_40sdp"
         android:scrollbars="horizontal"
+        android:scrollbarStyle="insideOverlay"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <SeekBar
+        android:id="@+id/scrollbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:thumb="@drawable/bg_thumb_script"
+        android:layout_marginHorizontal="@dimen/_32sdp"
+        android:progressDrawable="@drawable/bg_seekbar_script"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:splitTrack="false"
+        app:layout_constraintBottom_toBottomOf="@id/rcv_scripted" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

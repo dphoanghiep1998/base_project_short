@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import com.gianghv.libads.utils.AdsConfigUtils
 import com.gianghv.libads.utils.Constants
 import com.gianghv.libads.utils.Utils
 import com.google.android.gms.ads.*
@@ -12,13 +13,10 @@ import com.google.android.gms.ads.nativead.NativeAd
 class NativeAdsManager constructor(
     private val context: Context,
     private val idNativeAds01: String,
-    private val idNativeAds02: String,
-    private val idNativeAds03: String
+    private val idNativeAds02: String
 ) {
     private var nativeAd: NativeAd? = null
     private var mAdLoader: AdLoader? = null
-
-    var isAdLoaded = false
 
     val mNativeAd get() = nativeAd
 
@@ -41,15 +39,21 @@ class NativeAdsManager constructor(
             }
         }
         handler?.postDelayed(runable!!, Constants.TIME_OUT)
-
-        requestAds(idNativeAds01, onLoadSuccess, onLoadFail = {
-            requestAds(idNativeAds02, onLoadSuccess, onLoadFail = {
-                requestAds(idNativeAds03, onLoadSuccess, onLoadFail = {
+        if (AdsConfigUtils(context).getDefConfigNumber() == 1) {
+            requestAds(idNativeAds01, onLoadSuccess, onLoadFail = {
+                requestAds(idNativeAds02, onLoadSuccess, onLoadFail = {
                     runable?.let { handler?.removeCallbacks(it) }
                     onLoadFail?.invoke(true)
                 })
             })
-        })
+        } else {
+            requestAds(idNativeAds02, onLoadSuccess, onLoadFail = {
+                requestAds(idNativeAds01, onLoadSuccess, onLoadFail = {
+                    runable?.let { handler?.removeCallbacks(it) }
+                    onLoadFail?.invoke(true)
+                })
+            })
+        }
     }
 
     fun requestAds(
@@ -61,14 +65,12 @@ class NativeAdsManager constructor(
             nativeAd?.destroy()
             nativeAd = it
             nativeAd?.setOnPaidEventListener {
-                Utils.postRevenueAdjust(it, "Native")
+                Utils.postRevenueAdjust(it, idNativeAds)
             }
-            Log.d("TAG", "requestAds: ")
             onLoadSuccess?.invoke(it)
         }.withAdListener(object : AdListener() {
             override fun onAdLoaded() {
                 super.onAdLoaded()
-                isAdLoaded = true
                 runable?.let { handler?.removeCallbacks(it) }
                 handler = null
             }
@@ -77,8 +79,6 @@ class NativeAdsManager constructor(
                 super.onAdClosed()
                 val request = AdRequest.Builder().build()
                 mAdLoader?.loadAd(request)
-                isAdLoaded = false
-                Log.d("TAG", "onAdClosed:3123213 ")
             }
 
             override fun onAdFailedToLoad(p0: LoadAdError) {

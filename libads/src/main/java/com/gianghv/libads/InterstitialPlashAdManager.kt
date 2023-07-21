@@ -8,6 +8,7 @@ import android.util.Log
 import android.widget.Toast
 import com.adjust.sdk.AdjustAdRevenue
 import com.adjust.sdk.AdjustConfig
+import com.gianghv.libads.utils.AdsConfigUtils
 import com.gianghv.libads.utils.Constants
 import com.gianghv.libads.utils.DialogLoadingAds
 import com.gianghv.libads.utils.Utils
@@ -18,8 +19,7 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 class InterstitialPlashAdManager constructor(
     private val context: Context,
     private val mIdAdsFull01: String,
-    private val mIdAdsFull02: String,
-    private val mIdAdsFull03: String
+    private val mIdAdsFull02: String
 ) {
     var mInterstitialAd: InterstitialAd? = null
     var handler: Handler? = null
@@ -53,9 +53,9 @@ class InterstitialPlashAdManager constructor(
         onAdLoader: (() -> Unit)? = null,
         onAdLoadFail: (() -> Unit)? = null
     ) {
-        requestAdsPrepare(mIdAdsFull01, onAdLoader, onAdLoadFail = {
-            requestAdsPrepare(mIdAdsFull02, onAdLoader, onAdLoadFail = {
-                requestAdsPrepare(mIdAdsFull03, onAdLoader, onAdLoadFail = {
+        if (AdsConfigUtils(context).getDefConfigNumber() == 1) {
+            requestAdsPrepare(mIdAdsFull01, onAdLoader, onAdLoadFail = {
+                requestAdsPrepare(mIdAdsFull02, onAdLoader, onAdLoadFail = {
                     if (handler == null) {
                         onAdLoadFail?.invoke()
                     }
@@ -63,7 +63,17 @@ class InterstitialPlashAdManager constructor(
                     handler = null
                 })
             })
-        })
+        } else {
+            requestAdsPrepare(mIdAdsFull02, onAdLoader, onAdLoadFail = {
+                requestAdsPrepare(mIdAdsFull01, onAdLoader, onAdLoadFail = {
+                    if (handler == null) {
+                        onAdLoadFail?.invoke()
+                    }
+                    runable?.let { handler?.removeCallbacks(it) }
+                    handler = null
+                })
+            })
+        }
     }
 
     private fun requestAdsPrepare(

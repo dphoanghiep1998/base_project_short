@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
@@ -45,6 +46,7 @@ class FragmentCallScreen : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCallScreenBinding.inflate(inflater, container, false)
+        changeBackPressCallBack()
         return binding.root
     }
 
@@ -170,6 +172,14 @@ class FragmentCallScreen : Fragment() {
             }
         }
 
+    private fun changeBackPressCallBack() {
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+
+    }
 
     override fun onPause() {
         super.onPause()

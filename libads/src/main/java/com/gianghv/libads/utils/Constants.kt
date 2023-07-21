@@ -1,7 +1,7 @@
 package com.gianghv.libads.utils
 
 object Constants {
-    const val TIME_OUT:Long = 10000
+    const val TIME_OUT:Long = 30000
 
     fun testDevices(): List<String> {
         return listOf(
