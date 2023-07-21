@@ -58,7 +58,7 @@ class FragmentPreview : Fragment() {
             keepScreenOn = true
 
         }
-        Log.d("TAG", "initView: "+navArgs.galleryModel.cameraVideoPath)
+        Log.d("TAG", "initView: " + navArgs.galleryModel.cameraVideoPath)
         viewModel.playAudio(MediaItem.fromUri(navArgs.galleryModel.cameraVideoPath),
             onPrepareDone = {
                 if (isStarted) {
@@ -145,8 +145,10 @@ class FragmentPreview : Fragment() {
                     Log.d("TAG", "onStopTrackingTouch: " + binding.progressVideo.progress.toLong())
 //                    viewModel.seekTo2(binding.progressVideo.progress.toLong())
 //                    viewModel.seekTo1(binding.progressVideo.progress.toLong())
+                    isDone = binding.progressVideo.progress == binding.progressVideo.max
                     viewModel.getPlayer2()?.seekTo(binding.progressVideo.progress.toLong())
                     viewModel.getPlayer()?.seekTo(binding.progressVideo.progress.toLong())
+
 
                 }
 

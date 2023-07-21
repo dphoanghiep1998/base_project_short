@@ -90,8 +90,6 @@ class FragmentMessage : Fragment() {
             MessageModel(getString(R.string.question_18), getString(R.string.answer_18)),
             MessageModel(getString(R.string.question_19), getString(R.string.answer_19)),
             MessageModel(getString(R.string.question_20), getString(R.string.answer_20)),
-
-
             )
 
 
@@ -101,10 +99,6 @@ class FragmentMessage : Fragment() {
         binding.rcvMessage.layoutManager = linearLayoutManager
         binding.rcvMessage.adapter = adapterMessage
         autoMaticAnswer(MessageModel("", getString(R.string.answer)))
-
-//        adapterMessage?.insertReceivedMessage(MessageModel("", getString(R.string.answer)))
-
-
 
         adapterScripted = AdapterScripted(onClickScriptedItem = {
             it.isSent = true

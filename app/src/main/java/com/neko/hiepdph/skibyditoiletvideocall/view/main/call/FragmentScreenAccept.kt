@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
+import com.neko.hiepdph.skibyditoiletvideocall.common.CameraView.OnCameraDone
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
 import com.neko.hiepdph.skibyditoiletvideocall.common.show
@@ -39,8 +40,6 @@ class FragmentScreenAccept : Fragment() {
     private var countDownTimer: CountDownTimer? = null
     private var mTimeLeftInMillis: Long = 0
     private var timeRunning = false
-    private var camera: Camera? = null
-    private var mediaRecorder: MediaRecorder? = null
     private var count = 0L
     private var path = ""
     private val arg by navArgs<FragmentScreenAcceptArgs>()
@@ -88,7 +87,7 @@ class FragmentScreenAccept : Fragment() {
                     player = viewModel.getPlayer()
                     keepScreenOn = true
                 }
-                startRecording()
+                recordVideo()
             })
     }
 
@@ -148,82 +147,10 @@ class FragmentScreenAccept : Fragment() {
 
 
     private fun recordVideo() {
+        binding.sufaceView.setPathRecorded { mPath -> path = mPath.toString() }
         binding.sufaceView.openAsync(getFrontCameraId())
     }
 
-    private fun startRecording() {
-        try {
-//            mediaRecorder = MediaRecorder()
-//
-//            camera?.unlock()
-//            mediaRecorder?.setCamera(camera)
-//
-//            mediaRecorder?.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
-//            mediaRecorder?.setVideoSource(MediaRecorder.VideoSource.CAMERA)
-//
-//            mediaRecorder?.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-//            mediaRecorder?.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
-//            mediaRecorder?.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP)
-//            path = getOutputMediaFile()?.path.toString()
-//            mediaRecorder?.setOutputFile(path)
-//
-//            mediaRecorder?.setPreviewDisplay(binding.sufaceView.surface)
-//            mediaRecorder?.setOrientationHint(270)
-//            mediaRecorder?.prepare()
-//            mediaRecorder?.start()
-
-        } catch (e: IOException) {
-            Log.d("TAG", "startRecording: " + e)
-        }
-    }
-
-    private fun stopRecording() {
-        try {
-            mediaRecorder?.stop()
-            mediaRecorder?.reset()
-            mediaRecorder?.release()
-            mediaRecorder = null
-
-            camera?.lock()
-        } catch (e: Exception) {
-        }
-    }
-
-    private fun pauseRecording() {
-        try {
-            mediaRecorder?.pause()
-            mediaRecorder?.reset()
-            mediaRecorder?.release()
-            mediaRecorder = null
-
-            camera?.lock()
-        } catch (e: Exception) {
-        }
-    }
-
-    private fun releaseCamera() {
-        camera?.stopPreview()
-        camera?.release()
-        camera = null
-    }
-
-    private fun getOutputMediaFile(): File? {
-        val mediaStorageDir = File(
-            requireActivity().filesDir, "video"
-        )
-
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                return null
-            }
-        }
-
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-
-        return File(
-            mediaStorageDir.path + File.separator + "VID_$timeStamp.mp4"
-        )
-    }
 
 
     private fun getFrontCameraId(): Int {
@@ -243,23 +170,21 @@ class FragmentScreenAccept : Fragment() {
     override fun onPause() {
         super.onPause()
         pauseTimer()
-        stopRecording()
         viewModel.pausePlayer()
     }
 
     override fun onStop() {
         super.onStop()
         pauseTimer()
-        stopRecording()
         viewModel.pausePlayer()
     }
 
     override fun onResume() {
         super.onResume()
 
-        recordVideo()
 
         if (!timeRunning) {
+            recordVideo()
             startTimer()
 //            stopRecording()
             viewModel.resumePlayer()
