@@ -11,9 +11,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
+import com.neko.hiepdph.skibyditoiletvideocall.common.NativeTypeEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
 import com.neko.hiepdph.skibyditoiletvideocall.common.show
+import com.neko.hiepdph.skibyditoiletvideocall.common.showNativeAds
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentGalleryBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 
@@ -26,6 +28,7 @@ class FragmentGallery : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentGalleryBinding.inflate(inflater, container, false)
+        showNativeAds(binding.nativeView,null,null,NativeTypeEnum.GALLERY)
         return binding.root
     }
 

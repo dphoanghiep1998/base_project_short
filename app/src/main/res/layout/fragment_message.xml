@@ -82,25 +82,20 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_scripted"
+        style="@style/scrollbar_shape_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#1F2024"
-        style="@style/scrollbar_shape_style"
-        android:paddingTop="@dimen/_12sdp"
         android:clipToPadding="false"
+        android:paddingTop="@dimen/_12sdp"
         android:paddingBottom="@dimen/_30sdp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintBottom_toTopOf="@id/bannerAds" />
 
-<!--    <SeekBar-->
-<!--        android:id="@+id/scrollbar"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:thumb="@drawable/bg_thumb_script"-->
-<!--        android:layout_marginHorizontal="@dimen/_32sdp"-->
-<!--        android:progressDrawable="@drawable/bg_seekbar_script"-->
-<!--        android:layout_marginBottom="@dimen/_12sdp"-->
-<!--        android:splitTrack="false"-->
-<!--        app:layout_constraintBottom_toBottomOf="@id/rcv_scripted" />-->
+    <FrameLayout
+        android:id="@+id/bannerAds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -72,15 +72,7 @@ class FragmentListVideoToilet : Fragment() {
         })
         adapterHome?.setData(viewModel.data)
         val gridlayoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.VERTICAL, false)
-        gridlayoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
-            override fun getSpanSize(position: Int): Int {
-                return if (position != 3 && position != 37) {
-                    1
-                } else {
-                    gridlayoutManager.spanCount
-                }
-            }
-        }
+
         binding.rcvHome.layoutManager = gridlayoutManager
         binding.rcvHome.adapter = adapterHome
         loadAds()

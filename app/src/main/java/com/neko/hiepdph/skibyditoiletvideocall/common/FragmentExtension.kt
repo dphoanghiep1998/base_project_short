@@ -13,6 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.gianghv.libads.AdaptiveBannerManager
 import com.gianghv.libads.InterstitialSingleReqAdManager
+import com.gianghv.libads.MLBBaseNativeAdView
 import com.gianghv.libads.NativeAdGiftSoundView
 import com.gianghv.libads.NativeAdSmallView
 import com.gianghv.libads.NativeAdsManager
@@ -71,8 +72,7 @@ fun Activity.showBannerAds(view: ViewGroup, action: (() -> Unit)? = null) {
 }
 
 fun Fragment.showNativeAds(
-    view: NativeAdGiftSoundView?,
-    view_small: NativeAdSmallView?,
+    view: MLBBaseNativeAdView?,
     action: (() -> Unit)? = null,
     action_fail: (() -> Unit)? = null,
     type: NativeTypeEnum
@@ -86,11 +86,20 @@ fun Fragment.showNativeAds(
                 BuildConfig.native_intro_id2,
             )
         }
-        else ->{
+
+        NativeTypeEnum.GALLERY -> {
             mNativeAdManager = NativeAdsManager(
                 requireActivity(),
-                BuildConfig.native_intro_id1,
-                BuildConfig.native_intro_id2,
+                BuildConfig.native_gallery_id1,
+                BuildConfig.native_gallery_id2,
+            )
+        }
+
+        NativeTypeEnum.VIDEO -> {
+            mNativeAdManager = NativeAdsManager(
+                requireActivity(),
+                BuildConfig.native_video_id1,
+                BuildConfig.native_video_id2,
             )
         }
 
@@ -111,19 +120,6 @@ fun Fragment.showNativeAds(
         })
     }
 
-    view_small?.let {
-        it.showShimmer(true)
-        mNativeAdManager.loadAds(onLoadSuccess = { nativeAd ->
-            it.visibility = View.VISIBLE
-            action?.invoke()
-            it.showShimmer(false)
-            it.setNativeAd(nativeAd)
-            it.isVisible = true
-        }, onLoadFail = { _ ->
-            it.errorShimmer()
-            it.visibility = View.GONE
-        })
-    }
 
 }
 
@@ -160,7 +156,8 @@ fun Fragment.showInterAds(
                 BuildConfig.inter_callvideo_id1,
             )
         }
-        else ->{
+
+        else -> {
             interstitialSingleReqAdManager = InterstitialSingleReqAdManager(
                 requireActivity(),
                 BuildConfig.inter_callvideo_id1,
@@ -188,6 +185,7 @@ fun Fragment.showInterAds(
     }
 
 }
+
 fun isInternetAvailable(context: Context): Boolean {
     val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
     val netInfo = cm.activeNetworkInfo

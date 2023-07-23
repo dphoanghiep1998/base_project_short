@@ -17,6 +17,7 @@ import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
+import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentPreviewBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +39,7 @@ class FragmentPreview : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentPreviewBinding.inflate(inflater, container, false)
+        showBannerAds(binding.bannerAds)
         return binding.root
     }
 
