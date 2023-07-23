@@ -16,7 +16,8 @@ import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
 import com.neko.hiepdph.skibyditoiletvideocall.common.RewardAdsEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
-import com.neko.hiepdph.skibyditoiletvideocall.common.showRewardAds
+import com.neko.hiepdph.skibyditoiletvideocall.common.hide
+import com.neko.hiepdph.skibyditoiletvideocall.common.show
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.MonsterModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentListVideoToiletBinding
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.home.AdapterHome
@@ -58,14 +59,14 @@ class FragmentListVideoToilet : Fragment() {
             findNavController().popBackStack()
         }, onClickRewardAdsItem = { monsterModel, position ->
             val dialogConfirm = DialogConfirm(requireContext(), onPressPositive = {
-                showRewardAds(actionDoneWhenAdsNotComplete = {}, actionSuccess = {
-                    viewModel.setCurrentModel(monsterModel)
-                    findNavController().popBackStack()
-                }, actionFailed = {
-                    Toast.makeText(
-                        requireContext(), getString(R.string.require_internet), Toast.LENGTH_SHORT
-                    ).show()
-                }, type = RewardAdsEnum.VIDEO)
+//                showRewardAds(actionDoneWhenAdsNotComplete = {}, actionSuccess = {
+//                    viewModel.setCurrentModel(monsterModel)
+//                    findNavController().popBackStack()
+//                }, actionFailed = {
+//                    Toast.makeText(
+//                        requireContext(), getString(R.string.require_internet), Toast.LENGTH_SHORT
+//                    ).show()
+//                }, type = RewardAdsEnum.VIDEO)
             })
             dialogConfirm.show()
         })
@@ -98,14 +99,15 @@ class FragmentListVideoToilet : Fragment() {
     private fun loadAds() {
         CustomApplication.app.nativeADHome?.observe(viewLifecycleOwner) {
             it?.let {
-                adapterHome?.insertAds(it)
+                binding.nativeAdsView.setNativeAd(it)
+                binding.nativeAdsView.showShimmer(false)
+                binding.nativeAdsView.show()
             }
         }
-        if (CustomApplication.app.nativeADHome?.value == null) {
-            CustomApplication.app.mNativeAdManagerHome?.loadAds(onLoadSuccess = {
-                CustomApplication.app.nativeADHome?.value = it
-            })
+        if( CustomApplication.app.nativeADHome?.value == null){
+            binding.nativeAdsView.hide()
         }
+
     }
 
 }

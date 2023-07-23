@@ -39,7 +39,7 @@ fun Fragment.navigateBack(id: Int) {
 fun Fragment.showBannerAds(view: ViewGroup, action: (() -> Unit)? = null) {
     CustomApplication.app.adaptiveBannerManager = AdaptiveBannerManager(
         requireActivity(),
-        BuildConfig.banner_home_id,
+        BuildConfig.banner_home_id1,
         BuildConfig.banner_home_id2,
     )
 
@@ -56,7 +56,7 @@ fun Fragment.showBannerAds(view: ViewGroup, action: (() -> Unit)? = null) {
 fun Activity.showBannerAds(view: ViewGroup, action: (() -> Unit)? = null) {
     val adaptiveBannerManager = AdaptiveBannerManager(
         this,
-        BuildConfig.banner_home_id,
+        BuildConfig.banner_home_id1,
         BuildConfig.banner_home_id2,
     )
 
@@ -82,14 +82,14 @@ fun Fragment.showNativeAds(
         NativeTypeEnum.INTRO -> {
             mNativeAdManager = NativeAdsManager(
                 requireActivity(),
-                BuildConfig.native_intro_id,
+                BuildConfig.native_intro_id1,
                 BuildConfig.native_intro_id2,
             )
         }
         else ->{
             mNativeAdManager = NativeAdsManager(
                 requireActivity(),
-                BuildConfig.native_intro_id,
+                BuildConfig.native_intro_id1,
                 BuildConfig.native_intro_id2,
             )
         }
@@ -131,64 +131,6 @@ fun Context.pushEvent(key: String) {
     FirebaseAnalytics.getInstance(this).logEvent(key, null)
 }
 
-fun Fragment.showRewardAds(
-    actionSuccess: () -> Unit,
-    actionDoneWhenAdsNotComplete: () -> Unit,
-    actionFailed: () -> Unit,
-    type: RewardAdsEnum
-) {
-
-    if (!isInternetAvailable(requireContext())) {
-        actionFailed()
-        return
-    }
-
-    if (activity == null) {
-        return
-    }
-
-    if (RewardAdsManager.isShowing) {
-        return
-    }
-
-    val rewardAdsManager: RewardAdsManager
-    when (type) {
-        RewardAdsEnum.VIDEO -> {
-            rewardAdsManager = RewardAdsManager(
-                requireActivity(),
-                BuildConfig.reward_app_id,
-                BuildConfig.reward_app_id2,
-            )
-        }
-    }
-
-    RewardAdsManager.isShowing = true
-
-    val dialogLoadingInterAds = DialogFragmentLoadingInterAds().onCreateDialog(requireContext())
-    lifecycleScope.launchWhenResumed {
-        dialogLoadingInterAds.show()
-        rewardAdsManager.showAds(requireActivity(), onActionDoneWhenAdsNotComplete = {
-            actionDoneWhenAdsNotComplete.invoke()
-            RewardAdsManager.isShowing = false
-            rewardAdsManager.adImpression = false
-        }, onLoadAdSuccess = {
-            RewardAdsManager.isShowing = true
-            dialogLoadingInterAds.dismiss()
-        }, onAdClose = {
-            actionSuccess()
-            RewardAdsManager.isShowing = false
-            rewardAdsManager.adImpression = false
-        }, onAdLoadFail = {
-            RewardAdsManager.isShowing = false
-            rewardAdsManager.adImpression = false
-            actionFailed()
-            dialogLoadingInterAds.dismiss()
-        })
-    }
-
-}
-
-
 fun Fragment.showInterAds(
     action: () -> Unit, type: InterAdsEnum
 ) {
@@ -214,15 +156,15 @@ fun Fragment.showInterAds(
         InterAdsEnum.SPLASH -> {
             interstitialSingleReqAdManager = InterstitialSingleReqAdManager(
                 requireActivity(),
-                BuildConfig.inter_splash_id,
-                BuildConfig.inter_splash_id2,
+                BuildConfig.inter_callvideo_id1,
+                BuildConfig.inter_callvideo_id1,
             )
         }
         else ->{
             interstitialSingleReqAdManager = InterstitialSingleReqAdManager(
                 requireActivity(),
-                BuildConfig.inter_splash_id,
-                BuildConfig.inter_splash_id2,
+                BuildConfig.inter_callvideo_id1,
+                BuildConfig.inter_callvideo_id1,
             )
         }
     }

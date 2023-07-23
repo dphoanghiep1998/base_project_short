@@ -71,11 +71,11 @@ class MainActivity : AppCompatActivity() {
         if (!AppSharePreference.INSTANCE.getSetLangFirst(false)) {
             controller.navigate(R.id.fragmentLanguage)
         } else {
-            if (!CustomApplication.app.isChangeLanga) {
+            if (!CustomApplication.app.isChangeLang) {
                 controller.navigate(R.id.fragmentOnBoard)
             } else {
                 controller.navigate(R.id.fragmentHome)
-                CustomApplication.app.isChangeLanga = false
+                CustomApplication.app.isChangeLang = false
             }
         }
 
@@ -114,7 +114,7 @@ class MainActivity : AppCompatActivity() {
         if (!AppSharePreference.INSTANCE.getPassSetting(false)) {
             AppSharePreference.INSTANCE.saveListUnlockPos(
                 mutableListOf(
-                    10, 17, 19, 26, 29, 33, 38
+                    2, 7, 12, 17, 22, 27
                 )
             )
 
@@ -159,8 +159,7 @@ class MainActivity : AppCompatActivity() {
                     37,
                     38,
                     39,
-                    40,
-                    41
+                    40
                 )
             )
         }

@@ -1,5 +1,6 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.splash
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
@@ -8,12 +9,14 @@ import android.content.res.Configuration
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
+import com.airbnb.lottie.LottieDrawable
+import com.gianghv.libads.AppOpenStartAdManager
 import com.gianghv.libads.InterstitialPreloadAdManager
-import com.gianghv.libads.InterstitialSingleReqAdManager
 import com.gianghv.libads.NativeAdsManager
-import com.gianghv.libads.RewardAdsManager
 import com.gianghv.libads.utils.AdsConfigUtils
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
@@ -21,8 +24,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
-import com.neko.hiepdph.skibyditoiletvideocall.common.DialogFragmentLoadingInterAds
-import com.neko.hiepdph.skibyditoiletvideocall.common.changeStatusBarColor
+import com.neko.hiepdph.skibyditoiletvideocall.common.DialogFragmentLoadingOpenAds
 import com.neko.hiepdph.skibyditoiletvideocall.common.createContext
 import com.neko.hiepdph.skibyditoiletvideocall.common.isInternetAvailable
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.ActivitySplashBinding
@@ -32,105 +34,91 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale
-import kotlin.system.exitProcess
 
 @AndroidEntryPoint
 @SuppressLint("CustomSplashScreen")
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
-
+    private var openSplashAds: AppOpenStartAdManager? = null
+    private val initDone = AppSharePreference.INSTANCE.getInitDone(false)
+    private var dialogLoadingOpenAds: Dialog? = null
     private var status = 0
-    private val initDone = AppSharePreference.INSTANCE.getSetLangFirst(false)
-    private lateinit var app: CustomApplication
-    private var dialogLoadingInterAds: Dialog? = null
-
+    private var handler: Handler? = null
+    private var runnable: Runnable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        app = application as CustomApplication
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        dialogLoadingInterAds = DialogFragmentLoadingInterAds().onCreateDialog(this)
+        dialogLoadingOpenAds = DialogFragmentLoadingOpenAds().onCreateDialog(this)
         fetchRemoteConfig()
+        setStatusColor()
         initAds()
         handleAds()
-        changeStatusBarColor()
-        CustomApplication.app.adsShowed = false
+        CustomApplication.app.isInside = false
+        handler = Handler()
+        runnable = Runnable {
+            val defPos = FirebaseRemoteConfig.getInstance().getLong(AdsConfigUtils.DEF_POS)
+            AdsConfigUtils(this@SplashActivity).putDefConfigNumber(defPos.toInt())
+            status++
+            checkAdsLoad()
+            handler = null
+        }
+        handler?.postDelayed(runnable!!, 10000)
     }
+
+
+    private val callback = object : AppOpenStartAdManager.OnShowAdCompleteListener {
+
+        override fun onShowAdComplete() {
+            dialogLoadingOpenAds?.dismiss()
+            navigateToMain()
+        }
+
+    }
+
     private fun fetchRemoteConfig() {
         val mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance()
-        val configSettings = FirebaseRemoteConfigSettings.Builder()
-            .setMinimumFetchIntervalInSeconds(3600)
-            .build()
+        val configSettings =
+            FirebaseRemoteConfigSettings.Builder().setMinimumFetchIntervalInSeconds(3600).build()
         mFirebaseRemoteConfig.setConfigSettingsAsync(configSettings)
         mFirebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults)
 
-        mFirebaseRemoteConfig.fetchAndActivate()
-            .addOnCompleteListener(this) { task ->
-                val defPos = FirebaseRemoteConfig.getInstance()
-                    .getLong(AdsConfigUtils.DEF_POS)
-                AdsConfigUtils(this).putDefConfigNumber(defPos.toInt())
-                checkFinishPermission()
-            }.addOnFailureListener {
-                AdsConfigUtils(this).putDefConfigNumber(AdsConfigUtils.DEF_POS_VALUE)
-                checkFinishPermission()
-            }
+        mFirebaseRemoteConfig.fetchAndActivate().addOnCompleteListener(this) { task ->
+            val defPos = FirebaseRemoteConfig.getInstance().getLong(AdsConfigUtils.DEF_POS)
+            AdsConfigUtils(this).putDefConfigNumber(defPos.toInt())
+            checkFinishPermission()
+        }.addOnFailureListener {
+            AdsConfigUtils(this).putDefConfigNumber(AdsConfigUtils.DEF_POS_VALUE)
+            checkFinishPermission()
+        }
     }
 
     private fun checkFinishPermission() {
+        handler?.removeCallbacks { runnable!! }
+        handler = null
         status++
         checkAdsLoad()
     }
 
-    private fun initAds() {
-        CustomApplication.app.interstitialPreloadAdManager = InterstitialPreloadAdManager(
-            this,
-            BuildConfig.inter_splash_id,
-            BuildConfig.inter_splash_id2,
-        )
-
-
-        CustomApplication.app.mNativeAdManagerIntro = NativeAdsManager(
-            this,
-            BuildConfig.native_intro_id,
-            BuildConfig.native_intro_id2,
-        )
-
-        CustomApplication.app.mNativeAdManagerHome = NativeAdsManager(
-            this,
-            BuildConfig.native_video_id,
-            BuildConfig.native_video_id2,
-        )
-    }
-
-    private val callback = object : InterstitialPreloadAdManager.InterstitialAdListener {
-        override fun onClose() {
-            CustomApplication.app.adsShowed = true
-            navigateMain()
-        }
-
-        override fun onError() {
-            CustomApplication.app.adsShowed = true
-            navigateMain()
-        }
-    }
-
     private fun checkAdsLoad() {
         if (status == 2) {
-            if (CustomApplication.app.interstitialPreloadAdManager?.loadAdsSuccess == true) {
-                handleAtLeast3Second(action = {
+            if (openSplashAds?.isAdLoaded == true) {
+                handleAtLeast2Second(action = {
                     lifecycleScope.launchWhenResumed {
-                        dialogLoadingInterAds?.show()
-                        delay(500)
-                        CustomApplication.app.interstitialPreloadAdManager?.showAds(
-                            this@SplashActivity, callback
-                        )
+                        dialogLoadingOpenAds?.show()
+                        lifecycleScope.launch(Dispatchers.Main) {
+                            delay(500)
+                            openSplashAds?.showAdIfAvailable(
+                                this@SplashActivity, callback
+                            )
+                        }
                     }
-                })
 
+                })
             } else {
-                navigateMain()
+                navigateToMain()
             }
         }
     }
@@ -139,13 +127,65 @@ class SplashActivity : AppCompatActivity() {
     private fun handleAds() {
         if (!isInternetAvailable(this)) {
             handleWhenAnimationDone(action = {
-                navigateMain()
+                navigateToMain()
             })
         } else {
-            Handler().postDelayed({
+            binding.loadingSplash.repeatCount = LottieDrawable.INFINITE
+
+            Log.d("TAG", "handleAds:2 ")
+            handleAtLeast2Second(action = {
                 loadSplashAds()
-            }, 1000)
+            })
         }
+    }
+
+    private fun loadSplashAds() {
+        openSplashAds?.loadAd(onAdLoadFail = {
+            Log.d("TAG", "loadSplashAds: fail")
+            if (!CustomApplication.app.isInside) {
+                openSplashAds?.isAdLoaded = false
+                status++
+                checkAdsLoad()
+            }
+        }, onAdLoader = {
+            Log.d("TAG", "loadSplashAds: true")
+            if (!CustomApplication.app.isInside) {
+                openSplashAds?.isAdLoaded = true
+                status++
+                checkAdsLoad()
+            }
+
+        })
+    }
+
+
+    private fun initAds() {
+        openSplashAds = AppOpenStartAdManager(
+            this,
+            BuildConfig.open_splash_id1,
+            BuildConfig.open_splash_id2,
+        )
+        if (!initDone) {
+            CustomApplication.app.mNativeAdManagerLanguage = NativeAdsManager(
+                this,
+                BuildConfig.native_language_id1,
+                BuildConfig.native_language_id2,
+            )
+        }
+    }
+
+    private fun handleAtLeast2Second(action: () -> Unit) {
+        Handler().postDelayed({
+            action.invoke()
+        }, 2000)
+    }
+
+    private fun setStatusColor() {
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
+        window.statusBarColor = ContextCompat.getColor(this, R.color.black)
     }
 
     override fun attachBaseContext(newBase: Context) = super.attachBaseContext(
@@ -158,71 +198,48 @@ class SplashActivity : AppCompatActivity() {
         )
     )
 
-
     override fun applyOverrideConfiguration(overrideConfiguration: Configuration?) {
-        if (overrideConfiguration != null) {
-            val uiMode = overrideConfiguration.uiMode
-            overrideConfiguration.setTo(baseContext.resources.configuration)
-            overrideConfiguration.uiMode = uiMode
-        }
         super.applyOverrideConfiguration(overrideConfiguration)
+        overrideConfiguration?.let {
+            val uiMode = it.uiMode
+            it.setTo(baseContext.resources.configuration)
+            it.uiMode = uiMode
+        }
     }
 
 
-
-
-
-    private fun handleAtLeast3Second(action: () -> Unit) {
-        Handler().postDelayed({
-            action.invoke()
-        }, 1000)
-    }
-
-    private fun loadSplashAds() {
-        CustomApplication.app.interstitialPreloadAdManager?.loadAds(onAdLoadFail = {
-            status++
-            CustomApplication.app.interstitialPreloadAdManager?.loadAdsSuccess = false
-            if (!CustomApplication.app.adsShowed) {
-                checkAdsLoad()
+    private fun handleWhenAnimationDone(action: () -> Unit) {
+        binding.loadingSplash.addAnimatorListener(object : Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator) {
             }
-        }, onAdLoader = {
-            status++
-            CustomApplication.app.interstitialPreloadAdManager?.loadAdsSuccess = true
-            if (!CustomApplication.app.adsShowed) {
-                checkAdsLoad()
+
+            override fun onAnimationEnd(animation: Animator) {
+                action.invoke()
+
             }
+
+            override fun onAnimationCancel(animation: Animator) {
+            }
+
+            override fun onAnimationRepeat(animation: Animator) {
+            }
+
         })
     }
 
-    private fun handleWhenAnimationDone(action: () -> Unit) {
-        Handler().postDelayed({
-            action.invoke()
-
-        }, 3000)
-
-    }
-
-    private fun navigateMain() {
-        val i = Intent(this@SplashActivity, MainActivity::class.java)
-        startActivity(i)
-        finish()
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        finishAffinity()
-        exitProcess(-1)
-
-    }
 
     override fun onDestroy() {
         super.onDestroy()
-        InterstitialPreloadAdManager.isShowingAds = false
-        InterstitialSingleReqAdManager.isShowingAds = false
-        RewardAdsManager.isShowing = false
-        CustomApplication.app.interstitialPreloadAdManager = null
-        dialogLoadingInterAds?.dismiss()
-
+        dialogLoadingOpenAds?.dismiss()
+        openSplashAds = null
+        handler?.removeCallbacks { runnable }
     }
 
+
+
+    private fun navigateToMain() {
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 }

@@ -9,8 +9,11 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.neko.hiepdph.skibyditoiletvideocall.R
+import com.neko.hiepdph.skibyditoiletvideocall.common.InterAdsEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
+import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
+import com.neko.hiepdph.skibyditoiletvideocall.common.showInterAds
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallCloseBinding
 import kotlin.system.exitProcess
 
@@ -24,6 +27,7 @@ class FragmentCallClose : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCallCloseBinding.inflate(inflater, container, false)
+        showBannerAds(binding.bannerAds)
         changeBackPressCallBack()
         return binding.root
     }
@@ -41,14 +45,17 @@ class FragmentCallClose : Fragment() {
 
     private fun initButton() {
         binding.btnClose.clickWithDebounce {
-            navigateToPage(R.id.fragmentCallClose, R.id.fragmentHome)
+            showInterAds(action = {
+                navigateToPage(R.id.fragmentCallClose, R.id.fragmentHome)
+            }, type = InterAdsEnum.CALL_VIDEO)
+
         }
     }
 
     private fun changeBackPressCallBack() {
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-              findNavController().navigate(R.id.fragmentHome)
+                findNavController().navigate(R.id.fragmentHome)
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)

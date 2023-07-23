@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.media.AudioManager
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -15,11 +16,16 @@ import android.view.animation.RotateAnimation
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.gianghv.libads.InterstitialSingleReqAdManager
+import com.gianghv.libads.NativeAdsManager
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
+import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
+import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
 import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
@@ -29,7 +35,6 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.pushEvent
 import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.common.showInterAds
-import com.neko.hiepdph.skibyditoiletvideocall.common.showRewardAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.MonsterModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentVideoToiletBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
@@ -39,7 +44,8 @@ class FragmentVideoToilet : Fragment() {
     private val viewModel by activityViewModels<AppViewModel>()
     private var receiver: BroadcastReceiver? = null
     private var audioManager: AudioManager? = null
-    private var intentFilter:IntentFilter ?= null
+    private var intentFilter: IntentFilter? = null
+    private var lastClickTime: Long = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -62,8 +68,11 @@ class FragmentVideoToilet : Fragment() {
             }
 
         }
+        intentFilter = IntentFilter()
         intentFilter?.addAction("android.media.VOLUME_CHANGED_ACTION")
         requireActivity().registerReceiver(receiver, intentFilter)
+        changeBackPressCallBack()
+        initAds()
         return binding.root
     }
 
@@ -77,6 +86,14 @@ class FragmentVideoToilet : Fragment() {
         setupPlayer()
         initButton()
         showBannerAds(binding.bannerAds)
+    }
+
+    private fun initAds() {
+        CustomApplication.app.mNativeAdManagerHome = NativeAdsManager(
+            requireContext(),
+            BuildConfig.native_video_id1,
+            BuildConfig.native_video_id2
+        )
     }
 
     private fun initButton() {
@@ -98,29 +115,9 @@ class FragmentVideoToilet : Fragment() {
             if (index < 41) {
                 clickTurn++
                 index++
-                if (viewModel.data[index] == "ads") {
-                    index++
-                }
                 if ((viewModel.data[index] as MonsterModel).isRewardContent) {
                     val dialogConfirm = DialogConfirm(requireContext(), onPressPositive = {
-                        showRewardAds(actionDoneWhenAdsNotComplete = { index-- }, actionSuccess = {
-                            viewModel.setCurrentModel(viewModel.data[index] as MonsterModel)
-
-                            val dataPos =
-                                AppSharePreference.INSTANCE.getListVideoPlayed(mutableListOf())
-                                    .toMutableList()
-                            dataPos.remove(viewModel.getCurrentModel().id)
-                            AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
-                            requireContext().pushEvent("click_next_reward")
-                            viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content),
-                                onEnd = {})
-                        }, actionFailed = {
-                            Toast.makeText(
-                                requireContext(),
-                                getString(R.string.require_internet),
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }, type = RewardAdsEnum.VIDEO)
+//
                     })
                     dialogConfirm.show()
                 } else {
@@ -181,12 +178,21 @@ class FragmentVideoToilet : Fragment() {
                 viewModel.resetPlayer()
                 findNavController().navigate(R.id.fragmentListVideoToilet)
             }, InterAdsEnum.VIDEO)
+            CustomApplication.app.mNativeAdManagerHome?.loadAds(onLoadSuccess = {
+                CustomApplication.app.nativeADHome?.value = it
+            })
         }
 
 
         requireActivity().findViewById<ImageView>(R.id.btn_back_controller).clickWithDebounce {
             Log.d("TAG", "initButton: ")
-            findNavController().navigate(R.id.action_fragmentVideoToilet_to_fragmentHome)
+            if (SystemClock.elapsedRealtime() - lastClickTime < 30000 && InterstitialSingleReqAdManager.isShowingAds) return@clickWithDebounce
+            else showInterAds(action = {
+                requireContext().pushEvent("click_back_video")
+                findNavController().popBackStack()
+            }, InterAdsEnum.FUNCTION)
+            lastClickTime = SystemClock.elapsedRealtime()
+
         }
 
         requireActivity().findViewById<ImageView>(R.id.volume_toggle).clickWithDebounce {
@@ -279,19 +285,28 @@ class FragmentVideoToilet : Fragment() {
     override fun onPause() {
         super.onPause()
         viewModel.pausePlayer()
-        requireActivity().unregisterReceiver(receiver)
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        requireActivity().registerReceiver(receiver, intentFilter)
-    }
 
     override fun onDestroy() {
         super.onDestroy()
         viewModel.resetPlayer()
         requireActivity().unregisterReceiver(receiver)
+
+    }
+
+    private fun changeBackPressCallBack() {
+        val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (SystemClock.elapsedRealtime() - lastClickTime < 30000 && InterstitialSingleReqAdManager.isShowingAds) return
+                else showInterAds(action = {
+                    requireContext().pushEvent("click_back_video")
+                    findNavController().popBackStack()
+                }, InterAdsEnum.FUNCTION)
+                lastClickTime = SystemClock.elapsedRealtime()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
     }
 

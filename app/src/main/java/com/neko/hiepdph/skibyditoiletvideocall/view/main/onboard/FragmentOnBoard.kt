@@ -1,6 +1,7 @@
 package com.neko.hiepdph.toiletseries.main.onboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,10 +9,14 @@ import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import com.gianghv.libads.NativeAdsManager
+import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
+import com.neko.hiepdph.skibyditoiletvideocall.common.hide
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
+import com.neko.hiepdph.skibyditoiletvideocall.common.show
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentOnboardBinding
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard.adapter.ViewPagerAdapter
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard.child_fragment.FragmentOnboardChild1
@@ -40,9 +45,11 @@ class FragmentOnBoard : Fragment() {
 
 
     private fun initView() {
+        binding.btnNext.hide()
         initViewPager()
         initButton()
     }
+
     private fun changeBackPressCallBack() {
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -86,6 +93,13 @@ class FragmentOnBoard : Fragment() {
     }
 
     private fun insertAds() {
+        if (CustomApplication.app.mNativeAdManagerIntro == null) {
+            CustomApplication.app.mNativeAdManagerIntro = NativeAdsManager(
+                requireContext(),
+                BuildConfig.native_intro_id1,
+                BuildConfig.native_intro_id2
+            )
+        }
         CustomApplication.app.nativeADIntro?.observe(viewLifecycleOwner) {
             it?.let {
                 binding.nativeAdSmallView.setNativeAd(it)
@@ -96,9 +110,14 @@ class FragmentOnBoard : Fragment() {
         if (CustomApplication.app.nativeADIntro?.value == null) {
             CustomApplication.app.mNativeAdManagerIntro?.loadAds(onLoadSuccess = {
                 CustomApplication.app.nativeADIntro?.value = it
+                Log.d("TAG", "insertAds: true")
+                binding.btnNext.show()
+
             }, onLoadFail = {
+                Log.d("TAG", "insertAds: fail")
                 binding.nativeAdSmallView.isVisible = false
                 binding.nativeAdSmallView.visibility = View.GONE
+                binding.btnNext.show()
             })
         }
     }

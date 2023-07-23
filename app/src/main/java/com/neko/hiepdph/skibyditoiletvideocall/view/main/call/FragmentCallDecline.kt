@@ -15,6 +15,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.common.show
+import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallDeclineBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 
@@ -28,6 +29,7 @@ class FragmentCallDecline : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentCallDeclineBinding.inflate(inflater, container, false)
+        showBannerAds(binding.bannerAds)
         return binding.root
     }
 

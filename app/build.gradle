@@ -70,99 +70,98 @@ android {
             dimension "ads"
             buildConfigField('String', 'ads_open_id', '""')
 
-            buildConfigField('String', 'inter_splash_id', '""')
-            buildConfigField('String', 'inter_splash_id2', '""')
+            buildConfigField('String', 'open_splash_id1', '""')
+            buildConfigField('String', 'open_splash_id2', '""')
 
-            buildConfigField('String', 'native_language_id', '""')
+            buildConfigField('String', 'native_language_id1', '""')
             buildConfigField('String', 'native_language_id2', '""')
 
-            buildConfigField('String', 'native_intro_id', '""')
+            buildConfigField('String', 'native_intro_id1', '""')
             buildConfigField('String', 'native_intro_id2', '""')
 
-            buildConfigField('String', 'banner_home_id', '""')
+            buildConfigField('String', 'banner_home_id1', '""')
             buildConfigField('String', 'banner_home_id2', '""')
 
-            buildConfigField('String', 'inter_play_id', '""')
-            buildConfigField('String', 'inter_play_id2', '""')
+            buildConfigField('String', 'inter_function_id1', '""')
+            buildConfigField('String', 'inter_function_id2', '""')
 
-            buildConfigField('String', 'native_play_id', '""')
-            buildConfigField('String', 'native_play_id2', '""')
+            buildConfigField('String', 'inter_video_id1', '""')
+            buildConfigField('String', 'inter_video_id2', '""')
 
-            buildConfigField('String', 'native_home_id', '""')
-            buildConfigField('String', 'native_home_id2', '""')
-
-            buildConfigField('String', 'reward_app_id', '""')
-            buildConfigField('String', 'reward_app_id2', '""')
-
-            buildConfigField('String', 'reward_app_id', '""')
-            buildConfigField('String', 'reward_app_id2', '""')
-
-            buildConfigField('String', 'native_video_id', '""')
+            buildConfigField('String', 'native_video_id1', '""')
             buildConfigField('String', 'native_video_id2', '""')
+
+            buildConfigField('String', 'inter_callvideo_id1', '""')
+            buildConfigField('String', 'inter_callvideo_id2', '""')
+
+            buildConfigField('String', 'native_gallery_id1', '""')
+            buildConfigField('String', 'native_gallery_id2', '""')
 
 
         }
         adstest {
             dimension "ads"
+
             buildConfigField('String', 'ads_open_id', '"ca-app-pub-3940256099942544/3419835294"')
 
-            buildConfigField('String', 'inter_splash_id', '"ca-app-pub-3940256099942544/1033173712"')
-            buildConfigField('String', 'inter_splash_id2', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'open_splash_id1', '"ca-app-pub-3940256099942544/3419835294"')
+            buildConfigField('String', 'open_splash_id2', '"ca-app-pub-3940256099942544/3419835294"')
 
-            buildConfigField('String', 'native_language_id', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_language_id1', '"ca-app-pub-3940256099942544/2247696110"')
             buildConfigField('String', 'native_language_id2', '"ca-app-pub-3940256099942544/2247696110"')
 
-            buildConfigField('String', 'native_intro_id', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_intro_id1', '"ca-app-pub-3940256099942544/2247696110"')
             buildConfigField('String', 'native_intro_id2', '"ca-app-pub-3940256099942544/2247696110"')
 
-            buildConfigField('String', 'banner_home_id', '"ca-app-pub-4636496778732615/1704801355"')
-            buildConfigField('String', 'banner_home_id2', '"ca-app-pub-4636496778732615/2124437908"')
+            buildConfigField('String', 'banner_home_id1', '"ca-app-pub-3940256099942544/6300978111"')
+            buildConfigField('String', 'banner_home_id2', '"ca-app-pub-3940256099942544/6300978111"')
 
-            buildConfigField('String', 'inter_play_id', '"ca-app-pub-3940256099942544/1033173712"')
-            buildConfigField('String', 'inter_play_id2', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_function_id1', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_function_id2', '"ca-app-pub-3940256099942544/1033173712"')
 
-            buildConfigField('String', 'native_play_id', '"ca-app-pub-3940256099942544/2247696110"')
-            buildConfigField('String', 'native_play_id2', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'inter_video_id1', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_video_id2', '"ca-app-pub-3940256099942544/1033173712"')
 
-            buildConfigField('String', 'native_home_id', '"ca-app-pub-3940256099942544/2247696110"')
-            buildConfigField('String', 'native_home_id2', '"ca-app-pub-3940256099942544/2247696110"')
-
-            buildConfigField('String', 'reward_app_id', '"ca-app-pub-3940256099942544/5224354917"')
-            buildConfigField('String', 'reward_app_id2', '"ca-app-pub-3940256099942544/5224354917"')
-
-            buildConfigField('String', 'native_video_id', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_video_id1', '"ca-app-pub-3940256099942544/2247696110"')
             buildConfigField('String', 'native_video_id2', '"ca-app-pub-3940256099942544/2247696110"')
+
+            buildConfigField('String', 'inter_callvideo_id1', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_callvideo_id2', '"ca-app-pub-3940256099942544/1033173712"')
+
+            buildConfigField('String', 'native_gallery_id1', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_gallery_id2', '"ca-app-pub-3940256099942544/2247696110"')
         }
+
         adsreal {
             dimension "ads"
-            buildConfigField('String', 'ads_open_id', '"ca-app-pub-3940256099942544/3419835294"')
+            buildConfigField('String', 'ads_open_id', '"ca-app-pub-4636496778732615/8168260598"')
 
-            buildConfigField('String', 'inter_splash_id', '"ca-app-pub-3940256099942544/1033173712"')
-            buildConfigField('String', 'inter_splash_id2', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'open_splash_id1', '"ca-app-pub-4636496778732615/5672807813"')
+            buildConfigField('String', 'open_splash_id2', '"ca-app-pub-4636496778732615/3834210012"')
 
-            buildConfigField('String', 'native_language_id', '"ca-app-pub-3940256099942544/2247696110"')
-            buildConfigField('String', 'native_language_id2', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_language_id1', '"ca-app-pub-4636496778732615/4269324287"')
+            buildConfigField('String', 'native_language_id2', '"ca-app-pub-4636496778732615/4229015582"')
 
-            buildConfigField('String', 'native_intro_id', '"ca-app-pub-3940256099942544/2247696110"')
-            buildConfigField('String', 'native_intro_id2', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_intro_id1', '"ca-app-pub-4636496778732615/2360248764"')
+            buildConfigField('String', 'native_intro_id2', '"ca-app-pub-4636496778732615/2329556653"')
 
-            buildConfigField('String', 'banner_home_id', '"ca-app-pub-4636496778732615/1704801355"')
-            buildConfigField('String', 'banner_home_id2', '"ca-app-pub-4636496778732615/2124437908"')
+            buildConfigField('String', 'banner_home_id1', '"ca-app-pub-4636496778732615/1016474981"')
+            buildConfigField('String', 'banner_home_id2', '"ca-app-pub-4636496778732615/4496608894"')
 
-            buildConfigField('String', 'inter_play_id', '"ca-app-pub-3940256099942544/1033173712"')
-            buildConfigField('String', 'inter_play_id2', '"ca-app-pub-3940256099942544/1033173712"')
+            buildConfigField('String', 'inter_function_id1', '"ca-app-pub-4636496778732615/3183527229"')
+            buildConfigField('String', 'inter_function_id2', '"ca-app-pub-4636496778732615/7421003758"')
 
-            buildConfigField('String', 'native_play_id', '"ca-app-pub-3940256099942544/2247696110"')
-            buildConfigField('String', 'native_play_id2', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'inter_video_id1', '"ca-app-pub-4636496778732615/4407827602"')
+            buildConfigField('String', 'inter_video_id2', '"ca-app-pub-4636496778732615/3094745933"')
 
-            buildConfigField('String', 'native_home_id', '"ca-app-pub-3940256099942544/2247696110"')
-            buildConfigField('String', 'native_home_id2', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_video_id1', '"ca-app-pub-4636496778732615/4764148300"')
+            buildConfigField('String', 'native_video_id2', '"ca-app-pub-4636496778732615/7009940216"')
 
-            buildConfigField('String', 'reward_app_id', '"ca-app-pub-3940256099942544/5224354917"')
-            buildConfigField('String', 'reward_app_id2', '"ca-app-pub-3940256099942544/5224354917"')
+            buildConfigField('String', 'inter_callvideo_id1', '"ca-app-pub-4636496778732615/5529337587"')
+            buildConfigField('String', 'inter_callvideo_id2', '"ca-app-pub-4636496778732615/3070695201"')
 
-            buildConfigField('String', 'native_video_id', '"ca-app-pub-3940256099942544/2247696110"')
-            buildConfigField('String', 'native_video_id2', '"ca-app-pub-3940256099942544/2247696110"')
+            buildConfigField('String', 'native_gallery_id1', '"ca-app-pub-4636496778732615/9444531861"')
+            buildConfigField('String', 'native_gallery_id2', '"ca-app-pub-4636496778732615/4077752593"')
         }
     }
 }

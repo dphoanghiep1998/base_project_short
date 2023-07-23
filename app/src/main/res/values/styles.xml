@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="scrollbarStyle" format="reference"/>
+
+    <style name="scrollbar_shape_style">
+        <item name="android:scrollbarAlwaysDrawHorizontalTrack">true</item>
+        <item name="android:scrollbarStyle">outsideOverlay</item>
+        <item name="android:scrollbars">horizontal</item>
+        <item name="android:fadeScrollbars">false</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/bg_thumb_script</item>
+        <item name="android:scrollbarTrackHorizontal">@drawable/bg_seekbar_script</item>
+        <item name="android:scrollbarSize">30dp</item>
+        <item name="android:isScrollContainer">false</item>
+
+    </style>
+</resources>

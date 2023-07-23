@@ -14,6 +14,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.neko.hiepdph.skibyditoiletvideocall.R
+import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentProgressCallBinding
 import kotlinx.coroutines.delay
@@ -36,6 +37,7 @@ class FragmentProgressCall : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentProgressCallBinding.inflate(inflater, container, false)
         changeBackPressCallBack()
+        showBannerAds(binding.bannerAds)
         return binding.root
     }
 

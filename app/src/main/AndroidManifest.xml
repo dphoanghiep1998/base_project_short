@@ -57,10 +57,11 @@
 
 <!--                <category android:name="android.intent.category.LAUNCHER" />-->
 <!--            </intent-filter>-->
-        </activity> <!-- <providers -->
-        <!-- android:name="com.facebook.FacebookContentProvider" -->
-        <!-- android:authorities="com.facebook.FacebookContentProvider3444392725803614" -->
-        <!-- android:exported="false" /> -->
+        </activity>
+         <provider
+         android:name="com.facebook.FacebookContentProvider"
+         android:authorities="com.facebook.FacebookContentProvider1072400923732000"
+         android:exported="false" />
         <meta-data
             android:name="applovin.sdk.key"
             android:value="@string/app_lovin_sdk_key" />

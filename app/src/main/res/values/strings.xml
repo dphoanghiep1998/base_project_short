@@ -2,9 +2,10 @@
     <string name="app_name" translatable="false">Skibydi Toilet Video Call</string>
     <string name="app_lovin_sdk_key" translatable="false">lBnu4FPbTxGUi8cqgwNENfRfqINTVk8B9NxC2Japp2DqKPThsIhPCF7zcC6wr9_IN8OLTcG9SR4dT4OJwQPTBf</string>
     <string name="ads_app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="facebook_app_id" translatable="false">3444392725803614</string>
-    <string name="facebook_client_token" translatable="false">a5737a4cf618def85f9a70ef772c1c14</string>
-    <string name="adjust_token_key" translatable="false">gkmigt32ia68</string>
+<!--    <string name="ads_app_id" translatable="false">ca-app-pub-4636496778732615~6858214205</string>-->
+    <string name="facebook_app_id" translatable="false">1072400923732000</string>
+    <string name="facebook_client_token" translatable="false">a19788edbb2708cebd231633d8c55637</string>
+    <string name="adjust_token_key" translatable="false">hwxcxnykuadc</string>
 
     <string name="ENGLISH" translatable="false">English</string>
     <string name="VIETNAM" translatable="false">Việt Nam</string>

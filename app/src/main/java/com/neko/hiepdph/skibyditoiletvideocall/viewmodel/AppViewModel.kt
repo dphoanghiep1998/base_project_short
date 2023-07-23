@@ -37,17 +37,17 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
         MonsterModel(
             0, R.drawable.ic_1, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_1.mp4"
         ), MonsterModel(
-            1, R.drawable.ic_2, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_2.mp4"
+            1, R.drawable.ic_2, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_2.mp4",true
         ), MonsterModel(
             2, R.drawable.ic_3, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_3.mp4"
-        ), "ads", MonsterModel(
+        ), MonsterModel(
             4, R.drawable.ic_4, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_4.mp4"
         ), MonsterModel(
             5, R.drawable.ic_5, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_5.mp4"
         ), MonsterModel(
             6, R.drawable.ic_6, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_6.mp4"
         ), MonsterModel(
-            7, R.drawable.ic_7, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_7.mp4"
+            7, R.drawable.ic_7, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_7.mp4",true
         ), MonsterModel(
             8, R.drawable.ic_8, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_8.mp4"
         ), MonsterModel(
@@ -55,9 +55,9 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
         ), MonsterModel(
             10, R.drawable.ic_10, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_10.mp4"
         ), MonsterModel(
-            11, R.drawable.ic_11, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_11.mp4", true
+            11, R.drawable.ic_11, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_11.mp4",
         ), MonsterModel(
-            12, R.drawable.ic_12, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_12.mp4"
+            12, R.drawable.ic_12, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_12.mp4",true
         ), MonsterModel(
             13, R.drawable.ic_13, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_13.mp4"
         ), MonsterModel(
@@ -67,17 +67,17 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
         ), MonsterModel(
             16, R.drawable.ic_16, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_16.mp4"
         ), MonsterModel(
-            17, R.drawable.ic_17, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_17.mp4"
+            17, R.drawable.ic_17, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_17.mp4",true
         ), MonsterModel(
-            18, R.drawable.ic_18, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_18.mp4", true
+            18, R.drawable.ic_18, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_18.mp4",
         ), MonsterModel(
             19, R.drawable.ic_19, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_19.mp4"
         ), MonsterModel(
-            20, R.drawable.ic_20, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_20.mp4", true
+            20, R.drawable.ic_20, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_20.mp4",
         ), MonsterModel(
             21, R.drawable.ic_21, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_21.mp4"
         ), MonsterModel(
-            22, R.drawable.ic_22, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_22.mp4"
+            22, R.drawable.ic_22, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_22.mp4",true
         ), MonsterModel(
             23, R.drawable.ic_23, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_23.mp4"
         ), MonsterModel(
@@ -87,13 +87,13 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
         ), MonsterModel(
             26, R.drawable.ic_26, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_26.mp4"
         ), MonsterModel(
-            27, R.drawable.ic_27, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_27.mp4", true
+            27, R.drawable.ic_27, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_27.mp4",true
         ), MonsterModel(
             28, R.drawable.ic_28, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_28.mp4"
         ), MonsterModel(
             29, R.drawable.ic_29, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_29.mp4"
         ), MonsterModel(
-            30, R.drawable.ic_30, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_30.mp4", true
+            30, R.drawable.ic_30, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_30.mp4",
         ), MonsterModel(
             31, R.drawable.ic_31, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_31.mp4"
         ), MonsterModel(
@@ -101,23 +101,23 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
         ), MonsterModel(
             33, R.drawable.ic_33, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_33.mp4"
         ), MonsterModel(
-            34, R.drawable.ic_34, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_34.mp4", true
+            34, R.drawable.ic_34, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_34.mp4",
         ), MonsterModel(
             35, R.drawable.ic_35, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_35.mp4"
         ), MonsterModel(
             36, R.drawable.ic_36, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_36.mp4"
-        ), "ads", MonsterModel(
+        ), MonsterModel(
             38, R.drawable.ic_37, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_37.mp4"
         ), MonsterModel(
             39, R.drawable.ic_38, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_38.mp4"
         ), MonsterModel(
-            40, R.drawable.ic_39, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_39.mp4", true
+            40, R.drawable.ic_39, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_39.mp4",
         ), MonsterModel(
             41, R.drawable.ic_40, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_40.mp4"
         )
     )
 
-    private var currentModel: MonsterModel = data[0] as MonsterModel
+    private var currentModel: MonsterModel = data[0]
 
     fun getCurrentModel(): MonsterModel {
         return currentModel
@@ -160,14 +160,14 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
 
     fun seekTo2(pos: Long) {
         _player2?.seekTo(pos)
-        if(_player2?.isPlaying == false){
+        if (_player2?.isPlaying == false) {
             _player2?.play()
         }
     }
 
     fun seekTo1(pos: Long) {
         _player?.seekTo(pos)
-        if(_player?.isPlaying == false){
+        if (_player?.isPlaying == false) {
             _player?.play()
         }
     }
@@ -176,6 +176,7 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
     fun isPlaying(): Boolean {
         return _player?.isPlaying == true
     }
+
     fun isPlaying2(): Boolean {
         return _player2?.isPlaying == true
     }
@@ -225,7 +226,7 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
 
     }
 
-    fun  playAudio(
+    fun playAudio(
         mediaItem: MediaItem,
         onEnd: () -> Unit,
         onPrepareDone: ((time: Long) -> Unit)? = null,

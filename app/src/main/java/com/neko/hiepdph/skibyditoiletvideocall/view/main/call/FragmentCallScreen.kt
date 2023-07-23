@@ -27,6 +27,7 @@ import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
+import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallScreenBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
@@ -37,7 +38,6 @@ class FragmentCallScreen : Fragment() {
     private val viewModel by activityViewModels<AppViewModel>()
     private var handler: Handler? = null
     private var runnable: Runnable? = null
-    private var mPlayer: Player? = null
     private val args by navArgs<FragmentCallScreenArgs>()
 
 
@@ -47,6 +47,7 @@ class FragmentCallScreen : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentCallScreenBinding.inflate(inflater, container, false)
         changeBackPressCallBack()
+        showBannerAds(binding.bannerAds)
         return binding.root
     }
 

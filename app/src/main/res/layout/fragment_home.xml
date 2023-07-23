@@ -102,5 +102,10 @@
         app:layout_constraintBottom_toTopOf="@id/tv_other_call"
         app:layout_constraintEnd_toEndOf="@id/tv_other_call"
         app:layout_constraintStart_toStartOf="@id/tv_other_call" />
+    <FrameLayout
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/bannerAds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

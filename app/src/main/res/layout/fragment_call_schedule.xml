@@ -96,5 +96,9 @@
         app:layout_constraintEnd_toEndOf="@id/wheel_minute"
         app:layout_constraintStart_toStartOf="@id/wheel_second"
         app:layout_constraintTop_toBottomOf="@id/wheel_second" />
-
+    <FrameLayout
+        android:id="@+id/bannerAds"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

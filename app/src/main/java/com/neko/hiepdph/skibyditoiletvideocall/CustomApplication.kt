@@ -32,7 +32,8 @@ class CustomApplication : Application(), Application.ActivityLifecycleCallbacks,
     private var currentActivity: Activity? = null
     private var appOpenAdsManager: AppOpenResumeAdManager? = null
     var adsShowed = false
-    var isChangeLanga = false
+    var isChangeLang = false
+    var isInside = false
 
 
     var nativeADIntro: MutableLiveData<NativeAd>? = MutableLiveData(null)
@@ -91,9 +92,9 @@ class CustomApplication : Application(), Application.ActivityLifecycleCallbacks,
     }
 
     private fun initOpenAds() {
-//        appOpenAdsManager = AppOpenResumeAdManager(
-//            this, BuildConfig.open_app_id,
-//        )
+        appOpenAdsManager = AppOpenResumeAdManager(
+            this, BuildConfig.ads_open_id,
+        )
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)

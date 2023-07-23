@@ -139,11 +139,11 @@ class FragmentMessage : Fragment() {
                     // Get the width of the RecyclerView's visible area
                     val visibleWidth = recyclerView.computeHorizontalScrollExtent()
                     // Calculate the progress for the SeekBar based on the scroll position
-                    val progress =
-                        (scrollX.toFloat() / (totalWidth - visibleWidth) * binding.scrollbar.max).toInt()
+//                    val progress =
+//                        (scrollX.toFloat() / (totalWidth - visibleWidth) * binding.scrollbar.max).toInt()
                     // Update the SeekBar progress without triggering onSeekBarChangeListener
                     isSeekBarBeingUpdated = true
-                    binding.scrollbar.progress = progress
+//                    binding.scrollbar.progress = progress
                     isSeekBarBeingUpdated = false
                 }
             }

@@ -35,11 +35,15 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:controller_layout_id="@layout/layout_controller_exoplayer"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/nativeAdsView"
         app:layout_constraintTop_toBottomOf="@id/btn_back"
-        app:layout_constraintVertical_bias="0.0"
         app:show_timeout="5000"
-        app:use_controller="true"
-        tools:layout_editor_absoluteX="0dp" />
+        app:use_controller="true" />
+
+    <com.gianghv.libads.NativeAdGiftViewLanguage
+        android:id="@+id/nativeAdsView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

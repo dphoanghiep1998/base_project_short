@@ -22,6 +22,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.CameraView.OnCameraDone
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
 import com.neko.hiepdph.skibyditoiletvideocall.common.show
+import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.GalleryModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentScreenAcceptBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
@@ -50,6 +51,7 @@ class FragmentScreenAccept : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentScreenAcceptBinding.inflate(inflater, container, false)
         changeBackPressCallBack()
+        showBannerAds(binding.bannerAds)
         return binding.root
     }
 

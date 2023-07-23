@@ -19,11 +19,11 @@ class AdapterHome(
     private val onClickRewardAdsItem: (MonsterModel, position: Int) -> Unit
 //    private val onClickLockItem: (MonsterModel, pos: Int) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var data = mutableListOf<Any>()
+    private var data = mutableListOf<MonsterModel>()
     private var nativeInside: NativeAd? = null
 
 
-    fun setData(rawData: MutableList<Any>) {
+    fun setData(rawData: MutableList<MonsterModel>) {
         data.clear()
         data.addAll(rawData)
         notifyDataSetChanged()
@@ -39,111 +39,75 @@ class AdapterHome(
     inner class HomeViewHolder(val binding: LayoutItemHomeBinding) :
         RecyclerView.ViewHolder(binding.root) {}
 
-    override fun getItemViewType(position: Int): Int {
-        return if (data[position] == "ads") {
-            0
-        } else {
-            1
-        }
-    }
-
-    inner class InfoNativeAdsViewHolder(val binding: ItemHomeNativeAdsBinding) :
-        RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when (viewType) {
-            0 -> {
-                val binding = ItemHomeNativeAdsBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false
-                )
-                InfoNativeAdsViewHolder(binding)
-            }
 
-            else -> {
-                val binding: LayoutItemHomeBinding = LayoutItemHomeBinding.inflate(
-                    LayoutInflater.from(parent.context), parent, false
-                )
-                HomeViewHolder(binding)
-            }
-        }
 
+        val binding: LayoutItemHomeBinding = LayoutItemHomeBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return HomeViewHolder(binding)
     }
+
 
     override fun getItemCount(): Int {
         return data.size
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (holder.itemViewType) {
-            1 -> {
-                with(holder as HomeViewHolder) {
-                    val item = data[position] as MonsterModel
-                    binding.imvMonster.setImageResource(item.image)
-                    if (!checkPlayed(item.id)) {
-                        binding.containerLock.show()
-                        binding.icStar.hide()
-                    } else {
-                        binding.containerLock.hide()
-                        binding.icStar.show()
-                    }
 
-                    if (item.isRewardContent) {
-                        binding.icAd.show()
-                        binding.icHot.show()
-                    } else {
-                        binding.icAd.hide()
-                        binding.icHot.hide()
-                    }
-
-                    if (item.isRewardContent) {
-                        if (checkPlayed(item.id)) {
-                            binding.imvMonster.clickWithDebounce {
-                                onClickRewardAdsItem(item, position)
-                            }
-                            binding.icHot.clickWithDebounce {
-                                onClickRewardAdsItem(item, position)
-                            }
-                            binding.icStar.clickWithDebounce {
-                                onClickRewardAdsItem(item, position)
-                            }
-                            binding.icAd.clickWithDebounce {
-                                onClickRewardAdsItem(item, position)
-                            }
-                        } else {
-                            binding.imvMonster.clickWithDebounce {}
-                            binding.icHot.clickWithDebounce {}
-                            binding.icStar.clickWithDebounce {}
-                            binding.icAd.clickWithDebounce {}
-                        }
-
-                    } else {
-                        if (checkPlayed(item.id)) {
-                            binding.imvMonster.clickWithDebounce {
-                                onClickItem(item, position)
-                            }
-                        } else {
-                            binding.imvMonster.clickWithDebounce {}
-                        }
-                    }
-                }
-
+        with(holder as HomeViewHolder) {
+            val item = data[position] as MonsterModel
+            binding.imvMonster.setImageResource(item.image)
+            if (!checkPlayed(item.id)) {
+                binding.containerLock.show()
+                binding.icStar.hide()
+            } else {
+                binding.containerLock.hide()
+                binding.icStar.show()
             }
 
-            else -> {
-                with(holder as InfoNativeAdsViewHolder) {
-                    if (nativeInside != null) {
-                        binding.nativeAdMediumView.showShimmer(false)
-                        binding.nativeAdMediumView.setNativeAd(nativeInside!!)
-                        binding.nativeAdMediumView.isVisible = true
-                        binding.root.visibility = View.VISIBLE
-                    } else {
-                        binding.nativeAdMediumView.isVisible = false
-                        binding.root.visibility = View.GONE
-                    }
+            if (item.isRewardContent) {
+                binding.icAd.show()
+                binding.icHot.show()
+            } else {
+                binding.icAd.hide()
+                binding.icHot.hide()
+            }
 
+            if (item.isRewardContent) {
+                if (checkPlayed(item.id)) {
+                    binding.imvMonster.clickWithDebounce {
+                        onClickRewardAdsItem(item, position)
+                    }
+                    binding.icHot.clickWithDebounce {
+                        onClickRewardAdsItem(item, position)
+                    }
+                    binding.icStar.clickWithDebounce {
+                        onClickRewardAdsItem(item, position)
+                    }
+                    binding.icAd.clickWithDebounce {
+                        onClickRewardAdsItem(item, position)
+                    }
+                } else {
+                    binding.imvMonster.clickWithDebounce {}
+                    binding.icHot.clickWithDebounce {}
+                    binding.icStar.clickWithDebounce {}
+                    binding.icAd.clickWithDebounce {}
+                }
+
+            } else {
+                if (checkPlayed(item.id)) {
+                    binding.imvMonster.clickWithDebounce {
+                        onClickItem(item, position)
+                    }
+                } else {
+                    binding.imvMonster.clickWithDebounce {}
                 }
             }
         }
+
+
     }
 
     private fun checkPlayed(position: Int): Boolean {

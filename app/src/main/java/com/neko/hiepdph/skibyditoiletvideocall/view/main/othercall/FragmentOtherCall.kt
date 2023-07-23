@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
+import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentOtherCallBinding
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.call.FragmentCallScreenDirections
@@ -36,6 +37,7 @@ class FragmentOtherCall : Fragment() {
     private fun initView() {
         initButton()
         initRecyclerView()
+        showBannerAds(binding.bannerAds)
     }
 
     private fun initRecyclerView() {

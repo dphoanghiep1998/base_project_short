@@ -59,4 +59,7 @@
     </declare-styleable>
 
     <declare-styleable name="CustomViewProgress"/>
+    <declare-styleable name="CustomThumbSizeRecyclerView">
+        <attr name="thumbLength" format="dimension"/>
+    </declare-styleable>
 </resources>

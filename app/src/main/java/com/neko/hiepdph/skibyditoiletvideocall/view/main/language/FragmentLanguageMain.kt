@@ -52,7 +52,7 @@ class FragmentLanguageMain : Fragment() {
             requireContext().pushEvent("click_language_save2")
             INSTANCE.saveLanguage(currentLanguage)
             startActivity(requireActivity().intent)
-            CustomApplication.app.isChangeLanga = true
+            CustomApplication.app.isChangeLang = true
             requireActivity().finish()
         }
     }
@@ -93,7 +93,7 @@ class FragmentLanguageMain : Fragment() {
     private fun insertAds() {
         if (CustomApplication.app.mNativeAdManagerLanguage == null) {
             CustomApplication.app.mNativeAdManagerLanguage = NativeAdsManager(
-                requireContext(), BuildConfig.native_language_id, BuildConfig.native_language_id2
+                requireContext(), BuildConfig.native_language_id1, BuildConfig.native_language_id2
             )
         }
         CustomApplication.app.nativeADLanguage?.observe(viewLifecycleOwner) {

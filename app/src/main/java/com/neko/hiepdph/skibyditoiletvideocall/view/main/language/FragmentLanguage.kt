@@ -96,7 +96,7 @@ class FragmentLanguage : Fragment() {
     private fun insertAds() {
         if (CustomApplication.app.mNativeAdManagerLanguage == null) {
             CustomApplication.app.mNativeAdManagerLanguage = NativeAdsManager(
-                requireContext(), BuildConfig.native_language_id, BuildConfig.native_language_id2
+                requireContext(), BuildConfig.native_language_id1, BuildConfig.native_language_id2
             )
         }
         CustomApplication.app.nativeADLanguage?.observe(viewLifecycleOwner) {
