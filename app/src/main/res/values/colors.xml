@@ -10,6 +10,7 @@
 
     <color name="transparent">#00FFFFFF</color>
     <color name="blur">#CC000000</color>
+    <color name="blur_40">#66000000</color>
     <color name="blur_ads">#99000000</color>
     <color name="primary">#1BE7F6</color>
     <color name="gradient_1">#5B60FF</color>

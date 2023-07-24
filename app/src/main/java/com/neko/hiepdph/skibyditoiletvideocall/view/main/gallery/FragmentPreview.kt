@@ -52,7 +52,7 @@ class FragmentPreview : Fragment() {
     private fun initView() {
 
         binding.playerView.apply {
-            player = viewModel.getPlayer2()
+            viewModel.getPlayer2()?.setVideoTextureView(binding.playerView)
             keepScreenOn = true
         }
         binding.cameraView.apply {
@@ -126,7 +126,6 @@ class FragmentPreview : Fragment() {
 
     private fun updateSeekBar(player: Player?) {
         player?.let {
-            Log.d("TAG", "updateSeekBar: " + it.duration.toInt())
             binding.progressVideo.max = it.duration.toInt()
             job?.cancel()
             job = lifecycleScope.launch(Dispatchers.Main) {

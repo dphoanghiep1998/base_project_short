@@ -3,22 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?selectableItemBackgroundBorderless"
+    android:layout_marginHorizontal="@dimen/_6sdp"
     android:layout_marginTop="@dimen/_12sdp"
-    android:layout_marginHorizontal="@dimen/_6sdp">
+    android:foreground="?selectableItemBackgroundBorderless">
 
-<!--   <LinearLayout-->
-<!--       app:layout_constraintTop_toTopOf="parent"-->
-<!--       android:layout_width="match_parent"-->
-<!--       android:layout_height="0dp"-->
-<!--       android:background="@drawable/bg_image_other_call"-->
-<!--       app:layout_constraintDimensionRatio="1:1">-->
-       <ImageView
-           app:layout_constraintTop_toTopOf="parent"
-           android:id="@+id/imv_avatar"
-           android:scaleType="fitCenter"
-           app:layout_constraintDimensionRatio="1:1"
-           android:layout_width="match_parent"
-           android:layout_height="0dp"/>
-<!--   </LinearLayout>-->
+    <!--   <LinearLayout-->
+    <!--       app:layout_constraintTop_toTopOf="parent"-->
+    <!--       android:layout_width="match_parent"-->
+    <!--       android:layout_height="0dp"-->
+    <!--       android:background="@drawable/bg_image_other_call"-->
+    <!--       app:layout_constraintDimensionRatio="1:1">-->
+    <ImageView
+        android:id="@+id/imv_avatar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:visibility="gone"
+        android:id="@+id/lock_view"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/blur_40"
+        app:layout_constraintBottom_toBottomOf="@id/imv_avatar"
+        app:layout_constraintEnd_toEndOf="@id/imv_avatar"
+        app:layout_constraintStart_toStartOf="@id/imv_avatar"
+        app:layout_constraintTop_toTopOf="@id/imv_avatar">
+
+        <ImageView
+            app:layout_constraintHorizontal_chainStyle="packed"
+            android:id="@+id/imv_ad"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:src="@drawable/ic_ad_other"
+            android:layout_marginBottom="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_unlock"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_unlock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:fontFamily="@font/app_font_600"
+            android:text="@string/unlock"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="@id/imv_ad"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/imv_ad"
+            app:layout_constraintTop_toTopOf="@id/imv_ad" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--   </LinearLayout>-->
 </androidx.constraintlayout.widget.ConstraintLayout>

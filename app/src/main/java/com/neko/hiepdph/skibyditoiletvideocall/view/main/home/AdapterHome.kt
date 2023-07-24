@@ -17,7 +17,6 @@ import com.neko.hiepdph.skibyditoiletvideocall.databinding.LayoutItemHomeBinding
 class AdapterHome(
     private val onClickItem: (MonsterModel, position: Int) -> Unit,
     private val onClickRewardAdsItem: (MonsterModel, position: Int) -> Unit
-//    private val onClickLockItem: (MonsterModel, pos: Int) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var data = mutableListOf<MonsterModel>()
     private var nativeInside: NativeAd? = null
@@ -27,12 +26,6 @@ class AdapterHome(
         data.clear()
         data.addAll(rawData)
         notifyDataSetChanged()
-    }
-
-    fun insertAds(ads: NativeAd) {
-        nativeInside = ads
-        notifyItemChanged(3)
-        notifyItemChanged(37)
     }
 
 

@@ -1,7 +1,6 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.language
 
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -10,19 +9,18 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gianghv.libads.NativeAdsManager
 import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference.Companion.INSTANCE
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
-import com.neko.hiepdph.skibyditoiletvideocall.common.pushEvent
+import com.neko.hiepdph.skibyditoiletvideocall.common.hide
+import com.neko.hiepdph.skibyditoiletvideocall.common.show
 import com.neko.hiepdph.skibyditoiletvideocall.common.supportDisplayLang
 import com.neko.hiepdph.skibyditoiletvideocall.common.supportedLanguages
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentLanguageBinding
 import java.util.Locale
-import kotlin.system.exitProcess
 
 class FragmentLanguage : Fragment() {
     private lateinit var binding: FragmentLanguageBinding
@@ -49,7 +47,7 @@ class FragmentLanguage : Fragment() {
     }
 
     private fun initButton() {
-
+        binding.btnCheck.hide()
         binding.btnCheck.clickWithDebounce {
             INSTANCE.saveIsSetLangFirst(true)
             INSTANCE.saveLanguage(currentLanguage)
@@ -105,6 +103,8 @@ class FragmentLanguage : Fragment() {
                 binding.nativeAdMediumView.showShimmer(false)
                 binding.nativeAdMediumView.setNativeAd(it)
                 binding.nativeAdMediumView.visibility = View.VISIBLE
+                binding.btnCheck.show()
+
             }
             if (it == null) {
                 with(binding.nativeAdMediumView) {
@@ -115,17 +115,15 @@ class FragmentLanguage : Fragment() {
         }
         CustomApplication.app.mNativeAdManagerLanguage?.loadAds(onLoadSuccess = {
             CustomApplication.app.nativeADLanguage?.value = it
+        }, onLoadFail = {
+            binding.btnCheck.show()
         })
     }
 
     private fun changeBackPressCallBack() {
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (!INSTANCE.getSetLangFirst(false)) {
-                    requireActivity().finishAffinity()
-                } else {
-                    findNavController().popBackStack()
-                }
+
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)

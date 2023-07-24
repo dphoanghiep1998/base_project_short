@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.net.ConnectivityManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -14,10 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.gianghv.libads.AdaptiveBannerManager
 import com.gianghv.libads.InterstitialSingleReqAdManager
 import com.gianghv.libads.MLBBaseNativeAdView
-import com.gianghv.libads.NativeAdGiftSoundView
-import com.gianghv.libads.NativeAdSmallView
 import com.gianghv.libads.NativeAdsManager
-import com.gianghv.libads.RewardAdsManager
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
@@ -149,7 +145,7 @@ fun Fragment.showInterAds(
     }
     val interstitialSingleReqAdManager: InterstitialSingleReqAdManager
     when (type) {
-        InterAdsEnum.SPLASH -> {
+        InterAdsEnum.CALL_VIDEO -> {
             interstitialSingleReqAdManager = InterstitialSingleReqAdManager(
                 requireActivity(),
                 BuildConfig.inter_callvideo_id1,
@@ -157,11 +153,19 @@ fun Fragment.showInterAds(
             )
         }
 
-        else -> {
+        InterAdsEnum.VIDEO -> {
             interstitialSingleReqAdManager = InterstitialSingleReqAdManager(
                 requireActivity(),
-                BuildConfig.inter_callvideo_id1,
-                BuildConfig.inter_callvideo_id1,
+                BuildConfig.inter_video_id1,
+                BuildConfig.inter_video_id2,
+            )
+        }
+
+        InterAdsEnum.FUNCTION -> {
+            interstitialSingleReqAdManager = InterstitialSingleReqAdManager(
+                requireActivity(),
+                BuildConfig.inter_function_id1,
+                BuildConfig.inter_function_id2,
             )
         }
     }

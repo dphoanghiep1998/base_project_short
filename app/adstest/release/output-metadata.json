@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.neko.toilet",
+  "applicationId": "com.skibidi.toilet.series.videocall.fakecall.fakemessage",
   "variantName": "adstestRelease",
   "elements": [
     {
@@ -13,7 +13,7 @@
       "attributes": [],
       "versionCode": 1,
       "versionName": "1.0",
-      "outputFile": "Skibydi Toilet Video Call1_1.0_21-07_10h12-adstest-release.apk"
+      "outputFile": "Skibydi Toilet Video Call1_1.0_24-07_14h42-adstest-release.apk"
     }
   ],
   "elementType": "File"

@@ -159,7 +159,6 @@ class MainActivity : AppCompatActivity() {
                     37,
                     38,
                     39,
-                    40
                 )
             )
         }

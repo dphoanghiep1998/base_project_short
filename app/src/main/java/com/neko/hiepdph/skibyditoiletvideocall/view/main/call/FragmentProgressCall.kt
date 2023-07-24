@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.gianghv.libads.AppOpenResumeAdManager
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
@@ -102,10 +103,27 @@ class FragmentProgressCall : Fragment() {
     }
 
     private fun pauseTimer() {
-        Log.d("TAG", "pauseTimer: ")
         countDownTimer?.cancel()
         animator.pause()
         timeRunning = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pauseTimer()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        pauseTimer()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if(!timeRunning && !AppOpenResumeAdManager.isShowingAd){
+            startTimer()
+            animator?.resume()
+        }
     }
 
 
@@ -113,7 +131,6 @@ class FragmentProgressCall : Fragment() {
 
 
     private fun updateCountdownText() {
-        Log.d("TAG", "updateCountdownText: " + remainingTime)
         val minutes = ((remainingTime + 1000) / 1000).toInt() / 60
         val seconds = ((remainingTime + 1000) / 1000).toInt() % 60
 

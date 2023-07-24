@@ -15,10 +15,10 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.gianghv.libads.InterstitialSingleReqAdManager
 import com.gianghv.libads.NativeAdsManager
@@ -28,9 +28,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
-import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
 import com.neko.hiepdph.skibyditoiletvideocall.common.InterAdsEnum
-import com.neko.hiepdph.skibyditoiletvideocall.common.RewardAdsEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.pushEvent
 import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
@@ -54,16 +52,19 @@ class FragmentVideoToilet : Fragment() {
         audioManager = requireActivity().getSystemService(Context.AUDIO_SERVICE) as AudioManager
         receiver = object : BroadcastReceiver() {
             override fun onReceive(p0: Context?, mItent: Intent?) {
-                val currentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
-                if (currentVolume != null) {
-                    if (currentVolume > 0) {
-                        requireActivity().findViewById<ImageView>(R.id.volume_toggle)
-                            .setImageResource(R.drawable.ic_volume_up)
-                    } else {
-                        requireActivity().findViewById<ImageView>(R.id.volume_toggle)
-                            .setImageResource(R.drawable.ic_volume_mute)
+                lifecycleScope.launchWhenResumed {
+                    val currentVolume = audioManager?.getStreamVolume(AudioManager.STREAM_MUSIC)
+                    if (currentVolume != null) {
+                        if (currentVolume > 0) {
+                            requireActivity().findViewById<ImageView>(R.id.volume_toggle)
+                                .setImageResource(R.drawable.ic_volume_up)
+                        } else {
+                            requireActivity().findViewById<ImageView>(R.id.volume_toggle)
+                                .setImageResource(R.drawable.ic_volume_mute)
+                        }
                     }
                 }
+
 
             }
 
@@ -77,7 +78,6 @@ class FragmentVideoToilet : Fragment() {
     }
 
     companion object {
-        var clickTurn = 0
         var firstTimeOpen = true
     }
 
@@ -90,9 +90,7 @@ class FragmentVideoToilet : Fragment() {
 
     private fun initAds() {
         CustomApplication.app.mNativeAdManagerHome = NativeAdsManager(
-            requireContext(),
-            BuildConfig.native_video_id1,
-            BuildConfig.native_video_id2
+            requireContext(), BuildConfig.native_video_id1, BuildConfig.native_video_id2
         )
     }
 
@@ -112,64 +110,17 @@ class FragmentVideoToilet : Fragment() {
         }
         requireActivity().findViewById<ImageView>(R.id.next).clickWithDebounce(1000) {
             var index = viewModel.data.indexOf(viewModel.getCurrentModel())
-            if (index < 41) {
-                clickTurn++
+            if (index < 39) {
                 index++
-                if ((viewModel.data[index] as MonsterModel).isRewardContent) {
-                    val dialogConfirm = DialogConfirm(requireContext(), onPressPositive = {
-//
-                    })
-                    dialogConfirm.show()
+                if (viewModel.data[index].isRewardContent) {
+                    showInterAds(action = {
+                        playVideo(viewModel.data[index])
+                    }, type = InterAdsEnum.VIDEO)
                 } else {
-                    if (clickTurn > 0 && clickTurn % 5 == 0) {
-                        showInterAds(action = {
-                            viewModel.setCurrentModel(viewModel.data[index] as MonsterModel)
-                            val dataPos =
-                                AppSharePreference.INSTANCE.getListVideoPlayed(mutableListOf())
-                                    .toMutableList()
-                            dataPos.remove(viewModel.getCurrentModel().id)
-                            AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
-                            viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content),
-                                onEnd = {})
-                        }, InterAdsEnum.VIDEO)
-
-                    } else {
-                        viewModel.setCurrentModel(viewModel.data[index] as MonsterModel)
-                        val dataPos =
-                            AppSharePreference.INSTANCE.getListVideoPlayed(mutableListOf())
-                                .toMutableList()
-                        dataPos.remove(viewModel.getCurrentModel().id)
-                        AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
-                        viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content),
-                            onEnd = {})
-                    }
+                    playVideo(viewModel.data[index])
                 }
             } else {
-                clickTurn++
-                if (clickTurn > 0 && clickTurn % 5 == 0) {
-                    showInterAds(action = {
-                        viewModel.setCurrentModel(viewModel.data[0] as MonsterModel)
-
-                        val dataPos =
-                            AppSharePreference.INSTANCE.getListVideoPlayed(mutableListOf())
-                                .toMutableList()
-                        dataPos.remove(viewModel.getCurrentModel().id)
-                        AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
-                        viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content),
-                            onEnd = {})
-                    }, InterAdsEnum.VIDEO)
-
-                } else {
-                    viewModel.setCurrentModel(viewModel.data[0] as MonsterModel)
-
-                    val dataPos = AppSharePreference.INSTANCE.getListVideoPlayed(mutableListOf())
-                        .toMutableList()
-                    dataPos.remove(viewModel.getCurrentModel().id)
-                    AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
-                    viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content),
-                        onEnd = {})
-                }
-
+                playVideo(viewModel.data[0])
             }
         }
 
@@ -261,6 +212,15 @@ class FragmentVideoToilet : Fragment() {
         }
 
 
+    }
+
+    private fun playVideo(monsterModel: MonsterModel) {
+        viewModel.setCurrentModel(monsterModel)
+        val dataPos =
+            AppSharePreference.INSTANCE.getListVideoPlayed(mutableListOf()).toMutableList()
+        dataPos.remove(viewModel.getCurrentModel().id)
+        AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
+        viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content), onEnd = {})
     }
 
 

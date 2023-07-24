@@ -8,7 +8,6 @@ import android.hardware.Camera;
 import android.hardware.SensorManager;
 import android.media.MediaRecorder;
 import android.os.Build;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.AttributeSet;
@@ -43,17 +42,29 @@ public class CameraView extends FrameLayout {
 
         void onCameraStopping(Camera camera);
     }
+
     private OnCameraDone mListener;
+    private OnSurfaceCreated oListener;
+
     public interface OnCameraDone {
         void onCameraDone(String path);
     }
 
-    public void setPathRecorded(OnCameraDone listener){
+    public interface OnSurfaceCreated {
+        void onSurfaceCreated();
+    }
+
+
+    public void setPathRecorded(OnCameraDone listener) {
         this.mListener = listener;
     }
 
-    private void triggerEvent(String path){
-        if(mListener != null){
+    public void setCallBackWhenSurfaceCreated(OnSurfaceCreated listener) {
+        this.oListener = listener;
+    }
+
+    private void triggerEvent(String path) {
+        if (mListener != null) {
             mListener.onCameraDone(path);
         }
     }
@@ -81,7 +92,7 @@ public class CameraView extends FrameLayout {
     private int frameOrientation;
 
     private MediaRecorder mediaRecorder;
-    private SurfaceView surfaceView;
+    public SurfaceView surfaceView;
     private SurfaceHolder surfaceHolder;
 
     public static int findCameraId(int facing) {
@@ -278,7 +289,7 @@ public class CameraView extends FrameLayout {
 
     private File getOutputMediaFile() {
         File mediaStorageDir = new File(
-               getContext().getFilesDir(), "video"
+                getContext().getFilesDir(), "video"
         );
 
         if (!mediaStorageDir.exists()) {
@@ -290,7 +301,7 @@ public class CameraView extends FrameLayout {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
 
         return new File(
-                mediaStorageDir.getPath() + File.separator + "VID_"+timeStamp+".mp4"
+                mediaStorageDir.getPath() + File.separator + "VID_" + timeStamp + ".mp4"
         );
     }
 
@@ -306,7 +317,7 @@ public class CameraView extends FrameLayout {
         mediaRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         mediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP);
         String path = getOutputMediaFile().getPath();
-        Log.d("TAG", "initCameraRecorder: "+path);
+        Log.d("TAG", "initCameraRecorder: " + path);
         mediaRecorder.setOutputFile(path);
 
         mediaRecorder.setPreviewDisplay(surfaceHolder.getSurface());
@@ -320,7 +331,7 @@ public class CameraView extends FrameLayout {
         }
     }
 
-     void stopRecord() {
+    void stopRecord() {
         try {
             mediaRecorder.stop();
             mediaRecorder.reset();
@@ -333,12 +344,12 @@ public class CameraView extends FrameLayout {
     }
 
     public void close() {
+        stopRecord();
         isOpen = false;
         if (orientationListener != null) {
             orientationListener.disable();
             orientationListener = null;
         }
-        stopRecord();
         if (cam != null) {
             if (cameraListener != null) {
                 cameraListener.onCameraStopping(cam);
@@ -588,7 +599,6 @@ public class CameraView extends FrameLayout {
             public void surfaceCreated(SurfaceHolder holder) {
                 // wait until the surface has dimensions
                 initCameraRecorder();
-
             }
 
             @Override
@@ -613,7 +623,7 @@ public class CameraView extends FrameLayout {
 
             @Override
             public void surfaceDestroyed(SurfaceHolder holder) {
-                close();
+//                close();
             }
         });
         addView(surfaceView);

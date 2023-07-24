@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -12,12 +11,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
-import com.neko.hiepdph.skibyditoiletvideocall.R
-import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
-import com.neko.hiepdph.skibyditoiletvideocall.common.RewardAdsEnum
+import com.neko.hiepdph.skibyditoiletvideocall.common.InterAdsEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
 import com.neko.hiepdph.skibyditoiletvideocall.common.show
+import com.neko.hiepdph.skibyditoiletvideocall.common.showInterAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.MonsterModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentListVideoToiletBinding
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.home.AdapterHome
@@ -58,17 +56,12 @@ class FragmentListVideoToilet : Fragment() {
             viewModel.setCurrentModel(model)
             findNavController().popBackStack()
         }, onClickRewardAdsItem = { monsterModel, position ->
-            val dialogConfirm = DialogConfirm(requireContext(), onPressPositive = {
-//                showRewardAds(actionDoneWhenAdsNotComplete = {}, actionSuccess = {
-//                    viewModel.setCurrentModel(monsterModel)
-//                    findNavController().popBackStack()
-//                }, actionFailed = {
-//                    Toast.makeText(
-//                        requireContext(), getString(R.string.require_internet), Toast.LENGTH_SHORT
-//                    ).show()
-//                }, type = RewardAdsEnum.VIDEO)
-            })
-            dialogConfirm.show()
+            showInterAds(
+                action = {
+                    viewModel.setCurrentModel(monsterModel)
+                    findNavController().popBackStack()
+                }, type = InterAdsEnum.VIDEO
+            )
         })
         adapterHome?.setData(viewModel.data)
         val gridlayoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.VERTICAL, false)
@@ -96,7 +89,7 @@ class FragmentListVideoToilet : Fragment() {
                 binding.nativeAdsView.show()
             }
         }
-        if( CustomApplication.app.nativeADHome?.value == null){
+        if (CustomApplication.app.nativeADHome?.value == null) {
             binding.nativeAdsView.hide()
         }
 

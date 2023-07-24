@@ -102,8 +102,10 @@ class CustomApplication : Application(), Application.ActivityLifecycleCallbacks,
         if (!InterstitialPreloadAdManager.isShowingAds && !InterstitialSingleReqAdManager.isShowingAds && currentActivity !is AdActivity && !AppOpenResumeAdManager.isShowingAd) {
             currentActivity?.let {
                 if (currentActivity is MainActivity) {
+
                     if (isInternetAvailable(applicationContext)) {
 //                        dialog?.dismiss()
+                        AppOpenResumeAdManager.isShowingAd = true
                         dialog = DialogFragmentLoadingOpenAds().onCreateDialog(it)
                         dialog?.show()
 
@@ -126,6 +128,7 @@ class CustomApplication : Application(), Application.ActivityLifecycleCallbacks,
 
     override fun onActivityStarted(p0: Activity) {
         currentActivity = p0
+
     }
 
     override fun onActivityResumed(p0: Activity) {

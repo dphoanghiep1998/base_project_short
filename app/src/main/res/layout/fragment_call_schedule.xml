@@ -91,7 +91,7 @@
         android:layout_height="@dimen/_50sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:id="@+id/imv_call_video"
-        android:foreground="?selectableItemBackgroundBorderless"
+        android:foreground="@drawable/ripple_effect_fg_round"
         android:src="@drawable/ic_call_video_cal"
         app:layout_constraintEnd_toEndOf="@id/wheel_minute"
         app:layout_constraintStart_toStartOf="@id/wheel_second"

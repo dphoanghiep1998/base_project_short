@@ -10,11 +10,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SeekBar
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -30,7 +30,10 @@ import com.neko.hiepdph.skibyditoiletvideocall.data.model.MessageModel
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentMessageBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class FragmentMessage : Fragment() {
     private lateinit var binding: FragmentMessageBinding
     private var adapterMessage: AdapterMessage? = null
@@ -108,11 +111,14 @@ class FragmentMessage : Fragment() {
 
 
         adapterMessage = AdapterMessage(onLoadDone = {
-            viewModel.playAudio(MediaItem.fromUri(
-                RawResourceDataSource.buildRawResourceUri(
-                    R.raw.sound_received
-                )
-            ), onEnd = {})
+            lifecycleScope.launchWhenResumed {
+                viewModel.playAudio(MediaItem.fromUri(
+                    RawResourceDataSource.buildRawResourceUri(
+                        R.raw.sound_received
+                    )
+                ), onEnd = {})
+            }
+
         })
         val linearLayoutManager =
             LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
@@ -124,11 +130,14 @@ class FragmentMessage : Fragment() {
 
             it.isSent = true
             adapterMessage?.insertMessage(it)
-            viewModel.playAudio(MediaItem.fromUri(
-                RawResourceDataSource.buildRawResourceUri(
-                    R.raw.sound_send
-                )
-            ), onEnd = {})
+            lifecycleScope.launch {
+                viewModel.playAudio(MediaItem.fromUri(
+                    RawResourceDataSource.buildRawResourceUri(
+                        R.raw.sound_send
+                    )
+                ), onEnd = {})
+            }
+
             autoMaticAnswer(it)
         })
         val linearLayoutManagerScripted =

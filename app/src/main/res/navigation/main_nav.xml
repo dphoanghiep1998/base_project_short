@@ -53,6 +53,9 @@
         <action
             android:id="@+id/action_fragmentCallSchedule_to_fragmentProgressCall"
             app:destination="@id/fragmentProgressCall" />
+        <action
+            android:id="@+id/action_fragmentCallSchedule_to_fragmentCallScreen"
+            app:destination="@id/fragmentCallScreen" />
     </fragment>
     <fragment
         android:id="@+id/fragmentProgressCall"

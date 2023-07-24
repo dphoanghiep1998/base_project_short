@@ -17,8 +17,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
-import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallScheduleBinding
 
 class FragmentCallSchedule : Fragment() {
@@ -40,8 +40,24 @@ class FragmentCallSchedule : Fragment() {
         initView()
         action = {
             val totalTime = minute + second
-            val direction = FragmentCallScheduleDirections.actionFragmentCallScheduleToFragmentProgressCall(totalTime)
-            findNavController().navigate(direction)
+            if (totalTime == 0L) {
+                val model = OtherCallModel(
+                    0, R.drawable.ic_banner_progress_call, "Skibidi Toilet", R.raw.john_porn, 4
+                )
+                val direction =
+                    FragmentCallScheduleDirections.actionFragmentCallScheduleToFragmentCallScreen(
+                        model
+                    )
+
+                findNavController().navigate(direction)
+            } else {
+                val direction =
+                    FragmentCallScheduleDirections.actionFragmentCallScheduleToFragmentProgressCall(
+                        totalTime
+                    )
+                findNavController().navigate(direction)
+            }
+
         }
     }
 
@@ -93,19 +109,18 @@ class FragmentCallSchedule : Fragment() {
             findNavController().popBackStack()
         }
     }
+
     private fun checkPermission() {
 
-        if (
-            requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED ||
-            requireContext().checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+        if (requireContext().checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || requireContext().checkSelfPermission(
+                Manifest.permission.RECORD_AUDIO
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             Log.d("TAG", "checkPermission: true")
             if (ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.CAMERA
+                    requireActivity(), Manifest.permission.CAMERA
                 ) && ActivityCompat.shouldShowRequestPermissionRationale(
-                    requireActivity(),
-                    Manifest.permission.RECORD_AUDIO
+                    requireActivity(), Manifest.permission.RECORD_AUDIO
                 )
             ) {
                 cameraLauncher.launch(

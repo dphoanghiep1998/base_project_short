@@ -4,14 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
+import com.neko.hiepdph.skibyditoiletvideocall.common.hide
+import com.neko.hiepdph.skibyditoiletvideocall.common.show
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.LayoutItemOtherCallBinding
 
-class AdapterOtherCall(private val onClickItem: (OtherCallModel) -> Unit) :
-    RecyclerView.Adapter<AdapterOtherCall.OtherCallViewHolder>() {
+class AdapterOtherCall(
+    private val onClickItem: (OtherCallModel) -> Unit,
+    private val onClickAdsItem: (OtherCallModel) -> Unit
+) : RecyclerView.Adapter<AdapterOtherCall.OtherCallViewHolder>() {
     private var data = mutableListOf<OtherCallModel>()
 
-    fun setData(newData:MutableList<OtherCallModel>){
+    fun setData(newData: MutableList<OtherCallModel>) {
         data.clear()
         data.addAll(newData)
         notifyDataSetChanged()
@@ -35,6 +39,14 @@ class AdapterOtherCall(private val onClickItem: (OtherCallModel) -> Unit) :
             binding.imvAvatar.setImageResource(data[position].image)
             binding.root.clickWithDebounce {
                 onClickItem(data[position])
+            }
+            if (position == 1 || position == 2) {
+                binding.lockView.show()
+                binding.lockView.clickWithDebounce {
+                    onClickAdsItem?.invoke(data[position])
+                }
+            } else {
+                binding.lockView.hide()
             }
         }
     }

@@ -84,13 +84,8 @@ class AppOpenResumeAdManager constructor(
     private fun showAdIfAvailable(
         activity: Activity, onShowAdCompleteListener: OnShowAdCompleteListener
     ) {
-        if (isShowingAd) {
-            return
-        }
-
         if (!isAdAvailable()) {
             onShowAdCompleteListener.onShowAdComplete()
-//            loadAd()
             return
         }
 
@@ -99,14 +94,12 @@ class AppOpenResumeAdManager constructor(
                 appOpenAd = null
                 isShowingAd = false
                 onShowAdCompleteListener.onShowAdComplete()
-//                loadAd()
             }
 
             override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                 appOpenAd = null
                 isShowingAd = false
                 onShowAdCompleteListener.onShowAdComplete()
-//                loadAd()
             }
 
             override fun onAdShowedFullScreenContent() {
