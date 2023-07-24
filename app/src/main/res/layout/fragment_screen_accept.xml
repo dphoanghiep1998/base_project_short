@@ -43,7 +43,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/title" />
 
-    <com.neko.hiepdph.skibyditoiletvideocall.common.CameraView
+    <SurfaceView
         android:id="@+id/sufaceView"
         android:layout_width="@dimen/_120sdp"
         android:layout_height="@dimen/_150sdp"

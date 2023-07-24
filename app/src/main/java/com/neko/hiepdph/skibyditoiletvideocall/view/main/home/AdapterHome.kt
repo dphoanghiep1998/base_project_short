@@ -50,7 +50,7 @@ class AdapterHome(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         with(holder as HomeViewHolder) {
-            val item = data[position] as MonsterModel
+            val item = data[position]
             binding.imvMonster.setImageResource(item.image)
             if (!checkPlayed(item.id)) {
                 binding.containerLock.show()
@@ -61,10 +61,8 @@ class AdapterHome(
             }
 
             if (item.isRewardContent) {
-                binding.icAd.show()
                 binding.icHot.show()
             } else {
-                binding.icAd.hide()
                 binding.icHot.hide()
             }
 
@@ -79,14 +77,11 @@ class AdapterHome(
                     binding.icStar.clickWithDebounce {
                         onClickRewardAdsItem(item, position)
                     }
-                    binding.icAd.clickWithDebounce {
-                        onClickRewardAdsItem(item, position)
-                    }
+
                 } else {
                     binding.imvMonster.clickWithDebounce {}
                     binding.icHot.clickWithDebounce {}
                     binding.icStar.clickWithDebounce {}
-                    binding.icAd.clickWithDebounce {}
                 }
 
             } else {
@@ -109,8 +104,4 @@ class AdapterHome(
         return position !in dataPlayed
     }
 
-
-    fun reloadData(position: Int) {
-        notifyItemChanged(position)
-    }
 }

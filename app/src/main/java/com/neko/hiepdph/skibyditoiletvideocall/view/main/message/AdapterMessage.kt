@@ -115,8 +115,8 @@ class AdapterMessage(private val onLoadDone: () -> Unit) :
         }
     }
 
-    private fun delayAnimation(binding: LayoutItemMessageReceivedBinding) {
-
+     fun cancelJob() {
+        job?.cancel()
     }
 
 }

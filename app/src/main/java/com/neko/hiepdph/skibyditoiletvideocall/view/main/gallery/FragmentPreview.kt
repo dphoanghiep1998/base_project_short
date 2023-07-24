@@ -197,8 +197,8 @@ class FragmentPreview : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.pausePlayer2()
-        viewModel.pausePlayer()
+        viewModel.resetPlayer()
+        viewModel.resetPlayer2()
         job?.cancel()
     }
 

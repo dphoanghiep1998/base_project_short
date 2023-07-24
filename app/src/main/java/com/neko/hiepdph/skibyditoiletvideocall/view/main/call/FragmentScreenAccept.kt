@@ -1,6 +1,5 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.call
 
-import android.app.Activity
 import android.hardware.Camera
 import android.media.MediaRecorder
 import android.os.Build
@@ -8,7 +7,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.Surface
+import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +29,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.data.model.GalleryModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentScreenAcceptBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -51,7 +51,7 @@ class FragmentScreenAccept : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentScreenAcceptBinding.inflate(inflater, container, false)
         changeBackPressCallBack()
@@ -79,7 +79,7 @@ class FragmentScreenAccept : Fragment() {
                         count,
                         arg.characterModel.videoRaw,
                         path,
-                        arg?.characterModel?.videoType ?: 4
+                        arg.characterModel?.videoType ?: 4
                     )
                 )
                 val direction =
@@ -101,10 +101,92 @@ class FragmentScreenAccept : Fragment() {
 
 
     private fun initAndRecordSurfaceView() {
-        binding.sufaceView.openAsync(getFrontCameraId())
-        binding.sufaceView.setPathRecorded { mPath -> path = mPath }
+        binding.sufaceView.holder.addCallback(object : SurfaceHolder.Callback {
+            override fun surfaceCreated(holder: SurfaceHolder) {
+                initCameraRecorder()
+            }
+
+            override fun surfaceChanged(
+                holder: SurfaceHolder,
+                format: Int,
+                width: Int,
+                height: Int
+            ) {
+//                val parameters = cam!!.parameters
+//                parameters.setRotation(270)
+//                setPreviewSize(parameters,false)
+//                cam!!.parameters = parameters
+                cam!!.setDisplayOrientation(90)
+                cam?.setPreviewDisplay(holder)
+            }
+
+            override fun surfaceDestroyed(holder: SurfaceHolder) {
+                stopRecord()
+            }
+
+        })
     }
 
+    fun findBestPreviewSize(
+        sizes: List<Camera.Size>,
+        width: Int,
+        height: Int
+    ): Camera.Size? {
+        val ASPECT_TOLERANCE = 0.1
+        val targetRatio = width.toDouble() / height
+        var minDiff = Double.MAX_VALUE
+        var minDiffAspect = Double.MAX_VALUE
+        var bestSize: Camera.Size? = null
+        var bestSizeAspect: Camera.Size? = null
+        for (size in sizes) {
+            val diff = Math.abs(size.height - height).toDouble() +
+                    Math.abs(size.width - width)
+            if (diff < minDiff) {
+                bestSize = size
+                minDiff = diff
+            }
+            val ratio = size.width.toDouble() / size.height
+            if (Math.abs(ratio - targetRatio) < ASPECT_TOLERANCE &&
+                diff < minDiffAspect
+            ) {
+                bestSizeAspect = size
+                minDiffAspect = diff
+            }
+        }
+        return bestSizeAspect ?: bestSize
+    }
+
+    private fun initCameraRecorder() {
+        cam = Camera.open(getFrontCameraId())
+        mediaRecorder = MediaRecorder()
+        cam?.setPreviewDisplay(binding.sufaceView.holder)
+        val parameters: Camera.Parameters = cam!!.parameters
+        val sizes = findBestPreviewSize(parameters.supportedPictureSizes,binding.sufaceView.measuredWidth,binding.sufaceView.measuredHeight)
+        parameters["orientation"] = "portrait"
+        parameters.setPreviewSize(sizes!!.width, sizes.height)
+
+        cam?.parameters = parameters
+
+        cam?.startPreview()
+        cam!!.unlock()
+        mediaRecorder!!.setCamera(cam)
+        mediaRecorder!!.setAudioSource(MediaRecorder.AudioSource.CAMCORDER)
+        mediaRecorder!!.setVideoSource(MediaRecorder.VideoSource.CAMERA)
+        mediaRecorder!!.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
+        mediaRecorder!!.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB)
+        mediaRecorder!!.setVideoEncoder(MediaRecorder.VideoEncoder.MPEG_4_SP)
+        path = getOutputMediaFile()!!.path
+        Log.d("TAG", "initCameraRecorder: $path")
+        mediaRecorder!!.setOutputFile(path)
+        mediaRecorder!!.setPreviewDisplay(binding.sufaceView.holder.surface)
+        mediaRecorder!!.setOrientationHint(270)
+        try {
+            mediaRecorder!!.prepare()
+            mediaRecorder!!.start()
+        } catch (e: IOException) {
+            throw RuntimeException(e)
+        }
+    }
 
 
     private fun stopRecord() {
@@ -128,7 +210,7 @@ class FragmentScreenAccept : Fragment() {
                     count,
                     arg.characterModel.videoRaw,
                     path,
-                    arg?.characterModel?.videoType ?: 4
+                    arg.characterModel?.videoType ?: 4
                 )
             )
             val direction =

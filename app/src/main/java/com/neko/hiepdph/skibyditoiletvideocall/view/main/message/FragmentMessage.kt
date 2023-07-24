@@ -210,5 +210,9 @@ class FragmentMessage : Fragment() {
             }
         }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        adapterMessage?.cancelJob()
+    }
 
 }
