@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Automatically translated by Globalization Translator (https://github.com/wilinz/globalization-translator)-->
+<resources>
+  <string name="confirm">Video HOT perlu melihat iklan untuk membuka!</string>
+  <string name="confirm_close">Anda yakin ingin keluar dari aplikasi?</string>
+  <string name="no">TIDAK</string>
+  <string name="yes">Ya</string>
+  <string name="watch">Jam tangan</string>
+  <string name="loading_ads_new">Seri Skybidi sedang berjalan, harap tunggu …</string>
+  <string name="lock">KUNCI</string>
+  <string name="welcome_back">Selamat Datang kembali!</string>
+  <string name="this_action_contains_ads_main">(Tindakan ini dapat berisi iklan)</string>
+  <string name="levels">Level</string>
+  <string name="next">Berikutnya</string>
+  <string name="title_onboard_1">Anda siap mengangkat telepon dengan Panggilan Video Toilet Skibidi</string>
+  <string name="title_onboard_2">Nikmati dengan koleksi Toilet Skibydi yang lengkap</string>
+  <string name="title_onboard_3">Prank dan bersenang-senanglah dengan teman-teman Anda</string>
+  <string name="require_internet">Nyalakan koneksi internet untuk menggunakan suara ini!</string>
+  <string name="confirm_internet">Beberapa tindakan tidak \n tersedia OFFLINE. \n Silakan periksa koneksi internet Anda</string>
+  <string name="custom_ok">Oke</string>
+  <string name="retry">Mencoba kembali</string>
+  <string name="hello_blank_fragment">Halo fragmen kosong</string>
+  <string name="other_call">Panggilan lain</string>
+  <string name="call_john_park">Panggil John Pork!</string>
+  <string name="schedule">Jadwal</string>
+  <string name="fifteen_second">Setelah 15 detik</string>
+  <string name="thirty_second">Setelah 30-an</string>
+  <string name="sixty_second">Setelah 60-an</string>
+  <string name="call_now">Telepon sekarang</string>
+  <string name="call_skibidy">Hubungi Skibidi</string>
+  <string name="intruction_john_pork">Hitung mundur untuk memanggil John Pork</string>
+  <string name="incoming_video">Video masuk</string>
+  <string name="decline">Menolak</string>
+  <string name="accept">Menerima</string>
+  <string name="call_ended">Panggilan berakhir!</string>
+  <string name="tap_to_close">Ketuk untuk menutup</string>
+  <string name="gallery">GALERI</string>
+  <string name="video">Video %s</string>
+  <string name="preview">PRATINJAU</string>
+  <string name="confirm_delete">Apakah Anda ingin menghapus video ini?</string>
+  <string name="delete">Menghapus</string>
+  <string name="empty_history">Tidak ada item di galeri!</string>
+  <string name="language">Bahasa</string>
+  <string name="question_1">Hai</string>
+  <string name="question_2">Saya baik, Anda bagaimana?</string>
+  <string name="question_3">Siapa kamu?</string>
+  <string name="question_4">Dari mana asalmu, Skibidi?</string>
+  <string name="question_5">Apakah kamu hidup?</string>
+  <string name="question_6">Tapi kudengar kau sudah lama mati</string>
+  <string name="question_7">Benarkah? Untung kamu belum mati, aku bukan Instagram kamu, bisakah kamu memberikannya padaku?</string>
+  <string name="question_8">Berapa usiamu?</string>
+  <string name="question_9">Mengapa Anda terus menelepon orang lain pada jam 3 pagi?</string>
+  <string name="question_10">Mereka mengatakan mereka akan berubah menjadi toilet jika mereka menerima panggilan Anda</string>
+  <string name="question_11">Jenis makanan apa yang kamu suka</string>
+  <string name="question_12">Apa kartun favoritmu?</string>
+  <string name="question_13">Ceritakan sebuah lelucon</string>
+  <string name="question_14">Kamu lucu, aku suka kamu =)</string>
+  <string name="question_15">Apa hobimu?</string>
+  <string name="question_16">Apa kau tahu aku penggemar beratmu</string>
+  <string name="question_17">Apakah mungkin untuk menjadi teman?</string>
+  <string name="question_18">Bagaimana cara melawan orang jahat?</string>
+  <string name="question_19">Apakah Anda menyukai aplikasi ini?</string>
+  <string name="question_20">Sampai jumpa lagi</string>
+  <string name="question_21">Terima kasih atas percakapan ini</string>
+  <string name="answer">Halo sayangku?</string>
+  <string name="answer_1">Hai temanku, apa kabar?</string>
+  <string name="answer_2">Sangat bagus, terima kasih teman! Senang berbicara dengan Anda hari ini</string>
+  <string name="answer_3">Pada dasarnya, saya toilet paling keren di dunia</string>
+  <string name="answer_4">Saya dari Palermo, Italia. Tapi.. sudah lama aku tidak pulang</string>
+  <string name="answer_5">Bisa ditebak, hehe</string>
+  <string name="answer_6">Ini hanya lelucon bro, saya masih hidup. Saya bepergian ke seluruh Eropa dan saya memposting perjalanan saya di Instagram setiap hari. Apakah Anda tahu Insta saya</string>
+  <string name="answer_7">Skibidi.toilet adalah Instagram saya. Ikuti saya dan bepergian ke seluruh Eropa bersama saya</string>
+  <string name="answer_8">Cukup sulit untuk mengatakan dengan tepat tetapi saya menjadi terkenal sejak 2018</string>
+  <string name="answer_9">Saya sangat sedih, tidak ada yang menjawab panggilan saya. Saya hanya ingin berbicara</string>
+  <string name="answer_10">Tidak mungkin. Tapi.. saya mengancam mereka bahwa mereka harus berubah menjadi babi.. tidak bisa menyalahkan saya.. itu salah mereka! Tidak ada yang menerima telepon saya</string>
+  <string name="answer_11">Aku suka bibirmu. Ini enak hahaha</string>
+  <string name="answer_12">Spons Bob hehehehe =))</string>
+  <string name="answer_13">Saya bukan seorang pelawak tapi biarkan saya memikirkan lelucon ini =)). Kemarin saya sangat bosan, saya melihat seekor semut di dapur saya dan saya meletakkan beberapa gula batu di depannya. Dia punya beberapa dan pergi untuk memberi tahu teman-temannya dan saya segera menyembunyikan gula batu karena saya ingin mereka berpikir bahwa dia pembohong =))</string>
+  <string name="answer_14">YA AMPUN! Sangat lucu, terima kasih temanmu juga aku mencintaimu.. hati yang besar &lt;3</string>
+  <string name="answer_15">Saya suka bepergian, mendengarkan musik, dan membeli sepatu</string>
+  <string name="answer_16">Benar-benar? OMG aku sangat mencintaimu &lt;3</string>
+  <string name="answer_17">Ya tentu saja, mari menjadi Sahabat selamanya</string>
+  <string name="answer_18">Sangat mudah, saya hanya memanggil karakter saya Holly dengan kostum yang kuat</string>
+  <string name="answer_19">Saya sangat menyukai aplikasi ini &lt;3, jika Anda juga menyukainya, beri saya 5 bintang dan komentar lucu</string>
+  <string name="answer_20">Terima kasih untuk obrolan ini. Saya dengan mengulangi percakapan ini.</string>
+  <string name="answer_21">Selamat datang, senang berbicara dengan Anda hari ini</string>
+  <string name="unlock">MEMBUKA KUNCI</string>
+</resources>

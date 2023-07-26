@@ -42,6 +42,8 @@ class FragmentGallery : Fragment() {
         viewModel.getListGallery().observe(viewLifecycleOwner) {
             adapterGallery?.setData(it)
             if (it.isEmpty()) {
+                viewModel.deleteAll()
+                viewModel.vacuumDb()
                 binding.tvEmpty.show()
             } else {
                 binding.tvEmpty.hide()

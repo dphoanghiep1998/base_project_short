@@ -1,22 +1,19 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.language
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.gianghv.libads.NativeAdsManager
-import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
-import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference.Companion.INSTANCE
+import com.neko.hiepdph.skibyditoiletvideocall.common.NativeTypeEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
 import com.neko.hiepdph.skibyditoiletvideocall.common.show
+import com.neko.hiepdph.skibyditoiletvideocall.common.showNativeAds
 import com.neko.hiepdph.skibyditoiletvideocall.common.supportDisplayLang
 import com.neko.hiepdph.skibyditoiletvideocall.common.supportedLanguages
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentLanguageBinding
@@ -70,7 +67,14 @@ class FragmentLanguage : Fragment() {
         binding.rcvLanguage.layoutManager =
             GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         adapter?.setCurrentLanguage(getCurrentLanguage())
-        insertAds()
+        showNativeAds(binding.nativeAdMediumView, {
+            binding.btnCheck.show()
+            binding.loadingAds.hide()
+        }, {
+            binding.btnCheck.show()
+            binding.loadingAds.hide()
+        }, type = NativeTypeEnum.GALLERY
+        )
     }
 
     private fun handleUnSupportLang(mLanguageList: MutableList<Any>) {
@@ -91,34 +95,6 @@ class FragmentLanguage : Fragment() {
         return INSTANCE.getSavedLanguage(Locale.getDefault().language)
     }
 
-    private fun insertAds() {
-        if (CustomApplication.app.mNativeAdManagerLanguage == null) {
-            CustomApplication.app.mNativeAdManagerLanguage = NativeAdsManager(
-                requireContext(), BuildConfig.native_language_id1, BuildConfig.native_language_id2
-            )
-        }
-        CustomApplication.app.nativeADLanguage?.observe(viewLifecycleOwner) {
-            it?.let {
-                Log.d("TAG", "insertAds: " + it)
-                binding.nativeAdMediumView.showShimmer(false)
-                binding.nativeAdMediumView.setNativeAd(it)
-                binding.nativeAdMediumView.visibility = View.VISIBLE
-                binding.btnCheck.show()
-
-            }
-            if (it == null) {
-                with(binding.nativeAdMediumView) {
-                    visibility = View.GONE
-                    showShimmer(true)
-                }
-            }
-        }
-        CustomApplication.app.mNativeAdManagerLanguage?.loadAds(onLoadSuccess = {
-            CustomApplication.app.nativeADLanguage?.value = it
-        }, onLoadFail = {
-            binding.btnCheck.show()
-        })
-    }
 
     private fun changeBackPressCallBack() {
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {

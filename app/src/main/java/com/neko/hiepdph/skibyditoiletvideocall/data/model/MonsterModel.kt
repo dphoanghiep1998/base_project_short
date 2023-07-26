@@ -5,8 +5,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class MonsterModel(
-    val id :Int,
+    val id: Int,
     val image: Int,
     val content: String,
-    val isRewardContent:Boolean = false
-) : Parcelable {}
+    val isRewardContent: Boolean = false,
+    val content_local: String = "",
+
+    ) : Parcelable {}

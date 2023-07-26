@@ -56,14 +56,10 @@ class FragmentListVideoToilet : Fragment() {
             viewModel.setCurrentModel(model)
             findNavController().popBackStack()
         }, onClickRewardAdsItem = { monsterModel, position ->
-            showInterAds(
-                action = {
-                    viewModel.setCurrentModel(monsterModel)
-                    findNavController().popBackStack()
-                }, type = InterAdsEnum.VIDEO
-            )
+            viewModel.setCurrentModel(monsterModel)
+            findNavController().popBackStack()
         })
-        adapterHome?.setData(viewModel.data)
+        adapterHome?.setData(viewModel.getData(requireContext()))
         val gridlayoutManager = GridLayoutManager(requireContext(), 3, RecyclerView.VERTICAL, false)
 
         binding.rcvHome.layoutManager = gridlayoutManager

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Automatically translated by Globalization Translator (https://github.com/wilinz/globalization-translator)-->
+<resources>
+  <string name="confirm">Video HOT cần xem quảng cáo để mở khóa!</string>
+  <string name="confirm_close">Bạn có chắc chắn muốn thoát khỏi ứng dụng?</string>
+  <string name="no">KHÔNG</string>
+  <string name="yes">Đúng</string>
+  <string name="watch">Xem</string>
+  <string name="loading_ads_new">Skybidi Toilet Video Call đang chạy, vui lòng đợi…</string>
+  <string name="lock">KHÓA</string>
+  <string name="welcome_back">Chào mừng trở lại!</string>
+  <string name="this_action_contains_ads_main">(Hành động này có thể chứa quảng cáo)</string>
+  <string name="levels">Cấp độ</string>
+  <string name="next">Tiếp theo</string>
+  <string name="title_onboard_1">Bạn đã sẵn sàng nhấc điện thoại với Cuộc gọi video trong nhà vệ sinh Skibidi</string>
+  <string name="title_onboard_2">Thưởng thức với bộ sưu tập Nhà vệ sinh Skibydi phong phú</string>
+  <string name="title_onboard_3">Prank và có một thời gian vui vẻ với bạn bè của bạn</string>
+  <string name="require_internet">Bật kết nối internet để sử dụng âm thanh này!</string>
+  <string name="confirm_internet">Một số hành động không \n khả dụng trong NGOẠI TUYẾN. \n Vui lòng kiểm tra kết nối internet của bạn</string>
+  <string name="custom_ok">Được rồi</string>
+  <string name="retry">Thử lại</string>
+  <string name="hello_blank_fragment">Xin chào đoạn trống</string>
+  <string name="other_call">Cuộc gọi khác</string>
+  <string name="call_john_park">Gọi John Pork!</string>
+  <string name="schedule">Lịch trình</string>
+  <string name="fifteen_second">Sau 15 giây</string>
+  <string name="thirty_second">Sau 30 giây</string>
+  <string name="sixty_second">Sau 60s</string>
+  <string name="call_now">Gọi ngay bây giờ</string>
+  <string name="call_skibidy">Gọi Skibidi</string>
+  <string name="intruction_john_pork">Đếm ngược gọi John Pork</string>
+  <string name="incoming_video">Video đến</string>
+  <string name="decline">Từ chối</string>
+  <string name="accept">Chấp nhận</string>
+  <string name="call_ended">Cuộc gọi kết thúc!</string>
+  <string name="tap_to_close">Nhấn để đóng</string>
+  <string name="gallery">BỘ SƯU TẬP</string>
+  <string name="video">Video %s</string>
+  <string name="preview">XEM TRƯỚC</string>
+  <string name="confirm_delete">Bạn có muốn xóa video này không?</string>
+  <string name="delete">Xóa bỏ</string>
+  <string name="empty_history">Không có mục nào trong bộ sưu tập!</string>
+  <string name="language">Ngôn ngữ</string>
+  <string name="question_1">CHÀO</string>
+  <string name="question_2">Tôi ổn, còn bạn thì sao?</string>
+  <string name="question_3">Bạn là ai?</string>
+  <string name="question_4">Bạn đến từ đâu, Skibidi?</string>
+  <string name="question_5">Bạn còn sống chứ?</string>
+  <string name="question_6">Nhưng tôi nghe nói bạn đã chết trong một thời gian</string>
+  <string name="question_7">Thật sao? May mà bạn chưa chết, tôi không có Instagram của bạn, bạn có thể cho tôi xin được không?</string>
+  <string name="question_8">Bạn bao nhiêu tuổi?</string>
+  <string name="question_9">Tại sao bạn cứ gọi cho người khác lúc 3 giờ sáng?</string>
+  <string name="question_10">Họ nói rằng họ sẽ biến thành nhà vệ sinh nếu họ chấp nhận cuộc gọi của bạn</string>
+  <string name="question_11">Những loại thực phẩm nào bạn thích</string>
+  <string name="question_12">Phim hoạt hình yêu thích của bạn là gì?</string>
+  <string name="question_13">Kể cho tôi một câu chuyện cười</string>
+  <string name="question_14">Anh vui tính quá em yêu anh =))</string>
+  <string name="question_15">Sở thích của bạn là gì?</string>
+  <string name="question_16">Bạn có biết tôi là fan hâm mộ lớn của bạn</string>
+  <string name="question_17">Có thể là bạn bè?</string>
+  <string name="question_18">Làm thế nào để chống lại kẻ xấu?</string>
+  <string name="question_19">Bạn có thích ứng dụng này?</string>
+  <string name="question_20">Hẹn gặp lại</string>
+  <string name="question_21">Cảm ơn bạn về cuộc trò chuyện này</string>
+  <string name="answer">Xin chào thân yêu của tôi?</string>
+  <string name="answer_1">Chào bạn của tôi bạn thế nào?</string>
+  <string name="answer_2">Siêu tốt, cảm ơn bạn! Thật tuyệt khi nói chuyện với bạn ngày hôm nay</string>
+  <string name="answer_3">Về cơ bản, tôi là nhà vệ sinh tuyệt vời nhất trên thế giới</string>
+  <string name="answer_4">Tôi đến từ Palermo, Ý. Nhưng.. lâu lắm rồi tôi không về nhà</string>
+  <string name="answer_5">Bạn có thể đoán, hahaha</string>
+  <string name="answer_6">Đó chỉ là một trò đùa mà thôi, tôi vẫn còn sống. Tôi đang đi du lịch khắp châu Âu và tôi đăng chuyến đi của mình lên Instagram mỗi ngày. Bạn có biết Insta của tôi không</string>
+  <string name="answer_7">Skibidi.toilet là Instagram của tôi. Theo tôi và đi du lịch khắp châu Âu với tôi</string>
+  <string name="answer_8">Khá khó để nói chính xác nhưng tôi đã nổi tiếng từ năm 2018</string>
+  <string name="answer_9">Tôi rất buồn, không ai trả lời cuộc gọi của tôi. Tôi chỉ muốn trao đổi</string>
+  <string name="answer_10">Điều đó là không thể. Nhưng .. tôi đã dọa họ rằng họ sẽ phải biến thành lợn .. không thể trách tôi .. đó là lỗi của họ! Không ai nhận điện thoại của tôi</string>
+  <string name="answer_11">Tôi yêu đôi môi của bạn. Nó rất ngon hahaha</string>
+  <string name="answer_12">Bọt biển Bob hehehehe =))</string>
+  <string name="answer_13">Tôi không phải là người thích đùa nhưng hãy để tôi nghĩ về trò đùa này =)). Hôm qua chán quá, thấy một con kiến ​​trong bếp nên đặt vài viên đường trước mặt cô ấy. Cô ấy ăn một ít và đi kể cho bạn bè và tôi nhanh chóng giấu mấy viên đường đi vì muốn họ nghĩ rằng cô ấy là kẻ nói dối =))</string>
+  <string name="answer_14">CHÚA ƠI! Thật dễ thương, cảm ơn bạn của bạn, tôi cũng yêu bạn.. trái tim lớn &lt;3</string>
+  <string name="answer_15">Tôi thích đi du lịch, nghe nhạc và mua giày</string>
+  <string name="answer_16">Thật sự? Ôi mẹ yêu con nhiều lắm &lt;3</string>
+  <string name="answer_17">Vâng, tất nhiên, hãy là bạn mãi mãi</string>
+  <string name="answer_18">Rất đơn giản, tôi chỉ cần gọi nhân vật của mình là Holly với bộ trang phục mạnh mẽ</string>
+  <string name="answer_19">Tôi rất thích ứng dụng này &lt;3, nếu bạn cũng thích nó, hãy cho tôi 5 sao và bình luận dễ thương</string>
+  <string name="answer_20">Cảm ơn bạn cho cuộc trò chuyện này. Tôi lặp lại cuộc trò chuyện này.</string>
+  <string name="answer_21">Chào mừng, rất vui được nói chuyện với bạn hôm nay</string>
+  <string name="unlock">MỞ KHÓA</string>
+  <string name="permission">Ứng dụng cần được cấp quyền Camera và quyền Micro để hoạt động đúng cách!</string>
+</resources>

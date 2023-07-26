@@ -1,5 +1,6 @@
 package com.neko.hiepdph.skibyditoiletvideocall.viewmodel
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
@@ -33,93 +34,221 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
         get() = isConnectivityChanged
 
 
-    val data = mutableListOf(
-        MonsterModel(
-            0, R.drawable.ic_1, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_1.mp4"
-        ), MonsterModel(
-            1, R.drawable.ic_2, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_2.mp4",true
-        ), MonsterModel(
-            2, R.drawable.ic_3, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_3.mp4"
-        ), MonsterModel(
-            3, R.drawable.ic_4, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_4.mp4"
-        ), MonsterModel(
-            4, R.drawable.ic_5, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_5.mp4"
-        ), MonsterModel(
-            5, R.drawable.ic_6, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_6.mp4"
-        ), MonsterModel(
-            6, R.drawable.ic_7, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_7.mp4",true
-        ), MonsterModel(
-            7, R.drawable.ic_8, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_8.mp4"
-        ), MonsterModel(
-            8, R.drawable.ic_9, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_9.mp4"
-        ), MonsterModel(
-            9, R.drawable.ic_10, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_10.mp4"
-        ), MonsterModel(
-            10, R.drawable.ic_11, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_11.mp4",
-        ), MonsterModel(
-            11, R.drawable.ic_12, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_12.mp4",true
-        ), MonsterModel(
-            12, R.drawable.ic_13, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_13.mp4"
-        ), MonsterModel(
-            13, R.drawable.ic_14, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_14.mp4"
-        ), MonsterModel(
-            14, R.drawable.ic_15, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_15.mp4"
-        ), MonsterModel(
-            15, R.drawable.ic_16, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_16.mp4"
-        ), MonsterModel(
-            16, R.drawable.ic_17, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_17.mp4",true
-        ), MonsterModel(
-            17, R.drawable.ic_18, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_18.mp4",
-        ), MonsterModel(
-            18, R.drawable.ic_19, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_19.mp4"
-        ), MonsterModel(
-            19, R.drawable.ic_20, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_20.mp4",
-        ), MonsterModel(
-            20, R.drawable.ic_21, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_21.mp4"
-        ), MonsterModel(
-            21, R.drawable.ic_22, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_22.mp4",true
-        ), MonsterModel(
-            22, R.drawable.ic_23, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_23.mp4"
-        ), MonsterModel(
-            23, R.drawable.ic_24, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_24.mp4"
-        ), MonsterModel(
-            24, R.drawable.ic_25, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_25.mp4"
-        ), MonsterModel(
-            25, R.drawable.ic_26, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_26.mp4"
-        ), MonsterModel(
-            26, R.drawable.ic_27, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_27.mp4",true
-        ), MonsterModel(
-            27, R.drawable.ic_28, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_28.mp4"
-        ), MonsterModel(
-            28, R.drawable.ic_29, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_29.mp4"
-        ), MonsterModel(
-            29, R.drawable.ic_30, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_30.mp4",
-        ), MonsterModel(
-            30, R.drawable.ic_31, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_31.mp4"
-        ), MonsterModel(
-            31, R.drawable.ic_32, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_32.mp4"
-        ), MonsterModel(
-            32, R.drawable.ic_33, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_33.mp4"
-        ), MonsterModel(
-            33, R.drawable.ic_34, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_34.mp4",
-        ), MonsterModel(
-            34, R.drawable.ic_35, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_35.mp4"
-        ), MonsterModel(
-            35, R.drawable.ic_36, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_36.mp4"
-        ), MonsterModel(
-            36, R.drawable.ic_37, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_37.mp4"
-        ), MonsterModel(
-            37, R.drawable.ic_38, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_38.mp4"
-        ), MonsterModel(
-            38, R.drawable.ic_39, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_39.mp4",
-        ), MonsterModel(
-            39, R.drawable.ic_40, "https://github.com/ConfigNeko/FakeWC/raw/main/lv_40.mp4"
+    fun getData(context: Context): MutableList<MonsterModel> {
+        return mutableListOf(
+            MonsterModel(
+                0,
+                R.drawable.ic_1,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_1.mp4",
+                content_local = context.filesDir.path + "/video_source/video0"
+            ), MonsterModel(
+                1,
+                R.drawable.ic_2,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_2.mp4",
+                content_local = context.filesDir.path + "/video_source/video1"
+            ), MonsterModel(
+                2,
+                R.drawable.ic_3,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_3.mp4",
+                true,
+                content_local = context.filesDir.path + "/video_source/video2"
+            ), MonsterModel(
+                3,
+                R.drawable.ic_4,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_4.mp4",
+                content_local = context.filesDir.path + "/video_source/video3"
+            ), MonsterModel(
+                4,
+                R.drawable.ic_5,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_5.mp4",
+                content_local = context.filesDir.path + "/video_source/video4"
+            ), MonsterModel(
+                5,
+                R.drawable.ic_6,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_6.mp4",
+                content_local = context.filesDir.path + "/video_source/video5"
+            ), MonsterModel(
+                6,
+                R.drawable.ic_7,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_7.mp4",
+                content_local = context.filesDir.path + "/video_source/video6"
+            ), MonsterModel(
+                7,
+                R.drawable.ic_8,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_8.mp4",
+                true,
+                content_local = context.filesDir.path + "/video_source/video7"
+            ), MonsterModel(
+                8,
+                R.drawable.ic_9,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_9.mp4",
+                content_local = context.filesDir.path + "/video_source/video8"
+            ), MonsterModel(
+                9,
+                R.drawable.ic_10,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_10.mp4",
+                content_local = context.filesDir.path + "/video_source/video9"
+            ), MonsterModel(
+                10,
+                R.drawable.ic_11,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_11.mp4",
+                content_local = context.filesDir.path + "/video_source/video10"
+            ), MonsterModel(
+                11,
+                R.drawable.ic_12,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_12.mp4",
+                content_local = context.filesDir.path + "/video_source/video11"
+            ), MonsterModel(
+                12,
+                R.drawable.ic_13,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_13.mp4",
+                true,
+                content_local = context.filesDir.path + "/video_source/video12"
+            ), MonsterModel(
+                13,
+                R.drawable.ic_14,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_14.mp4",
+                content_local = context.filesDir.path + "/video_source/video13"
+            ), MonsterModel(
+                14,
+                R.drawable.ic_15,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_15.mp4",
+                content_local = context.filesDir.path + "/video_source/video14"
+            ), MonsterModel(
+                15,
+                R.drawable.ic_16,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_16.mp4",
+                content_local = context.filesDir.path + "/video_source/video15"
+            ), MonsterModel(
+                16,
+                R.drawable.ic_17,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_17.mp4",
+                content_local = context.filesDir.path + "/video_source/video16"
+            ), MonsterModel(
+                17,
+                R.drawable.ic_18,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_18.mp4",
+                true,
+                content_local = context.filesDir.path + "/video_source/video17"
+            ), MonsterModel(
+                18,
+                R.drawable.ic_19,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_19.mp4",
+                content_local = context.filesDir.path + "/video_source/video18"
+            ), MonsterModel(
+                19,
+                R.drawable.ic_20,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_20.mp4",
+                content_local = context.filesDir.path + "/video_source/video19"
+            ), MonsterModel(
+                20,
+                R.drawable.ic_21,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_21.mp4",
+                content_local = context.filesDir.path + "/video_source/video20"
+            ), MonsterModel(
+                21,
+                R.drawable.ic_22,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_22.mp4",
+                content_local = context.filesDir.path + "/video_source/video21"
+            ), MonsterModel(
+                22,
+                R.drawable.ic_23,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_23.mp4",
+                true,
+                content_local = context.filesDir.path + "/video_source/video22"
+            ), MonsterModel(
+                23,
+                R.drawable.ic_24,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_24.mp4",
+                content_local = context.filesDir.path + "/video_source/video23"
+            ), MonsterModel(
+                24,
+                R.drawable.ic_25,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_25.mp4",
+                content_local = context.filesDir.path + "/video_source/video24"
+            ), MonsterModel(
+                25,
+                R.drawable.ic_26,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_26.mp4",
+                content_local = context.filesDir.path + "/video_source/video25"
+            ), MonsterModel(
+                26,
+                R.drawable.ic_27,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_27.mp4",
+                content_local = context.filesDir.path + "/video_source/video26"
+            ), MonsterModel(
+                27,
+                R.drawable.ic_28,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_28.mp4",
+                true,
+                content_local = context.filesDir.path + "/video_source/video27"
+            ), MonsterModel(
+                28,
+                R.drawable.ic_29,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_29.mp4",
+                content_local = context.filesDir.path + "/video_source/video28"
+            ), MonsterModel(
+                29,
+                R.drawable.ic_30,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_30.mp4",
+                content_local = context.filesDir.path + "/video_source/video29"
+            ), MonsterModel(
+                30,
+                R.drawable.ic_31,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_31.mp4",
+                content_local = context.filesDir.path + "/video_source/video30"
+            ), MonsterModel(
+                31,
+                R.drawable.ic_32,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_32.mp4",
+                content_local = context.filesDir.path + "/video_source/video31"
+            ), MonsterModel(
+                32,
+                R.drawable.ic_33,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_33.mp4",
+                content_local = context.filesDir.path + "/video_source/video32"
+            ), MonsterModel(
+                33,
+                R.drawable.ic_34,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_34.mp4",
+                content_local = context.filesDir.path + "/video_source/video33"
+            ), MonsterModel(
+                34,
+                R.drawable.ic_35,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_35.mp4",
+                content_local = context.filesDir.path + "/video_source/video34"
+            ), MonsterModel(
+                35,
+                R.drawable.ic_36,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_36.mp4",
+                content_local = context.filesDir.path + "/video_source/video35"
+            ), MonsterModel(
+                36,
+                R.drawable.ic_37,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_37.mp4",
+                content_local = context.filesDir.path + "/video_source/video36"
+            ), MonsterModel(
+                37,
+                R.drawable.ic_38,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_38.mp4",
+                content_local = context.filesDir.path + "/video_source/video37"
+            ), MonsterModel(
+                38,
+                R.drawable.ic_39,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_39.mp4",
+                content_local = context.filesDir.path + "/video_source/video38"
+            ), MonsterModel(
+                39,
+                R.drawable.ic_40,
+                "https://github.com/ConfigNeko/FakeWC/raw/main/lv_40.mp4",
+                content_local = context.filesDir.path + "/video_source/video39"
+            )
         )
-    )
+    }
 
-    private var currentModel: MonsterModel = data[0]
+    private var currentModel: MonsterModel? = null
 
-    fun getCurrentModel(): MonsterModel {
+    fun getCurrentModel(): MonsterModel? {
         return currentModel
     }
 
@@ -370,6 +499,18 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
     fun insertGallery(model: GalleryModel) {
         viewModelScope.launch {
             repo.insertGallery(model)
+        }
+    }
+
+    fun vacuumDb() {
+        viewModelScope.launch {
+            repo.vacuumDb()
+        }
+    }
+
+    fun deleteAll() {
+        viewModelScope.launch {
+            repo.deleteAll()
         }
     }
 

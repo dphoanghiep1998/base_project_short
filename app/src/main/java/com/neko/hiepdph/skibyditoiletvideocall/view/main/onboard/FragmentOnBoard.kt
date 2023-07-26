@@ -1,4 +1,4 @@
-package com.neko.hiepdph.toiletseries.main.onboard
+package com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard
 
 import android.os.Bundle
 import android.util.Log
@@ -14,9 +14,11 @@ import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
+import com.neko.hiepdph.skibyditoiletvideocall.common.NativeTypeEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.common.show
+import com.neko.hiepdph.skibyditoiletvideocall.common.showNativeAds
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentOnboardBinding
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard.adapter.ViewPagerAdapter
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard.child_fragment.FragmentOnboardChild1
@@ -40,7 +42,13 @@ class FragmentOnBoard : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        insertAds()
+        showNativeAds(binding.nativeAdSmallView, {
+            binding.btnNext.show()
+            binding.loadingAds.hide()
+        }, {
+            binding.btnNext.show()
+            binding.loadingAds.hide()
+        }, NativeTypeEnum.INTRO)
     }
 
 
@@ -67,7 +75,6 @@ class FragmentOnBoard : Fragment() {
 
 
     private fun initButton() {
-
         binding.btnNext.setOnClickListener {
             val currentItem = binding.vpOnboard.currentItem
             if (binding.vpOnboard.currentItem == 2) {
@@ -76,10 +83,7 @@ class FragmentOnBoard : Fragment() {
             } else {
                 binding.vpOnboard.currentItem = currentItem + 1
             }
-
         }
-
-
     }
 
     private fun initViewPager() {
@@ -95,9 +99,7 @@ class FragmentOnBoard : Fragment() {
     private fun insertAds() {
         if (CustomApplication.app.mNativeAdManagerIntro == null) {
             CustomApplication.app.mNativeAdManagerIntro = NativeAdsManager(
-                requireContext(),
-                BuildConfig.native_intro_id1,
-                BuildConfig.native_intro_id2
+                requireContext(), BuildConfig.native_intro_id1, BuildConfig.native_intro_id2
             )
         }
         CustomApplication.app.nativeADIntro?.observe(viewLifecycleOwner) {

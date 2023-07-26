@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Automatically translated by Globalization Translator (https://github.com/wilinz/globalization-translator)-->
+<resources>
+  <string name="confirm">हॉट वीडियो को अनलॉक करने के लिए विज्ञापनों को देखना होगा!</string>
+  <string name="confirm_close">क्या आप वाकई ऐप से बाहर निकलना चाहते हैं?</string>
+  <string name="no">नहीं</string>
+  <string name="yes">हाँ</string>
+  <string name="watch">घड़ी</string>
+  <string name="loading_ads_new">स्काईबिडी सीरीज चल रही है, कृपया प्रतीक्षा करें...</string>
+  <string name="lock">ताला</string>
+  <string name="welcome_back">वापसी पर स्वागत है!</string>
+  <string name="this_action_contains_ads_main">(इस क्रिया में विज्ञापन शामिल हो सकते हैं)</string>
+  <string name="levels">स्तरों</string>
+  <string name="next">अगला</string>
+  <string name="title_onboard_1">आप स्किबिडी टॉयलेट वीडियो कॉल के साथ फोन उठाने के लिए तैयार हैं</string>
+  <string name="title_onboard_2">व्यापक स्किबिडी टॉयलेट संग्रह का आनंद लें</string>
+  <string name="title_onboard_3">अपने दोस्तों के साथ शरारत करें और मज़ेदार समय बिताएँ</string>
+  <string name="require_internet">इस ध्वनि का उपयोग करने के लिए इंटरनेट कनेक्शन चालू करें!</string>
+  <string name="confirm_internet">कुछ कार्रवाई ऑफ़लाइन उपलब्ध \n हैं. \n कृपया अपना इंटरनेट कनेक्शन जांचें</string>
+  <string name="custom_ok">ठीक</string>
+  <string name="retry">पुन: प्रयास करें</string>
+  <string name="hello_blank_fragment">नमस्ते खाली टुकड़ा</string>
+  <string name="other_call">अन्य कॉल</string>
+  <string name="call_john_park">जॉन पोर्क को बुलाओ!</string>
+  <string name="schedule">अनुसूची</string>
+  <string name="fifteen_second">15 के बाद</string>
+  <string name="thirty_second">30 के बाद</string>
+  <string name="sixty_second">60 के दशक के बाद</string>
+  <string name="call_now">अब कॉल करें</string>
+  <string name="call_skibidy">स्किबिडी को बुलाओ</string>
+  <string name="intruction_john_pork">जॉन पोर्क को कॉल करने के लिए उलटी गिनती</string>
+  <string name="incoming_video">आने वाला वीडियो</string>
+  <string name="decline">पतन</string>
+  <string name="accept">स्वीकार करना</string>
+  <string name="call_ended">कॉल समाप्त!</string>
+  <string name="tap_to_close">बंद करने के लिए टैप करें</string>
+  <string name="gallery">गेलरी</string>
+  <string name="video">वीडियो %s</string>
+  <string name="preview">पूर्व दर्शन</string>
+  <string name="confirm_delete">क्या आप इस वीडियो को हटाना चाहते हैं?</string>
+  <string name="delete">मिटाना</string>
+  <string name="empty_history">गैलरी में कोई आइटम नहीं!</string>
+  <string name="language">भाषा</string>
+  <string name="question_1">नमस्ते</string>
+  <string name="question_2">में अच्छे हु आप कैसे हो?</string>
+  <string name="question_3">आप कौन हैं?</string>
+  <string name="question_4">आप कहाँ से हैं, स्किबिडी?</string>
+  <string name="question_5">क्या आप जीवित हैं?</string>
+  <string name="question_6">लेकिन मैंने सुना है कि आप कुछ समय के लिए मर चुके हैं</string>
+  <string name="question_7">सचमुच?सौभाग्य से आप मरे नहीं हैं, आपका इंस्टाग्राम मेरे पास नहीं है, क्या आप कृपया इसे मुझे दे सकते हैं?</string>
+  <string name="question_8">आपकी आयु कितनी है?</string>
+  <string name="question_9">आप दूसरों को सुबह 3 बजे क्यों कॉल करते रहते हैं?</string>
+  <string name="question_10">वे कहते हैं कि यदि वे आपकी पुकार स्वीकार कर लेंगे तो वे शौचालय बन जायेंगे</string>
+  <string name="question_11">आप किस तरह का भोजन पसंद करते हैं</string>
+  <string name="question_12">आपका पसंदीदा कार्टून कौन सा है?</string>
+  <string name="question_13">मुझे एक चुटकुला बताऒ</string>
+  <string name="question_14">तुम बहुत मज़ाकिया हो, मैं तुमसे प्यार करता हूँ =)</string>
+  <string name="question_15">आपका शौक क्या है?</string>
+  <string name="question_16">क्या आप जानते हैं मैं आपका बहुत बड़ा प्रशंसक हूं</string>
+  <string name="question_17">क्या मित्र बनना संभव है?</string>
+  <string name="question_18">बुरे लोगों से कैसे लड़ें?</string>
+  <string name="question_19">क्या आपको यह एप्लिकेशन पसंद है?</string>
+  <string name="question_20">फिर मिलेंगे</string>
+  <string name="question_21">इस बातचीत के लिए धन्यवाद</string>
+  <string name="answer">नमस्कार मेरे प्रिय?</string>
+  <string name="answer_1">हाय मेरे दोस्त कैसे हो तुम?</string>
+  <string name="answer_2">बहुत बढ़िया, धन्यवाद दोस्त! आज आपसे बात करके बहुत अच्छा लगा</string>
+  <string name="answer_3">असल में, मैं दुनिया का सबसे बढ़िया शौचालय हूं</string>
+  <string name="answer_4">मैं पलेर्मो, इटली से हूँ। लेकिन.. काफी समय से मैं घर नहीं गया हूं</string>
+  <string name="answer_5">आप अनुमान लगा सकते हैं, हाहा</string>
+  <string name="answer_6">यह तो मजाक है भाई, मैं तो अभी जिंदा हूं। मैं पूरे यूरोप में यात्रा कर रहा हूं और मैं हर दिन इंस्टाग्राम पर अपनी यात्रा पोस्ट करता हूं। क्या आप मेरा इंस्टा जानते हैं?</string>
+  <string name="answer_7">स्किबिडी.टॉयलेट मेरा इंस्टाग्राम है। मेरे पीछे आओ और मेरे साथ पूरे यूरोप की यात्रा करो</string>
+  <string name="answer_8">सटीक रूप से कहना काफी मुश्किल है लेकिन मैं 2018 से मशहूर हो गया हूं</string>
+  <string name="answer_9">मैं बहुत दुखी हूं, कोई भी मेरी कॉल का जवाब नहीं देता। मुझे बस बात करनी हैं</string>
+  <string name="answer_10">यह नामुमकिन है। लेकिन.. मैंने उन्हें धमकी दी कि उन्हें सूअर बनना होगा.. मुझे दोष नहीं दे सकते.. यह उनकी गलती है! कोई भी मेरा फोन स्वीकार नहीं करता</string>
+  <string name="answer_11">मुझे तुम्हारे होंठ बहुत पसंद हैं। यह स्वादिष्ट है हाहाहा</string>
+  <string name="answer_12">स्पंज बॉब हेहेहेहे =))</string>
+  <string name="answer_13">मैं जोकर नहीं हूं लेकिन मुझे इस मजाक के बारे में सोचने दीजिए =))। कल मैं बहुत ऊब गया था, मैंने अपनी रसोई में एक चींटी देखी और मैंने उसके सामने कुछ चीनी के टुकड़े रख दिए। उसने कुछ चीनी खा ली और अपने दोस्तों को बताने चली गई और मैंने जल्दी से चीनी के टुकड़े छिपा दिए क्योंकि मैं चाहता था कि वे सोचें कि वह झूठी है =))</string>
+  <string name="answer_14">हे भगवान! बहुत प्यारा, आपके दोस्त को भी धन्यवाद, मैं भी आपसे प्यार करता हूं.. बड़ा दिल &lt;3</string>
+  <string name="answer_15">मुझे यात्रा करना, संगीत सुनना और जूते खरीदना पसंद है</string>
+  <string name="answer_16">वास्तव में? हे भगवान मैं तुमसे बहुत प्यार करता हूँ &lt;3</string>
+  <string name="answer_17">हां बिल्कुल, हमेशा दोस्त बने रहें</string>
+  <string name="answer_18">बहुत आसान है, मैंने अपने किरदार को एक शक्तिशाली पोशाक के साथ होली कहा है</string>
+  <string name="answer_19">मुझे यह एप्लिकेशन बहुत पसंद है &lt;3, अगर आपको भी यह पसंद है, तो मुझे 5 स्टार और प्यारी टिप्पणी दें</string>
+  <string name="answer_20">इस बातचीत के लिए धन्यवाद. मैं इस बातचीत को दोहराता हूं।</string>
+  <string name="answer_21">स्वागत है, आज आपसे बात करके अच्छा लगा</string>
+  <string name="unlock">अनलॉक</string>
+  <string name="permission">ऐप्लिकेशन को सही ढंग से काम करने के लिए कैमरा और माइक्रोफ़ोन की अनुमति की आवश्यकता है!</string>
+</resources>

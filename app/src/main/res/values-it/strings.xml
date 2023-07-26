@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Automatically translated by Globalization Translator (https://github.com/wilinz/globalization-translator)-->
+<resources>
+  <string name="confirm">I video CALDI devono vedere gli annunci per essere sbloccati!</string>
+  <string name="confirm_close">Sei sicuro di voler uscire dall\'app?</string>
+  <string name="no">NO</string>
+  <string name="yes">SÌ</string>
+  <string name="watch">Orologio</string>
+  <string name="loading_ads_new">La serie Skybidi è in corso, attendi...</string>
+  <string name="lock">SERRATURA</string>
+  <string name="welcome_back">Bentornato!</string>
+  <string name="this_action_contains_ads_main">(Questa azione può contenere annunci)</string>
+  <string name="levels">Livelli</string>
+  <string name="next">Prossimo</string>
+  <string name="title_onboard_1">Sei pronto per rispondere al telefono con una videochiamata alla toilette Skibidi</string>
+  <string name="title_onboard_2">Divertiti con l\'ampia collezione Skibydi Toilet</string>
+  <string name="title_onboard_3">Scherza e divertiti con i tuoi amici</string>
+  <string name="require_internet">Attiva la connessione Internet per utilizzare questo suono!</string>
+  <string name="confirm_internet">Alcune azioni non sono \n disponibili OFFLINE. \n Controlla la tua connessione Internet</string>
+  <string name="custom_ok">OK</string>
+  <string name="retry">Riprova</string>
+  <string name="hello_blank_fragment">Ciao frammento vuoto</string>
+  <string name="other_call">Altra chiamata</string>
+  <string name="call_john_park">Chiama Giovanni Porco!</string>
+  <string name="schedule">Programma</string>
+  <string name="fifteen_second">Dopo 15 sec</string>
+  <string name="thirty_second">Dopo i 30 anni</string>
+  <string name="sixty_second">Dopo gli anni \'60</string>
+  <string name="call_now">Chiamare ora</string>
+  <string name="call_skibidy">Chiama Skibidi</string>
+  <string name="intruction_john_pork">Conto alla rovescia per chiamare John Pork</string>
+  <string name="incoming_video">Video in arrivo</string>
+  <string name="decline">Declino</string>
+  <string name="accept">Accettare</string>
+  <string name="call_ended">Chiamata terminata!</string>
+  <string name="tap_to_close">Tocca per chiudere</string>
+  <string name="gallery">GALLERIA</string>
+  <string name="video">Video %s</string>
+  <string name="preview">ANTEPRIMA</string>
+  <string name="confirm_delete">Vuoi eliminare questo video?</string>
+  <string name="delete">Eliminare</string>
+  <string name="empty_history">Nessun articolo in galleria!</string>
+  <string name="language">Lingua</string>
+  <string name="question_1">CIAO</string>
+  <string name="question_2">Sto bene, tu come stai?</string>
+  <string name="question_3">Chi sei?</string>
+  <string name="question_4">Di dove sei, Skibidi?</string>
+  <string name="question_5">Sei vivo?</string>
+  <string name="question_6">Ma ho sentito che sei morto da un po\'</string>
+  <string name="question_7">Davvero? Per fortuna non sei morto, non ho il tuo Instagram, puoi darmelo per favore?</string>
+  <string name="question_8">Quanti anni hai?</string>
+  <string name="question_9">Perché continui a chiamare gli altri alle 3 del mattino?</string>
+  <string name="question_10">Dicono che si trasformeranno in bagni se accettano la tua chiamata</string>
+  <string name="question_11">Che tipo di cibo ti piace</string>
+  <string name="question_12">Qual è il tuo cartone animato preferito?</string>
+  <string name="question_13">Raccontami una barzelletta</string>
+  <string name="question_14">Sei così divertente, ti amo =)</string>
+  <string name="question_15">Qual è il tuo hobby?</string>
+  <string name="question_16">Lo sai che sono un tuo grande fan?</string>
+  <string name="question_17">È possibile essere amico?</string>
+  <string name="question_18">Come combattere i cattivi?</string>
+  <string name="question_19">Ti piace questa applicazione?</string>
+  <string name="question_20">Ci vediamo</string>
+  <string name="question_21">Grazie per questa conversazione</string>
+  <string name="answer">Ciao mio caro?</string>
+  <string name="answer_1">Ciao amico mio, come stai?</string>
+  <string name="answer_2">Ottimo, grazie amico! È bello parlare con te oggi</string>
+  <string name="answer_3">Fondamentalmente, sono il gabinetto più figo del mondo</string>
+  <string name="answer_4">Sono di Palermo, Italia. Ma... è da tanto che non torno a casa</string>
+  <string name="answer_5">Puoi indovinare, ahah</string>
+  <string name="answer_6">È solo uno scherzo fratello, sono ancora vivo. Sto viaggiando in tutta Europa e pubblico ogni giorno il mio viaggio su Instagram. Conosci il mio Insta</string>
+  <string name="answer_7">Skibidi.toilet è il mio Instagram. Seguimi e viaggia con me in tutta Europa</string>
+  <string name="answer_8">È abbastanza difficile da dire esattamente, ma sono diventato famoso dal 2018</string>
+  <string name="answer_9">Sono così triste, nessuno risponde alla mia chiamata. Voglio solo parlare</string>
+  <string name="answer_10">È impossibile. Ma.. li ho minacciati che avrebbero dovuto trasformarsi in maiali.. non posso biasimarmi.. è colpa loro! Nessuno accetta il mio telefono</string>
+  <string name="answer_11">Adoro le tue labbra. Sono deliziose ahahah</string>
+  <string name="answer_12">SpongeBob hehehehe =))</string>
+  <string name="answer_13">Non sono un burlone ma fammi pensare a questa barzelletta =)). Ieri ero così annoiato, ho visto una formica nella mia cucina e le ho messo davanti alcune zollette di zucchero. Ne aveva un po\' ed è andata a dirlo ai suoi amici e ho nascosto velocemente le zollette di zucchero perché volevo che pensassero che fosse una bugiarda =))</string>
+  <string name="answer_14">OH MIO DIO! Così carino, grazie anche al tuo amico, ti amo .. grande cuore &lt;3</string>
+  <string name="answer_15">Mi piace viaggiare, ascoltare musica e comprare scarpe</string>
+  <string name="answer_16">Veramente? Oddio ti voglio tanto bene &lt;3</string>
+  <string name="answer_17">Sì, certo, siate amici per sempre</string>
+  <string name="answer_18">Molto facile, ho appena chiamato il mio personaggio Holly con un costume potente</string>
+  <string name="answer_19">Amo così tanto questa applicazione &lt;3, se piace anche a te, dammi 5 stelle e commento carino</string>
+  <string name="answer_20">Grazie per questa chiacchierata. Io ripeto questa conversazione.</string>
+  <string name="answer_21">Benvenuto, è bello parlare con te oggi</string>
+  <string name="unlock">SBLOCCARE</string>
+  <string name="permission">L\'applicazione necessita dei permessi per la fotocamera e il microfono per funzionare correttamente!</string>
+</resources>

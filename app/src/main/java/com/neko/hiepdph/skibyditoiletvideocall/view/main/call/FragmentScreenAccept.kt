@@ -48,6 +48,7 @@ class FragmentScreenAccept : Fragment() {
     private val arg by navArgs<FragmentScreenAcceptArgs>()
     private var mediaRecorder: MediaRecorder? = null
     private var cam: Camera? = null
+    private var isSaved = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -82,6 +83,7 @@ class FragmentScreenAccept : Fragment() {
                         arg.characterModel?.videoType ?: 4
                     )
                 )
+                isSaved = true
                 val direction =
                     FragmentScreenAcceptDirections.actionFragmentScreenAcceptToFragmentCallClose(arg.characterModel)
                 findNavController().navigate(direction)
@@ -213,6 +215,7 @@ class FragmentScreenAccept : Fragment() {
                     arg.characterModel?.videoType ?: 4
                 )
             )
+            isSaved = true
             val direction =
                 FragmentScreenAcceptDirections.actionFragmentScreenAcceptToFragmentCallClose(arg.characterModel)
             findNavController().navigate(direction)
@@ -288,33 +291,6 @@ class FragmentScreenAccept : Fragment() {
             startTimer()
             viewModel.resumePlayer()
             mediaRecorder?.resume()
-        }
-    }
-
-    private fun resetViewOrder(ViewOnTop: SurfaceView, ViewOnBottom: PlayerView) {
-        //Make sure both views are inside the same layout, pass the parent or use the below to get it
-        val parent = ViewOnTop.parent as ViewGroup
-        parent.bringChildToFront(ViewOnTop)
-        val bottomSurfaceView = ViewOnBottom.videoSurfaceView as SurfaceView
-        Log.d("TAG", "resetViewOrder: " + ViewOnTop)
-        //Remove both PlayerView to fully reset the order, with just setZOrderMediaOverlay or even setZOrderOnTop the effect will not work on Android 7 and older OS
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            try {
-                parent.removeView(ViewOnBottom)
-                parent.removeView(ViewOnTop)
-            } catch (e: Exception) {
-
-            }
-        }
-        ViewOnTop.setZOrderMediaOverlay(true)
-        bottomSurfaceView.setZOrderMediaOverlay(false)
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            try {
-                parent.addView(ViewOnBottom)
-                parent.addView(ViewOnTop)
-            } catch (e: Exception) {
-            }
-
         }
     }
 

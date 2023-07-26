@@ -38,6 +38,7 @@
         android:layout_marginHorizontal="@dimen/_22sdp"
         android:layout_marginTop="@dimen/_12sdp"
         app:layout_constraintHeight_percent="0.6"
+        app:layout_constraintBottom_toTopOf="@id/progressVideo"
         app:layout_constraintTop_toBottomOf="@id/btn_back"
       />
 
@@ -57,14 +58,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_12sdp"
-        android:layout_marginTop="@dimen/_12sdp"
         android:layout_marginBottom="@dimen/_12sdp"
         android:progressDrawable="@drawable/bg_seekbar"
         android:splitTrack="false"
         android:thumb="@drawable/bg_thumb"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/playerView" />
+        app:layout_constraintBottom_toTopOf="@id/btn_play_pause" />
 
     <ImageView
         android:id="@+id/btn_play_pause"
@@ -74,7 +74,8 @@
         android:src="@drawable/ic_play"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/progressVideo" />
+        android:layout_marginBottom="@dimen/_60sdp"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <FrameLayout
         android:id="@+id/bannerAds"

@@ -18,16 +18,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/btn_check"
-        android:layout_width="@dimen/_50sdp"
+
+    <FrameLayout
+        android:id="@+id/container_button"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/_50sdp"
-        android:foreground="@drawable/ripple_effect_fg"
-        android:padding="@dimen/_12sdp"
-        android:src="@drawable/ic_check"
-        app:layout_constraintBottom_toBottomOf="@id/title"
+        android:layout_marginEnd="@dimen/_4sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/title" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_check"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:foreground="@drawable/ripple_effect_fg"
+            android:padding="@dimen/_12sdp"
+            android:visibility="gone"
+            android:src="@drawable/ic_check"
+            app:layout_constraintBottom_toBottomOf="@id/title"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading_ads"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/wait_load_ads" />
+    </FrameLayout>
 
     <com.gianghv.libads.NativeAdGiftViewLanguage
         android:id="@+id/nativeAdMediumView"
@@ -35,14 +55,14 @@
         android:layout_height="wrap_content"
         android:background="@drawable/infor_language"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_check" />
+        app:layout_constraintTop_toBottomOf="@id/container_button" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcv_language"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_goneMarginTop="@dimen/_12sdp"
         android:paddingHorizontal="@dimen/_6sdp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nativeAdMediumView" />
+        app:layout_constraintTop_toBottomOf="@id/nativeAdMediumView"
+        app:layout_goneMarginTop="@dimen/_12sdp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

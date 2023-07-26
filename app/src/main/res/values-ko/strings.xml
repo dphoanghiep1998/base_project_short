@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Automatically translated by Globalization Translator (https://github.com/wilinz/globalization-translator)-->
+<resources>
+  <string name="confirm">잠금을 해제하려면 HOT 동영상에 광고가 표시되어야 합니다!</string>
+  <string name="confirm_close">앱을 종료하시겠습니까?</string>
+  <string name="no">아니요</string>
+  <string name="yes">예</string>
+  <string name="watch">보다</string>
+  <string name="loading_ads_new">Skybidi 시리즈가 실행 중입니다. 잠시만 기다려 주십시오…</string>
+  <string name="lock">잠그다</string>
+  <string name="welcome_back">다시 오신 것을 환영합니다!</string>
+  <string name="this_action_contains_ads_main">(이 작업에는 광고가 포함될 수 있습니다)</string>
+  <string name="levels">레벨</string>
+  <string name="next">다음</string>
+  <string name="title_onboard_1">Skibidi Toilet 화상 통화로 전화를 받을 준비가 되었습니다.</string>
+  <string name="title_onboard_2">광범위한 Skibydi 화장실 컬렉션으로 즐기십시오</string>
+  <string name="title_onboard_3">장난을 치며 친구들과 즐거운 시간을 보내세요</string>
+  <string name="require_internet">이 사운드를 사용하려면 인터넷 연결을 켜십시오!</string>
+  <string name="confirm_internet">일부 작업은 오프라인에서 \n 사용할 수 없습니다. \n 인터넷 연결을 확인하십시오</string>
+  <string name="custom_ok">좋아요</string>
+  <string name="retry">다시 해 보다</string>
+  <string name="hello_blank_fragment">안녕하세요 빈 조각</string>
+  <string name="other_call">기타 통화</string>
+  <string name="call_john_park">존 포크에게 전화해!</string>
+  <string name="schedule">일정</string>
+  <string name="fifteen_second">15초 후</string>
+  <string name="thirty_second">30대 이후</string>
+  <string name="sixty_second">60년대 이후</string>
+  <string name="call_now">지금 전화하세요</string>
+  <string name="call_skibidy">전화 스키비디</string>
+  <string name="intruction_john_pork">John Pork를 호출하는 카운트다운</string>
+  <string name="incoming_video">들어오는 비디오</string>
+  <string name="decline">감소</string>
+  <string name="accept">수용하다</string>
+  <string name="call_ended">통화 종료!</string>
+  <string name="tap_to_close">닫으려면 탭하세요.</string>
+  <string name="gallery">갤러리</string>
+  <string name="video">동영상 %s</string>
+  <string name="preview">시사</string>
+  <string name="confirm_delete">이 동영상을 삭제하시겠습니까?</string>
+  <string name="delete">삭제</string>
+  <string name="empty_history">갤러리에 항목이 없습니다!</string>
+  <string name="language">언어</string>
+  <string name="question_1">안녕</string>
+  <string name="question_2">난 잘 지내, 넌?</string>
+  <string name="question_3">누구세요?</string>
+  <string name="question_4">어디서 왔니, 스키비디?</string>
+  <string name="question_5">살아 있냐?</string>
+  <string name="question_6">하지만 난 당신이 한동안 죽었다고 들었어</string>
+  <string name="question_7">정말?다행히 당신은 죽지 않았습니다. 나는 당신의 Instagram이 아닙니다. 저에게 줄 수 있습니까?</string>
+  <string name="question_8">몇 살이에요?</string>
+  <string name="question_9">왜 새벽 3시에 다른 사람들에게 전화를 계속합니까?</string>
+  <string name="question_10">전화를 받으면 화장실로 변한다고 한다</string>
+  <string name="question_11">어떤 종류의 음식을 좋아하나요</string>
+  <string name="question_12">가장 좋아하는 만화는?</string>
+  <string name="question_13">농담 좀 해봐</string>
+  <string name="question_14">당신은 너무 재밌어요, 당신을 사랑합니다 =)</string>
+  <string name="question_15">당신의 취미는 무엇입니까?</string>
+  <string name="question_16">내가 당신의 큰 팬이라는 것을 알고 있습니까?</string>
+  <string name="question_17">친구가 될 수 있습니까?</string>
+  <string name="question_18">나쁜 놈들과 싸우는 방법?</string>
+  <string name="question_19">이 응용 프로그램이 마음에 드십니까?</string>
+  <string name="question_20">또 보자</string>
+  <string name="question_21">이 대화에 감사드립니다.</string>
+  <string name="answer">안녕 내 사랑?</string>
+  <string name="answer_1">안녕 친구 잘 지내?</string>
+  <string name="answer_2">슈퍼 좋아, 고마워 친구! 오늘 당신과 이야기하는 것이 좋습니다</string>
+  <string name="answer_3">기본적으로 나는 세상에서 가장 멋진 변기</string>
+  <string name="answer_4">저는 이탈리아 팔레르모에서 왔어요. 하지만.. 오랫동안 집에 없었어</string>
+  <string name="answer_5">짐작할 수 있습니다, 하하</string>
+  <string name="answer_6">농담이야 형, 나 아직 살아있어. 유럽 ​​곳곳을 여행 중인데 매일 인스타그램에 여행기를 올리고 있어요. 내 인스타 알아?</string>
+  <string name="answer_7">Skibidi.toilet은 제 인스타그램입니다. 나를 따라와 나와 함께 유럽 전역을 여행</string>
+  <string name="answer_8">정확히 말씀드리기는 어렵지만 2018년부터 유명해졌습니다.</string>
+  <string name="answer_9">너무 슬퍼서 아무도 내 전화에 응답하지 않습니다. 난 그냥 얘기하고 싶어</string>
+  <string name="answer_10">그것은 불가능. 근데.. 돼지로 변해버리겠다 협박했는데.. 못말려.. 쟤네 잘못이야!아무도 내 전화 안받아.</string>
+  <string name="answer_11">네 입술이 좋아 맛있어 ㅋㅋㅋ</string>
+  <string name="answer_12">스폰지밥 ㅋㅋㅋㅋㅋㅋ =))</string>
+  <string name="answer_13">나는 조커가 아니지만 이 농담에 대해 생각해 보자 =)). 어제 나는 너무 지루해서 부엌에서 개미를 보고 그녀 앞에 각설탕 몇 개를 놓았습니다.</string>
+  <string name="answer_14">어머나! 너무 귀여워요 친구도 고마워요 사랑해요 .. 큰 마음 &lt;3</string>
+  <string name="answer_15">여행을 좋아하고 음악을 듣고 신발을 사는 것을 좋아합니다.</string>
+  <string name="answer_16">정말? OMG 나는 당신을 너무 사랑합니다 &lt;3</string>
+  <string name="answer_17">그래 물론이야 영원히 친구하자</string>
+  <string name="answer_18">아주 쉽게, 방금 강력한 의상으로 내 캐릭터 Holly를 불렀습니다.</string>
+  <string name="answer_19">나는이 응용 프로그램을 너무 좋아합니다 &lt;3, 당신도 그것을 좋아한다면 별 5 개와 귀여운 댓글을주세요</string>
+  <string name="answer_20">이 채팅에 감사드립니다. 나는 이 대화를 반복한다.</string>
+  <string name="answer_21">환영합니다, 오늘 당신과 이야기하게 되어 기쁩니다.</string>
+  <string name="unlock">터놓다</string>
+  <string name="permission">애플리케이션은 카메라와 마이크 권한이 필요합니다. 제대로 작동하려면!</string>
+</resources>

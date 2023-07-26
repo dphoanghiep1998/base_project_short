@@ -20,11 +20,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.neko.hiepdph.skibyditoiletvideocall.R
+import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
@@ -96,7 +96,7 @@ class FragmentCallScreen : Fragment() {
         runnable = Runnable {
             viewModel.pausePlayer()
             lifecycleScope.launchWhenResumed {
-                findNavController().navigate( R.id.fragmentCallDecline)
+                findNavController().navigate(R.id.fragmentCallDecline)
             }
             handler = null
         }
@@ -125,20 +125,27 @@ class FragmentCallScreen : Fragment() {
                 Manifest.permission.RECORD_AUDIO
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            Log.d("TAG", "checkPermission: true")
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
+
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.CAMERA
-                ) && ActivityCompat.shouldShowRequestPermissionRationale(
+                ) || !ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.RECORD_AUDIO
                 )
             ) {
-                cameraLauncher.launch(
-                    Intent(
-                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        Uri.fromParts("package", requireActivity().packageName, null)
-                    )
+                val dialogPermission = DialogConfirm(
+                    requireContext(), onPressPositive = {
+                        cameraLauncher.launch(
+                            Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", requireActivity().packageName, null)
+                            )
+                        )
+                    }, isCloseApp = false, isDelete = false, permission = false
                 )
+                dialogPermission.show()
+
             } else {
+                Log.d("TAG", "shouldShowRequestPermissionRationale: false")
                 launcher.launch(
                     arrayOf(
                         Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO
@@ -194,7 +201,7 @@ class FragmentCallScreen : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if(handler!=null){
+        if (handler != null) {
             viewModel.resumePlayer()
         }
     }
@@ -202,6 +209,6 @@ class FragmentCallScreen : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         Log.d("TAG", "onDestroyView: ")
-        runnable?.let { handler?.removeCallbacks (it) }
+        runnable?.let { handler?.removeCallbacks(it) }
     }
 }

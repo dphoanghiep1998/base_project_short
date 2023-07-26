@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/fragmentOnBoard"
-        android:name="com.neko.hiepdph.toiletseries.main.onboard.FragmentOnBoard"
+        android:name="com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard.FragmentOnBoard"
         android:label="FragmentOnBoard" />
     <fragment
         android:id="@+id/fragmentHome"

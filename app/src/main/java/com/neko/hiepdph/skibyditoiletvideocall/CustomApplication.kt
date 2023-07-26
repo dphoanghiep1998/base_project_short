@@ -3,6 +3,7 @@ package com.neko.hiepdph.skibyditoiletvideocall
 import android.app.Activity
 import android.app.Application
 import android.app.Dialog
+import android.app.DownloadManager
 import android.os.Bundle
 import androidx.lifecycle.*
 import com.adjust.sdk.Adjust
@@ -23,6 +24,7 @@ import com.google.android.gms.ads.RequestConfiguration
 import com.google.android.gms.ads.nativead.NativeAd
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
 import com.neko.hiepdph.skibyditoiletvideocall.common.DialogFragmentLoadingOpenAds
+import com.neko.hiepdph.skibyditoiletvideocall.common.DownloadManagerApp
 import com.neko.hiepdph.skibyditoiletvideocall.common.isInternetAvailable
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.MainActivity
 import dagger.hilt.android.HiltAndroidApp
@@ -57,6 +59,7 @@ class CustomApplication : Application(), Application.ActivityLifecycleCallbacks,
         super.onCreate()
         app = this
         AppSharePreference.getInstance(applicationContext)
+        DownloadManagerApp.getInstance(applicationContext)
         registerActivityLifecycleCallbacks(this)
         ProcessLifecycleOwner.get().lifecycle.addObserver(this)
         MobileAds.initialize(this) { MobileAds.setAppMuted(true) }

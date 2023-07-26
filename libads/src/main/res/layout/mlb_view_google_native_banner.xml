@@ -63,7 +63,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/background_native_ads"
+                        android:background="@drawable/_blue"
                         android:ellipsize="end"
                         android:gravity="center"
                         android:layout_margin="5dp"

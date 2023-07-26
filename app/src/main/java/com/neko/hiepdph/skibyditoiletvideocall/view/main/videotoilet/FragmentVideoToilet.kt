@@ -28,6 +28,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
+import com.neko.hiepdph.skibyditoiletvideocall.common.DownloadManagerApp
 import com.neko.hiepdph.skibyditoiletvideocall.common.InterAdsEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.pushEvent
@@ -36,6 +37,7 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.showInterAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.MonsterModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentVideoToiletBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
+import java.io.File
 
 class FragmentVideoToilet : Fragment() {
     private lateinit var binding: FragmentVideoToiletBinding
@@ -44,6 +46,7 @@ class FragmentVideoToilet : Fragment() {
     private var audioManager: AudioManager? = null
     private var intentFilter: IntentFilter? = null
     private var lastClickTime: Long = 0
+    private var count = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -64,8 +67,6 @@ class FragmentVideoToilet : Fragment() {
                         }
                     }
                 }
-
-
             }
 
         }
@@ -109,18 +110,64 @@ class FragmentVideoToilet : Fragment() {
             viewModel.reloadVideo()
         }
         requireActivity().findViewById<ImageView>(R.id.next).clickWithDebounce(1000) {
-            var index = viewModel.data.indexOf(viewModel.getCurrentModel())
+            count++
+            if (viewModel.getCurrentModel() == null) {
+                viewModel.setCurrentModel(viewModel.getData(requireContext())[0])
+            }
+            var index = viewModel.getData(requireContext()).indexOf(viewModel.getCurrentModel())
+
             if (index < 39) {
                 index++
-                if (viewModel.data[index].isRewardContent) {
+                if (count in AppSharePreference.INSTANCE.getListUnlockPos(
+                        mutableListOf(
+                            2, 7, 12, 17, 22, 27
+                        )
+                    )
+                ) {
                     showInterAds(action = {
-                        playVideo(viewModel.data[index])
+                        if (!isVideoExist(viewModel.getData(requireContext())[index])) {
+                            DownloadManagerApp.INSTANCE.makeRequestDownload(viewModel.getData(
+                                requireContext()
+                            )[index].content,
+                                requireActivity().filesDir.path + "/video_source",
+                                "video${viewModel.getData(requireContext())[index].id}",
+                                onDownloadCompleted = {
+                                    playVideoLocal(viewModel.getData(requireContext())[index])
+                                })
+                        } else {
+                            playVideoLocal(viewModel.getData(requireContext())[index])
+                        }
                     }, type = InterAdsEnum.VIDEO)
                 } else {
-                    playVideo(viewModel.data[index])
+                    if (!isVideoExist(viewModel.getData(requireContext())[index])) {
+                        DownloadManagerApp.INSTANCE.makeRequestDownload(viewModel.getData(
+                            requireContext()
+                        )[index].content,
+                            requireActivity().filesDir.path + "/video_source",
+                            "video${viewModel.getData(requireContext())[index].id}",
+                            onDownloadCompleted = {
+                                playVideoLocal(viewModel.getData(requireContext())[index])
+
+                            })
+                    } else {
+                        playVideoLocal(viewModel.getData(requireContext())[index])
+                    }
                 }
             } else {
-                playVideo(viewModel.data[0])
+                count = 0
+                if (!isVideoExist(viewModel.getData(requireContext())[index])) {
+                    DownloadManagerApp.INSTANCE.makeRequestDownload(viewModel.getData(
+                        requireContext()
+                    )[index].content,
+                        requireActivity().filesDir.path + "/video_source",
+                        "video${viewModel.getData(requireContext())[index].id}",
+                        onDownloadCompleted = {
+                            playVideoLocal(viewModel.getData(requireContext())[index])
+
+                        })
+                } else {
+                    playVideoLocal(viewModel.getData(requireContext())[index])
+                }
             }
         }
 
@@ -218,9 +265,20 @@ class FragmentVideoToilet : Fragment() {
         viewModel.setCurrentModel(monsterModel)
         val dataPos =
             AppSharePreference.INSTANCE.getListVideoPlayed(mutableListOf()).toMutableList()
-        dataPos.remove(viewModel.getCurrentModel().id)
+        dataPos.remove(viewModel.getCurrentModel()!!.id)
         AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
-        viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content), onEnd = {})
+        viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel()!!.content), onEnd = {})
+    }
+
+    private fun playVideoLocal(monsterModel: MonsterModel) {
+        viewModel.setCurrentModel(monsterModel)
+        val dataPos =
+            AppSharePreference.INSTANCE.getListVideoPlayed(mutableListOf()).toMutableList()
+        dataPos.remove(viewModel.getCurrentModel()!!.id)
+        AppSharePreference.INSTANCE.saveListVideoPlayed(dataPos)
+        viewModel.playAudio(
+            MediaItem.fromUri(viewModel.getCurrentModel()!!.content_local),
+            onEnd = {})
     }
 
 
@@ -232,9 +290,15 @@ class FragmentVideoToilet : Fragment() {
 
         }
         try {
-            viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel().content), onEnd = {
-                Log.d("TAG", "setupPlayer: ")
-            })
+            if (viewModel.getCurrentModel() == null) {
+                viewModel.setCurrentModel(viewModel.getData(requireContext())[0])
+            }
+            if (!isVideoExist(viewModel.getCurrentModel()!!)) {
+                viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel()!!.content), onEnd = {
+                    Log.d("TAG", "setupPlayer: ")
+                })
+            }
+
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -268,6 +332,10 @@ class FragmentVideoToilet : Fragment() {
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
+    }
+
+    private fun isVideoExist(file: MonsterModel): Boolean {
+        return File(file.content_local).exists()
     }
 
 }

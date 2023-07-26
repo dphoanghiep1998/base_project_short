@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="app_name" translatable="false">Skibydi Toilet Video Call</string>
     <string name="app_lovin_sdk_key" translatable="false">lBnu4FPbTxGUi8cqgwNENfRfqINTVk8B9NxC2Japp2DqKPThsIhPCF7zcC6wr9_IN8OLTcG9SR4dT4OJwQPTBf</string>
@@ -40,7 +41,7 @@
     <string name="custom_ok">Ok</string>
     <string name="retry">Retry</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="skibidy_toilet_video">Skibidi Toilet\nVideo</string>
+    <string name="skibidy_toilet_video" translatable="false">Skibidi Toilet\nVideos</string>
     <string name="other_call">Other call</string>
     <string name="call_john_park">Call John Pork !</string>
     <string name="schedule">Schedule</string>
@@ -50,7 +51,7 @@
     <string name="call_now">Call Now</string>
     <string name="call_skibidy">Call Skibidi</string>
     <string name="intruction_john_pork">Countdown to call John Pork</string>
-    <string name="skibidy_toilet">Skibidi Toilet</string>
+    <string name="skibidy_toilet" translatable="false">Skibidi Toilet</string>
     <string name="incoming_video">Incoming Video</string>
     <string name="decline">Decline</string>
     <string name="accept">Accept</string>
@@ -81,10 +82,11 @@
     <string name="question_14">You are so funny, I love you =)</string>
     <string name="question_15">What is your hobby?</string>
     <string name="question_16">Do you know I\'m big fan of you</string>
-    <string name="question_17">How to fight bad guys?</string>
-    <string name="question_18">Do you like this application?</string>
-    <string name="question_19">See you again</string>
-    <string name="question_20">Thanks you for this conversation</string>
+    <string name="question_17">Is it possible to be friend?</string>
+    <string name="question_18">How to fight bad guys?</string>
+    <string name="question_19">Do you like this application?</string>
+    <string name="question_20">See you again</string>
+    <string name="question_21">Thanks you for this conversation</string>
 
     <string name="answer">Hello my dear?</string>
 
@@ -106,7 +108,9 @@
     <string name="answer_16">Really? OMG I love you so much &lt;3</string>
     <string name="answer_17">Yes of course, let be Friends forever</string>
     <string name="answer_18">Very easy, i just called my character Holly with a powerful costume</string>
-    <string name="answer_19">I love this application so much &lt;3, if you like it too, give me 5 stars and cute comment</string>
+    <string name="answer_19">I love this application so much &lt;3, if you like it too, give me 5 stars and cute comment </string>
     <string name="answer_20">Thank you for this chat. I with repeat this conversation.</string>
+    <string name="answer_21">Welcome, it\'s nice to speak with you today</string>
     <string name="unlock">UNLOCK</string>
+    <string name="permission">Application need Camera permission and Micro permission to function correctly!</string>
 </resources>

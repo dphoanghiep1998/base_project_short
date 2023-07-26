@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Automatically translated by Globalization Translator (https://github.com/wilinz/globalization-translator)-->
+<resources>
+  <string name="confirm">熱いビデオのロックを解除するには広告を表示する必要があります。</string>
+  <string name="confirm_close">アプリを終了してもよろしいですか?</string>
+  <string name="no">いいえ</string>
+  <string name="yes">はい</string>
+  <string name="watch">時計</string>
+  <string name="loading_ads_new">Skybidi シリーズが実行中です。お待​​ちください…</string>
+  <string name="lock">ロック</string>
+  <string name="welcome_back">おかえり！</string>
+  <string name="this_action_contains_ads_main">(このアクションには広告が含まれる場合があります)</string>
+  <string name="levels">レベル</string>
+  <string name="next">次</string>
+  <string name="title_onboard_1">Skibidi トイレのビデオ通話で電話に出る準備ができました</string>
+  <string name="title_onboard_2">豊富なスキビディ トイレ コレクションをお楽しみください</string>
+  <string name="title_onboard_3">友達といたずらして楽しい時間を過ごしましょう</string>
+  <string name="require_internet">このサウンドを使用するには、インターネット接続をオンにしてください。</string>
+  <string name="confirm_internet">一部のアクションは\nオフラインでは使用できません。 \nインターネット接続を確認してください</string>
+  <string name="custom_ok">Ok</string>
+  <string name="retry">リトライ</string>
+  <string name="hello_blank_fragment">こんにちは、空白のフラグメント</string>
+  <string name="other_call">その他の通話</string>
+  <string name="call_john_park">ジョン・ポークに電話してください！</string>
+  <string name="schedule">スケジュール</string>
+  <string name="fifteen_second">15秒後</string>
+  <string name="thirty_second">30代以降</string>
+  <string name="sixty_second">60代以降</string>
+  <string name="call_now">今すぐ電話してください</string>
+  <string name="call_skibidy">スキビディに電話する</string>
+  <string name="intruction_john_pork">ジョン・ポークに電話するまでのカウントダウン</string>
+  <string name="incoming_video">受信ビデオ</string>
+  <string name="decline">却下</string>
+  <string name="accept">受け入れる</string>
+  <string name="call_ended">通話が終了しました！</string>
+  <string name="tap_to_close">タップして閉じます</string>
+  <string name="gallery">ギャラリー</string>
+  <string name="video">ビデオ%s</string>
+  <string name="preview">プレビュー</string>
+  <string name="confirm_delete">このビデオを削除しますか?</string>
+  <string name="delete">消去</string>
+  <string name="empty_history">ギャラリーにアイテムがありません!</string>
+  <string name="language">言語</string>
+  <string name="question_1">やあ</string>
+  <string name="question_2">私は元気です、あなたは？</string>
+  <string name="question_3">あなたは誰？</string>
+  <string name="question_4">どこの出身ですか、スキビディ？</string>
+  <string name="question_5">生きていますか？</string>
+  <string name="question_6">でも、あなたが死んでしばらく経っていると聞きました</string>
+  <string name="question_7">本当ですか？幸いなことに、あなたは死んではいません。私はあなたのインスタグラムを持っていないので、それを私にくれませんか？</string>
+  <string name="question_8">何歳ですか？</string>
+  <string name="question_9">なぜ午前 3 時に他の人に電話をかけ続けるのですか?</string>
+  <string name="question_10">呼びかけに応じたらトイレになるって言うんだ</string>
+  <string name="question_11">あなたはどんな食べ物が好きですか</string>
+  <string name="question_12">あなたの好きな漫画は何ですか？</string>
+  <string name="question_13">冗談を言ってください</string>
+  <string name="question_14">あなたはとても面白いです、私はあなたを愛しています =)</string>
+  <string name="question_15">趣味は何？</string>
+  <string name="question_16">私があなたの大ファンだということを知っていますか</string>
+  <string name="question_17">友達になることは可能ですか？</string>
+  <string name="question_18">悪者と戦うにはどうすればいいですか？</string>
+  <string name="question_19">このアプリケーションは気に入っていますか?</string>
+  <string name="question_20">またね</string>
+  <string name="question_21">この会話をありがとう</string>
+  <string name="answer">こんにちは、愛する人?</string>
+  <string name="answer_1">こんにちは、私の友人、お元気ですか？</string>
+  <string name="answer_2">とてもよかったです、ありがとう友人！ 今日はあなたと話せてとてもうれしいです</string>
+  <string name="answer_3">基本的に、私は世界で一番クールなトイレです</string>
+  <string name="answer_4">イタリアのパレルモ出身です。 でも...長い間家に帰っていない</string>
+  <string name="answer_5">推測できるでしょう、笑</string>
+  <string name="answer_6">それは冗談です、兄弟、私はまだ生きています。 私はヨーロッパ中を旅行していて、旅行の様子を毎日 Instagram に投稿しています。 私のインスタを知っていますか</string>
+  <string name="answer_7">Skibidi.toilet は私のインスタグラムです。 私に従って、一緒にヨーロッパ中を旅しましょう</string>
+  <string name="answer_8">正確に言うのは非常に難しいですが、私は2018年から有名になりました</string>
+  <string name="answer_9">とても悲しいです、誰も私の電話に出ません。 ただ話したいだけです</string>
+  <string name="answer_10">それは不可能だ。 でも.. 豚に変えなければならないと私は彼らを脅しました.. 私を責めることはできません.. それは彼らのせいです! 誰も私の電話を受け入れません</string>
+  <string name="answer_11">あなたの唇が大好きです、おいしいです、ははは</string>
+  <string name="answer_12">スポンジ・ボブ ふふふふ =))</string>
+  <string name="answer_13">私はジョーカーではありませんが、このジョークについて考えさせてください =))。 昨日とても退屈だったので、キッチンにアリを見つけたので、彼女の前に角砂糖をいくつか置きました。彼女はいくつか持っていたので、友達に伝えに行きました。そして、彼女が嘘つきだと思われたかったので、すぐに角砂糖を隠しました =))</string>
+  <string name="answer_14">ああ、神様！ とてもかわいい、あなたの友達に感謝します、私もあなたを愛しています..大きな心&lt;3</string>
+  <string name="answer_15">旅行すること、音楽を聴くこと、靴を買うことが好きです</string>
+  <string name="answer_16">本当？ ああ、本当にあなたを愛しています &lt;3</string>
+  <string name="answer_17">はい、もちろん、永遠に友達でいよう</string>
+  <string name="answer_18">非常に簡単です。強力なコスチュームを着てキャラクターをホリーと呼ぶだけです</string>
+  <string name="answer_19">私はこのアプリケーションがとても大好きです &lt;3、もし気に入ったら、5 つ星とかわいいコメントをお願いします</string>
+  <string name="answer_20">このチャットをありがとうございました。 私はこの会話を繰り返します。</string>
+  <string name="answer_21">ようこそ、今日はお話しできてうれしいです</string>
+  <string name="unlock">ロックを解除する</string>
+  <string name="permission">アプリケーションは、正しく機能するためにカメラとマイクの許可が必要です！</string>
+</resources>

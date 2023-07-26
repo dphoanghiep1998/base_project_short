@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.neko.hiepdph.skibyditoiletvideocall.R
+import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
 import com.neko.hiepdph.skibyditoiletvideocall.common.InterAdsEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
@@ -107,6 +108,7 @@ class FragmentMessage : Fragment() {
             MessageModel(getString(R.string.question_18), getString(R.string.answer_18)),
             MessageModel(getString(R.string.question_19), getString(R.string.answer_19)),
             MessageModel(getString(R.string.question_20), getString(R.string.answer_20)),
+            MessageModel(getString(R.string.question_21), getString(R.string.answer_21)),
         )
 
 
@@ -163,18 +165,23 @@ class FragmentMessage : Fragment() {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             Log.d("TAG", "checkPermission: true")
-            if (ActivityCompat.shouldShowRequestPermissionRationale(
+            if (!ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.CAMERA
-                ) && ActivityCompat.shouldShowRequestPermissionRationale(
+                ) || !ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.RECORD_AUDIO
                 )
             ) {
-                cameraLauncher.launch(
-                    Intent(
-                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        Uri.fromParts("package", requireActivity().packageName, null)
-                    )
+                val dialogPermission = DialogConfirm(
+                    requireContext(), onPressPositive = {
+                        cameraLauncher.launch(
+                            Intent(
+                                Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                                Uri.fromParts("package", requireActivity().packageName, null)
+                            )
+                        )
+                    }, isCloseApp = false, isDelete = false, permission = false
                 )
+                dialogPermission.show()
             } else {
                 launcher.launch(
                     arrayOf(

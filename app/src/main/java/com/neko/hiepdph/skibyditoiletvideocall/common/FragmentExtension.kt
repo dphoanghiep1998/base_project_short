@@ -99,6 +99,14 @@ fun Fragment.showNativeAds(
             )
         }
 
+        NativeTypeEnum.LANGUAGE -> {
+            mNativeAdManager = NativeAdsManager(
+                requireActivity(),
+                BuildConfig.native_language_id1,
+                BuildConfig.native_language_id2,
+            )
+        }
+
 
     }
     view?.let {

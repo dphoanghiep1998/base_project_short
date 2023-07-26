@@ -24,6 +24,7 @@ class FragmentCallDecline : Fragment() {
 
     private lateinit var binding: FragmentCallDeclineBinding
     private val viewModel by activityViewModels<AppViewModel>()
+    private var countDownTimer :CountDownTimer ?= null
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
@@ -46,7 +47,7 @@ class FragmentCallDecline : Fragment() {
                 R.raw.sound_phone_decline
             )), onEnd = {}, repeat = ExoPlayer.REPEAT_MODE_ONE)
 
-        val countDownTimer = object :CountDownTimer(2000,1000){
+         countDownTimer = object :CountDownTimer(2000,1000){
             override fun onTick(p0: Long) {
 
             }
@@ -57,10 +58,11 @@ class FragmentCallDecline : Fragment() {
             }
 
         }
-        countDownTimer.start()
+        countDownTimer?.start()
         binding.containerBroken.clickWithDebounce {
             navigateToPage(R.id.fragmentCallDecline, R.id.fragmentHome)
         }
+
     }
 
 
@@ -72,6 +74,11 @@ class FragmentCallDecline : Fragment() {
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
 
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        countDownTimer?.cancel()
     }
 
 }

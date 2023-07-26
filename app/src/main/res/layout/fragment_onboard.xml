@@ -41,24 +41,36 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/app_font"
+            android:foreground="@drawable/ripple_effect_fg"
             android:paddingHorizontal="@dimen/_16sdp"
             android:paddingVertical="@dimen/_6sdp"
-            android:foreground="@drawable/ripple_effect_fg"
+            android:text="@string/next"
             android:textColor="@color/white"
             android:textSize="@dimen/_14sdp"
-            android:text="@string/next"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/loading_ads"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/wait_load_ads" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.gianghv.libads.NativeAdSmallView
-        android:background="@drawable/bg_confirm"
         android:id="@+id/nativeAdSmallView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/bg_confirm"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

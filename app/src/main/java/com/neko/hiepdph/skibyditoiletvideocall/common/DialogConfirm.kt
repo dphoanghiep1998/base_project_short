@@ -15,8 +15,10 @@ class DialogConfirm(
     context: Context,
     private val onPressPositive: (() -> Unit),
     private val isCloseApp: Boolean = false,
-    private val isDelete: Boolean = false
-) : Dialog(context) {
+    private val isDelete: Boolean = false,
+    private val permission: Boolean = false,
+
+    ) : Dialog(context) {
     private lateinit var binding: DialogConfirmBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +38,13 @@ class DialogConfirm(
 
 
     private fun initView() {
-
         if (isDelete) {
             binding.tvContent.text = context.getString(R.string.confirm_delete)
             binding.btnAccept.text = context.getString(R.string.delete)
-        }else{
+        } else if (permission) {
+            binding.tvContent.text = context.getString(R.string.permission)
+            binding.btnAccept.text = context.getString(R.string.watch)
+        } else {
             if (!isCloseApp) {
                 binding.tvContent.text = context.getString(R.string.confirm)
                 binding.btnAccept.text = context.getString(R.string.watch)

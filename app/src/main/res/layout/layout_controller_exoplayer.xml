@@ -5,6 +5,16 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/video_call_toilet"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginEnd="@dimen/_18sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        android:foreground="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_video_screen"
+        app:layout_constraintEnd_toStartOf="@id/list_video"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
         android:id="@+id/list_video"
         android:layout_width="@dimen/_30sdp"
         android:layout_height="@dimen/_30sdp"

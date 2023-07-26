@@ -15,7 +15,6 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import com.airbnb.lottie.LottieDrawable
 import com.gianghv.libads.AppOpenStartAdManager
-import com.gianghv.libads.InterstitialPreloadAdManager
 import com.gianghv.libads.NativeAdsManager
 import com.gianghv.libads.utils.AdsConfigUtils
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -96,7 +95,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkFinishPermission() {
-        handler?.removeCallbacks { runnable!! }
+        handler?.removeCallbacks(runnable!!)
         handler = null
         status++
         checkAdsLoad()
@@ -234,7 +233,6 @@ class SplashActivity : AppCompatActivity() {
         openSplashAds = null
         handler?.removeCallbacks { runnable }
     }
-
 
 
     private fun navigateToMain() {

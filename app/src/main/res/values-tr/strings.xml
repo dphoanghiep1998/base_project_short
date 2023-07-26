@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Automatically translated by Globalization Translator (https://github.com/wilinz/globalization-translator)-->
+<resources>
+  <string name="confirm">SICAK videoların kilidini açmak için reklamları görmesi gerekir!</string>
+  <string name="confirm_close">Uygulamadan çıkmak istediğinizden emin misiniz?</string>
+  <string name="no">HAYIR</string>
+  <string name="yes">Evet</string>
+  <string name="watch">Kol saati</string>
+  <string name="loading_ads_new">Skybidi Serisi çalışıyor, lütfen bekleyiniz...</string>
+  <string name="lock">KİLİT</string>
+  <string name="welcome_back">Tekrar hoşgeldiniz!</string>
+  <string name="this_action_contains_ads_main">(Bu işlem reklam içerebilir)</string>
+  <string name="levels">Seviyeler</string>
+  <string name="next">Sonraki</string>
+  <string name="title_onboard_1">Skibidi Toilet Video Call ile telefonu açmaya hazırsınız</string>
+  <string name="title_onboard_2">Kapsamlı Skibydi Toilet koleksiyonunun keyfini çıkarın</string>
+  <string name="title_onboard_3">Şaka yapın ve arkadaşlarınızla eğlenceli zaman geçirin</string>
+  <string name="require_internet">Bu sesi kullanmak için internet bağlantısını açın!</string>
+  <string name="confirm_internet">Bazı işlemler ÇEVRİMDIŞI \n kullanılamaz. \n Lütfen internet bağlantınızı kontrol edin</string>
+  <string name="custom_ok">Tamam</string>
+  <string name="retry">Yeniden dene</string>
+  <string name="hello_blank_fragment">Merhaba boş parça</string>
+  <string name="other_call">Diğer çağrı</string>
+  <string name="call_john_park">John Pork\'u arayın!</string>
+  <string name="schedule">Takvim</string>
+  <string name="fifteen_second">15 saniye sonra</string>
+  <string name="thirty_second">30\'lu yaşlardan sonra</string>
+  <string name="sixty_second">60\'lardan sonra</string>
+  <string name="call_now">Şimdi ara</string>
+  <string name="call_skibidy">Skibidi\'yi ara</string>
+  <string name="intruction_john_pork">John Pork\'u aramak için geri sayım</string>
+  <string name="incoming_video">Gelen Video</string>
+  <string name="decline">Reddetmek</string>
+  <string name="accept">Kabul etmek</string>
+  <string name="call_ended">Arama sona erdi!</string>
+  <string name="tap_to_close">Kapatmak için dokunun</string>
+  <string name="gallery">GALERİ</string>
+  <string name="video">Video %s</string>
+  <string name="preview">ÖN İZLEME</string>
+  <string name="confirm_delete">Bu videoyu silmek istiyor musunuz?</string>
+  <string name="delete">Silmek</string>
+  <string name="empty_history">Galeride öğe yok!</string>
+  <string name="language">Dil</string>
+  <string name="question_1">MERHABA</string>
+  <string name="question_2">Ben iyiyim peki ya sen?</string>
+  <string name="question_3">Sen kimsin?</string>
+  <string name="question_4">Nerelisin, Skibidi?</string>
+  <string name="question_5">Yaşıyor musun?</string>
+  <string name="question_6">Ama bir süredir ölü olduğunu duydum.</string>
+  <string name="question_7">Gerçekten mi? Neyse ki ölmedin, Instagram hesabın bende değil, onu bana verir misin lütfen?</string>
+  <string name="question_8">Kaç yaşındasın?</string>
+  <string name="question_9">Neden sabah 3\'te başkalarını arayıp duruyorsun?</string>
+  <string name="question_10">Aramanızı kabul ederlerse tuvalete dönüşeceklerini söylüyorlar.</string>
+  <string name="question_11">Ne tür yemek seversin</string>
+  <string name="question_12">En sevdiğiniz çizgi film nedir?</string>
+  <string name="question_13">Bana bir fıkra anlat</string>
+  <string name="question_14">Çok komiksin seni seviyorum =)</string>
+  <string name="question_15">Senin hobin ne?</string>
+  <string name="question_16">Senin büyük hayranınım biliyor musun</string>
+  <string name="question_17">Arkadaş olmak mümkün mü?</string>
+  <string name="question_18">Kötü adamlarla nasıl savaşılır?</string>
+  <string name="question_19">Bu uygulamayı beğendiniz mi?</string>
+  <string name="question_20">Tekrar görüşürüz</string>
+  <string name="question_21">Bu sohbet için teşekkürler</string>
+  <string name="answer">Merhaba canım?</string>
+  <string name="answer_1">Merhaba arkadaşım nasılsın?</string>
+  <string name="answer_2">Süper iyi, teşekkürler arkadaşım! bugün seninle konuşmak harika</string>
+  <string name="answer_3">Temel olarak, ben dünyanın en havalı tuvaletiyim</string>
+  <string name="answer_4">Ben Palermo, İtalya\'lıyım. Ama.. uzun zamandır evde değildim</string>
+  <string name="answer_5">Tahmin edebilirsin hahaha</string>
+  <string name="answer_6">Bu sadece bir şaka kardeşim, hala hayattayım. Tüm Avrupa\'yı dolaşıyorum ve seyahatimi her gün Instagram\'da yayınlıyorum. İnstamı biliyor musun</string>
+  <string name="answer_7">Skibidi.toilet benim Instagram\'ım. Beni takip et ve benimle tüm Avrupa\'yı dolaş</string>
+  <string name="answer_8">Kesin olarak söylemek oldukça zor ama 2018\'den beri ünlü oldum.</string>
+  <string name="answer_9">Çok üzgünüm, kimse aramama cevap vermiyor. Ben sadece konuşmak istiyorum</string>
+  <string name="answer_10">Bu imkansız. Ama.. Onları domuza dönüşmek zorunda kalacakları konusunda tehdit ettim.. beni suçlayamazsınız.. bu onların suçu!Kimse telefonumu kabul etmiyor</string>
+  <string name="answer_11">Dudaklarını seviyorum. Çok lezzetli hahaha</string>
+  <string name="answer_12">Sünger Bob hehehehe =))</string>
+  <string name="answer_13">Şakacı değilim ama bu şakayı bir düşüneyim =)). Dün canım çok sıkıldı mutfağımda bir karınca gördüm ve önüne bir kaç küp şeker koydum. O biraz içti ve arkadaşlarına söylemeye gitti ve onun yalancı olduğunu düşünmelerini istediğim için hemen kesme şekerleri sakladım =))</string>
+  <string name="answer_14">AMAN TANRIM! Çok tatlı, teşekkürler arkadaşın ben de seni seviyorum.. koca yürek &lt;3</string>
+  <string name="answer_15">Gezmeyi müzik dinlemeyi ayakkabı almayı severim</string>
+  <string name="answer_16">Gerçekten mi? OMG seni çok seviyorum &lt;3</string>
+  <string name="answer_17">Evet, tabii ki, sonsuza kadar Arkadaş olalım</string>
+  <string name="answer_18">Çok kolay, güçlü bir kostümle karakterime Holly adını verdim.</string>
+  <string name="answer_19">Bu uygulamayı çok seviyorum &lt;3, eğer siz de beğenirseniz, bana 5 yıldız ve sevimli yorum verin</string>
+  <string name="answer_20">Bu sohbet için teşekkürler. Bu konuşmayı tekrarlıyorum.</string>
+  <string name="answer_21">Hoşgeldin bugün seninle konuşmak güzel</string>
+  <string name="unlock">KİLİDİNİ AÇ</string>
+  <string name="permission">Uygulama, düzgün çalışması için Kamera ve Mikrofon izinlerine ihtiyaç duyar!</string>
+</resources>

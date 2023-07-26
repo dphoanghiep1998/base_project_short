@@ -110,6 +110,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun initData() {
         if (!AppSharePreference.INSTANCE.getPassSetting(false)) {
             AppSharePreference.INSTANCE.saveListUnlockPos(
