@@ -62,7 +62,7 @@ class FragmentCallScreen : Fragment() {
                             0,
                             R.drawable.ic_banner_progress_call,
                             "Skibidi Toilet",
-                            R.raw.john_porn,
+                            R.raw.john_porn,"",
                             4
                         )
                     )
@@ -126,9 +126,9 @@ class FragmentCallScreen : Fragment() {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
 
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.CAMERA
-                ) || !ActivityCompat.shouldShowRequestPermissionRationale(
+                ) && ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.RECORD_AUDIO
                 )
             ) {
@@ -140,7 +140,7 @@ class FragmentCallScreen : Fragment() {
                                 Uri.fromParts("package", requireActivity().packageName, null)
                             )
                         )
-                    }, isCloseApp = false, isDelete = false, permission = false
+                    }, isCloseApp = false, isDelete = false, permission = true
                 )
                 dialogPermission.show()
 

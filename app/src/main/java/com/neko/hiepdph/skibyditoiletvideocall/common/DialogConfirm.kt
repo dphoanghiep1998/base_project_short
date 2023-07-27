@@ -11,7 +11,8 @@ import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.DialogConfirmBinding
 
 
-class DialogConfirm(
+class DialogConfirm
+    (
     context: Context,
     private val onPressPositive: (() -> Unit),
     private val isCloseApp: Boolean = false,
@@ -43,7 +44,7 @@ class DialogConfirm(
             binding.btnAccept.text = context.getString(R.string.delete)
         } else if (permission) {
             binding.tvContent.text = context.getString(R.string.permission)
-            binding.btnAccept.text = context.getString(R.string.watch)
+            binding.btnAccept.text = context.getString(R.string.yes)
         } else {
             if (!isCloseApp) {
                 binding.tvContent.text = context.getString(R.string.confirm)

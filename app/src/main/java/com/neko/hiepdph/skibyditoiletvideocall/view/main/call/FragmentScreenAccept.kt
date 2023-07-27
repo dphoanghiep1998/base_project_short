@@ -2,13 +2,11 @@ package com.neko.hiepdph.skibyditoiletvideocall.view.main.call
 
 import android.hardware.Camera
 import android.media.MediaRecorder
-import android.os.Build
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.SurfaceHolder
-import android.view.SurfaceView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
@@ -19,7 +17,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.gianghv.libads.AppOpenResumeAdManager
 import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.ui.PlayerView
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
@@ -70,35 +67,70 @@ class FragmentScreenAccept : Fragment() {
     private fun initView() {
         binding.btnDecline.hide()
         initButton()
-        viewModel.playAudio(MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(arg.characterModel.videoRaw)),
-            onEnd = {
-                viewModel.insertGallery(
-                    GalleryModel(
-                        -1,
-                        "",
-                        Calendar.getInstance().timeInMillis,
-                        count,
-                        arg.characterModel.videoRaw,
-                        path,
-                        arg.characterModel?.videoType ?: 4
+        if(arg.characterModel.videoRaw != 0){
+            viewModel.playAudio(MediaItem.fromUri(RawResourceDataSource.buildRawResourceUri(arg.characterModel.videoRaw)),
+                onEnd = {
+                    viewModel.insertGallery(
+                        GalleryModel(
+                            -1,
+                            "",
+                            Calendar.getInstance().timeInMillis,
+                            count,
+                            arg.characterModel.videoRaw,
+                            arg.characterModel.videoUrl,
+                            path,
+                            arg.characterModel?.videoType ?: 4
+                        )
                     )
-                )
-                isSaved = true
-                val direction =
-                    FragmentScreenAcceptDirections.actionFragmentScreenAcceptToFragmentCallClose(arg.characterModel)
-                findNavController().navigate(direction)
-            },
-            onPrepareDone = {
-                if (!timeRunning) {
-                    startTimer()
-                }
-                binding.playerView.apply {
-                    viewModel.getPlayer()?.setVideoTextureView(this)
-                    keepScreenOn = true
-                    val mediaController = MediaController(requireActivity())
-                    mediaController.setAnchorView(binding.playerView)
-                }
-            })
+                    isSaved = true
+                    val direction =
+                        FragmentScreenAcceptDirections.actionFragmentScreenAcceptToFragmentCallClose(arg.characterModel)
+                    findNavController().navigate(direction)
+                },
+                onPrepareDone = {
+                    if (!timeRunning) {
+                        startTimer()
+                    }
+                    binding.playerView.apply {
+                        viewModel.getPlayer()?.setVideoTextureView(this)
+                        keepScreenOn = true
+                        val mediaController = MediaController(requireActivity())
+                        mediaController.setAnchorView(binding.playerView)
+                    }
+                })
+        }else{
+            viewModel.playAudio(MediaItem.fromUri(arg.characterModel.videoUrl),
+                onEnd = {
+                    viewModel.insertGallery(
+                        GalleryModel(
+                            -1,
+                            "",
+                            Calendar.getInstance().timeInMillis,
+                            count,
+                            arg.characterModel.videoRaw,
+                            arg.characterModel.videoUrl,
+                            path,
+                            arg.characterModel?.videoType ?: 4
+                        )
+                    )
+                    isSaved = true
+                    val direction =
+                        FragmentScreenAcceptDirections.actionFragmentScreenAcceptToFragmentCallClose(arg.characterModel)
+                    findNavController().navigate(direction)
+                },
+                onPrepareDone = {
+                    if (!timeRunning) {
+                        startTimer()
+                    }
+                    binding.playerView.apply {
+                        viewModel.getPlayer()?.setVideoTextureView(this)
+                        keepScreenOn = true
+                        val mediaController = MediaController(requireActivity())
+                        mediaController.setAnchorView(binding.playerView)
+                    }
+                })
+        }
+
     }
 
 
@@ -211,6 +243,7 @@ class FragmentScreenAccept : Fragment() {
                     Calendar.getInstance().timeInMillis,
                     count,
                     arg.characterModel.videoRaw,
+                    arg.characterModel.videoUrl,
                     path,
                     arg.characterModel?.videoType ?: 4
                 )

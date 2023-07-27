@@ -75,6 +75,7 @@ class FragmentProgressCall : Fragment() {
                     R.drawable.ic_banner_progress_call,
                     "Skibidi Toilet",
                     R.raw.john_porn,
+                    "",
                     4
                 )
                 val direction =

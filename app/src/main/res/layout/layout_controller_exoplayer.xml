@@ -10,6 +10,7 @@
         android:layout_height="@dimen/_30sdp"
         android:layout_marginEnd="@dimen/_18sdp"
         android:layout_marginTop="@dimen/_12sdp"
+        android:visibility="gone"
         android:foreground="?selectableItemBackgroundBorderless"
         android:src="@drawable/ic_video_screen"
         app:layout_constraintEnd_toStartOf="@id/list_video"

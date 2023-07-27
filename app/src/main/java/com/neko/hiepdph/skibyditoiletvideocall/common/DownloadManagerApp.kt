@@ -17,6 +17,7 @@ class DownloadManagerApp(val context: Context) {
     private var currentIdDownload = -1
     private var scope: CoroutineScope? = null
     private var job: Job? = null
+
     companion object {
         lateinit var INSTANCE: DownloadManagerApp
 
@@ -29,6 +30,7 @@ class DownloadManagerApp(val context: Context) {
         }
 
     }
+
     init {
         initDownloadManager()
     }
@@ -40,7 +42,13 @@ class DownloadManagerApp(val context: Context) {
         scope = CoroutineScope(Dispatchers.IO)
     }
 
-    fun makeRequestDownload(url: String, filePath: String, fileName: String,onDownloadCompleted:()->Unit) {
+    fun makeRequestDownload(
+        url: String,
+        filePath: String,
+        fileName: String,
+        onDownloadCompleted: () -> Unit,
+        onDownloadFailed: () -> Unit
+    ) {
         job = scope?.launch {
             currentIdDownload = PRDownloader.download(url, filePath, fileName).build()
                 .setOnStartOrResumeListener { }.setOnPauseListener { }.setOnCancelListener { }
@@ -49,8 +57,10 @@ class DownloadManagerApp(val context: Context) {
                         onDownloadCompleted.invoke()
                         Log.d("TAG", "onDownloadComplete: ")
                     }
+
                     override fun onError(error: com.downloader.Error?) {
                         Log.d("TAG", "Error: ")
+                        onDownloadFailed?.invoke()
                     }
 
                 })
@@ -65,7 +75,8 @@ class DownloadManagerApp(val context: Context) {
         try {
             job?.cancel()
             scope?.cancel()
-        }catch (e:Exception){}
+        } catch (e: Exception) {
+        }
 
     }
 }

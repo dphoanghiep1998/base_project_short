@@ -4,6 +4,7 @@ object Constant {
     const val APP_DB = "APP_DB_TOILET"
     const val KEY_LIST_POS = "KEY_LIST_POS"
     const val KEY_VIDEO_PLAYED = "KEY_VIDEO_PLAYED"
+    const val KEY_VIDEO_DOWNLOADED = "KEY_VIDEO_DOWNLOADED"
     const val VOLUME = "VOLUME"
     const val SETTING = "SETTING"
     const val INIT_DONE = "INIT_DONE"

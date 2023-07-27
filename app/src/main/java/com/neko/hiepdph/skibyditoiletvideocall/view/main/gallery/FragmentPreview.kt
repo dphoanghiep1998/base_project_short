@@ -104,11 +104,18 @@ class FragmentPreview : Fragment() {
                     }
 
                     4 -> {
-                        viewModel.playAudio2(MediaItem.fromUri(
-                            RawResourceDataSource.buildRawResourceUri(
-                                R.raw.john_porn
-                            )
-                        ), onEnd = {})
+                        if (navArgs.galleryModel.videoPath != 0) {
+                            viewModel.playAudio2(MediaItem.fromUri(
+                                RawResourceDataSource.buildRawResourceUri(
+                                    R.raw.john_porn
+                                )
+                            ), onEnd = {})
+                        } else {
+                            viewModel.playAudio2(MediaItem.fromUri(
+                                navArgs.galleryModel.videoUrl
+                            ), onEnd = {})
+                        }
+
                     }
                 }
             },

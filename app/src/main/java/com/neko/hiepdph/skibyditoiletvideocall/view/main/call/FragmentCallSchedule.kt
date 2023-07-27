@@ -43,7 +43,7 @@ class FragmentCallSchedule : Fragment() {
             val totalTime = minute + second
             if (totalTime == 0L) {
                 val model = OtherCallModel(
-                    0, R.drawable.ic_banner_progress_call, "Skibidi Toilet", R.raw.john_porn, 4
+                    0, R.drawable.ic_banner_progress_call, "Skibidi Toilet", R.raw.john_porn, "", 4
                 )
                 val direction =
                     FragmentCallScheduleDirections.actionFragmentCallScheduleToFragmentCallScreen(
@@ -118,9 +118,9 @@ class FragmentCallSchedule : Fragment() {
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             Log.d("TAG", "checkPermission: false")
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.CAMERA
-                ) || !ActivityCompat.shouldShowRequestPermissionRationale(
+                ) && ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.RECORD_AUDIO
                 )
             ) {

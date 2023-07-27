@@ -61,7 +61,6 @@ class AppSharePreference(private val context: Context?) {
         return getBoolean(Constant.KEY_SET_LANG, defaultValues)
     }
 
-
     private fun saveLong(key: String, values: Long) = sharedPreferences().edit {
         putLong(key, values)
     }
@@ -234,6 +233,14 @@ class AppSharePreference(private val context: Context?) {
 
     fun saveListVideoPlayed(values: List<Int>) {
         saveObjectToSharePreference(Constant.KEY_VIDEO_PLAYED, values)
+    }
+
+    fun getListVideoDownloaded(defaultValues: MutableList<Int>):  List<Int> {
+        return getObjectFromSharePreference(Constant.KEY_VIDEO_DOWNLOADED,defaultValues)
+    }
+
+    fun saveListVideoDownloaded(values: List<Int>) {
+        saveObjectToSharePreference(Constant.KEY_VIDEO_DOWNLOADED, values)
     }
 
 

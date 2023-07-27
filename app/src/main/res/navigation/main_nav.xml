@@ -25,6 +25,9 @@
         <action
             android:id="@+id/action_fragmentVideoToilet_to_fragmentHome"
             app:destination="@id/fragmentHome" />
+        <action
+            android:id="@+id/action_fragmentVideoToilet_to_fragmentCallScreen"
+            app:destination="@id/fragmentCallScreen" />
     </fragment>
     <fragment
         android:id="@+id/fragmentListVideoToilet"

@@ -1,11 +1,13 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
@@ -18,11 +20,14 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.supportDisplayLang
 import com.neko.hiepdph.skibyditoiletvideocall.common.supportedLanguages
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentHomeBinding
+import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
+import java.io.File
 import java.util.Locale
 import kotlin.system.exitProcess
 
 class FragmentHome : Fragment() {
     private lateinit var binding: FragmentHomeBinding
+    private val viewModel by activityViewModels<AppViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -80,27 +85,72 @@ class FragmentHome : Fragment() {
         binding.call.clickWithDebounce {
             showInterAds(action = {
                 val model = OtherCallModel(
-                    0,
-                    R.drawable.ic_banner_progress_call,
-                    "Skibidi Toilet",
-                    R.raw.john_porn,
-                    4
+                    0, R.drawable.ic_banner_progress_call, "Skibidi Toilet", R.raw.john_porn, "", 4
                 )
                 navigateToPage(R.id.fragmentHome, R.id.fragmentCall)
             }, type = InterAdsEnum.FUNCTION)
 
         }
         binding.videoCall.clickWithDebounce {
+            val listVideoDownloaded =
+                AppSharePreference.INSTANCE.getListVideoDownloaded(mutableListOf()).toMutableList()
+
             showInterAds(action = {
-                val model = OtherCallModel(
-                    0,
-                    R.drawable.ic_banner_progress_call,
-                    "Skibidi Toilet",
-                    R.raw.john_porn,
-                    4
-                )
-                val direction = FragmentHomeDirections.actionFragmentHomeToFragmentCallScreen(model)
-                findNavController().navigate(direction)
+                if (listVideoDownloaded.isEmpty()) {
+                    val model = OtherCallModel(
+                        0,
+                        R.drawable.ic_banner_progress_call,
+                        "Skibidi Toilet",
+                        R.raw.john_porn,
+                        "",
+                        4
+                    )
+                    val direction =
+                        FragmentHomeDirections.actionFragmentHomeToFragmentCallScreen(model)
+                    findNavController().navigate(direction)
+                } else {
+                    var index = 0
+                    listVideoDownloaded.shuffle()
+                    while (!File(viewModel.getData(requireContext())[listVideoDownloaded[0]].content_local).exists()) {
+                        listVideoDownloaded.remove(listVideoDownloaded[0])
+                        if (listVideoDownloaded.isEmpty()) {
+                            break
+                        } else {
+                            listVideoDownloaded.shuffle()
+                        }
+                    }
+                    AppSharePreference.INSTANCE.saveListVideoDownloaded(listVideoDownloaded)
+                    if (listVideoDownloaded.isNotEmpty()) {
+                        index = listVideoDownloaded[0]
+                        Log.d("TAG", "initButton: "+index)
+
+                        val model = OtherCallModel(
+                            0,
+                            R.drawable.ic_banner_progress_call,
+                            "Skibidi Toilet",
+                            0,
+                            viewModel.getData(requireContext())
+                                .find { it.id == index }?.content_local.toString(),
+                            4
+                        )
+                        val direction =
+                            FragmentHomeDirections.actionFragmentHomeToFragmentCallScreen(model)
+                        findNavController().navigate(direction)
+                    } else {
+                        val model = OtherCallModel(
+                            0,
+                            R.drawable.ic_banner_progress_call,
+                            "Skibidi Toilet",
+                            R.raw.john_porn,
+                            "",
+                            4
+                        )
+                        val direction =
+                            FragmentHomeDirections.actionFragmentHomeToFragmentCallScreen(model)
+                        findNavController().navigate(direction)
+                    }
+                }
+
             }, type = InterAdsEnum.FUNCTION)
 
 

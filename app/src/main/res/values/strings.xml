@@ -113,4 +113,6 @@
     <string name="answer_21">Welcome, it\'s nice to speak with you today</string>
     <string name="unlock">UNLOCK</string>
     <string name="permission">Application need Camera permission and Micro permission to function correctly!</string>
+    <string name="loading_download">App is downloading video for the next use... Please wait!</string>
+    <string name="download_fail">Something error when downloading this video, please try later!</string>
 </resources>

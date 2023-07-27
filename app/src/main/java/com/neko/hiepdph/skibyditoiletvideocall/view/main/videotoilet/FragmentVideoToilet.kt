@@ -1,5 +1,6 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.videotoilet
 
+import android.app.Dialog
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -15,6 +16,7 @@ import android.view.animation.Animation
 import android.view.animation.RotateAnimation
 import android.view.animation.ScaleAnimation
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -28,13 +30,17 @@ import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
+import com.neko.hiepdph.skibyditoiletvideocall.common.DialogLoadingProgress
 import com.neko.hiepdph.skibyditoiletvideocall.common.DownloadManagerApp
 import com.neko.hiepdph.skibyditoiletvideocall.common.InterAdsEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
+import com.neko.hiepdph.skibyditoiletvideocall.common.hide
 import com.neko.hiepdph.skibyditoiletvideocall.common.pushEvent
+import com.neko.hiepdph.skibyditoiletvideocall.common.show
 import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.common.showInterAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.MonsterModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentVideoToiletBinding
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 import java.io.File
@@ -47,6 +53,7 @@ class FragmentVideoToilet : Fragment() {
     private var intentFilter: IntentFilter? = null
     private var lastClickTime: Long = 0
     private var count = 0
+    private var dialogLoadingProgress: Dialog? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -84,9 +91,11 @@ class FragmentVideoToilet : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        showBannerAds(binding.bannerAds)
+        dialogLoadingProgress = DialogLoadingProgress().onCreateDialog(requireContext())
         setupPlayer()
         initButton()
-        showBannerAds(binding.bannerAds)
     }
 
     private fun initAds() {
@@ -125,47 +134,87 @@ class FragmentVideoToilet : Fragment() {
                     )
                 ) {
                     showInterAds(action = {
+
                         if (!isVideoExist(viewModel.getData(requireContext())[index])) {
+                            dialogLoadingProgress?.show()
+
                             DownloadManagerApp.INSTANCE.makeRequestDownload(viewModel.getData(
                                 requireContext()
                             )[index].content,
                                 requireActivity().filesDir.path + "/video_source",
                                 "video${viewModel.getData(requireContext())[index].id}",
                                 onDownloadCompleted = {
+                                    addIndexToListDownloadedVideo(viewModel.getCurrentModel()!!.id)
+                                    showButtonCallAtController()
+                                    dialogLoadingProgress?.dismiss()
                                     playVideoLocal(viewModel.getData(requireContext())[index])
+                                },
+                                onDownloadFailed = {
+                                    hideButtonCallAtController()
+                                    dialogLoadingProgress?.dismiss()
+                                    playVideo(viewModel.getData(requireContext())[index])
                                 })
                         } else {
+                            showButtonCallAtController()
                             playVideoLocal(viewModel.getData(requireContext())[index])
                         }
                     }, type = InterAdsEnum.VIDEO)
                 } else {
                     if (!isVideoExist(viewModel.getData(requireContext())[index])) {
+                        dialogLoadingProgress?.show()
                         DownloadManagerApp.INSTANCE.makeRequestDownload(viewModel.getData(
                             requireContext()
                         )[index].content,
                             requireActivity().filesDir.path + "/video_source",
                             "video${viewModel.getData(requireContext())[index].id}",
                             onDownloadCompleted = {
+                                addIndexToListDownloadedVideo(viewModel.getCurrentModel()!!.id)
+                                showButtonCallAtController()
+                                dialogLoadingProgress?.dismiss()
                                 playVideoLocal(viewModel.getData(requireContext())[index])
-
+                            },
+                            onDownloadFailed = {
+                                hideButtonCallAtController()
+                                dialogLoadingProgress?.dismiss()
+                                Toast.makeText(
+                                    requireContext(),
+                                    getString(R.string.download_fail),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                playVideo(viewModel.getData(requireContext())[index])
                             })
                     } else {
+                        showButtonCallAtController()
                         playVideoLocal(viewModel.getData(requireContext())[index])
                     }
                 }
             } else {
                 count = 0
                 if (!isVideoExist(viewModel.getData(requireContext())[index])) {
+                    dialogLoadingProgress?.show()
                     DownloadManagerApp.INSTANCE.makeRequestDownload(viewModel.getData(
                         requireContext()
                     )[index].content,
                         requireActivity().filesDir.path + "/video_source",
                         "video${viewModel.getData(requireContext())[index].id}",
                         onDownloadCompleted = {
+                            addIndexToListDownloadedVideo(viewModel.getCurrentModel()!!.id)
+                            showButtonCallAtController()
+                            dialogLoadingProgress?.dismiss()
                             playVideoLocal(viewModel.getData(requireContext())[index])
-
+                        },
+                        onDownloadFailed = {
+                            hideButtonCallAtController()
+                            dialogLoadingProgress?.dismiss()
+                            playVideo(viewModel.getData(requireContext())[index])
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.download_fail),
+                                Toast.LENGTH_SHORT
+                            ).show()
                         })
                 } else {
+                    showButtonCallAtController()
                     playVideoLocal(viewModel.getData(requireContext())[index])
                 }
             }
@@ -206,6 +255,20 @@ class FragmentVideoToilet : Fragment() {
                         .setImageResource(R.drawable.ic_volume_up)
                 }
             }
+        }
+
+        requireActivity().findViewById<ImageView>(R.id.video_call_toilet).clickWithDebounce {
+            val model = OtherCallModel(
+                0,
+                R.drawable.ic_banner_progress_call,
+                "Skibidi Toilet",
+                0,
+                viewModel.getCurrentModel()?.content_local.toString(),
+                4
+            )
+            val direction =
+                FragmentVideoToiletDirections.actionFragmentVideoToiletToFragmentCallScreen(model)
+            findNavController().navigate(direction)
         }
         if (firstTimeOpen) {
             val anim = ScaleAnimation(
@@ -261,6 +324,15 @@ class FragmentVideoToilet : Fragment() {
 
     }
 
+    private fun showButtonCallAtController() {
+        requireActivity().findViewById<ImageView>(R.id.video_call_toilet).show()
+    }
+
+    private fun hideButtonCallAtController() {
+        requireActivity().findViewById<ImageView>(R.id.video_call_toilet).hide()
+
+    }
+
     private fun playVideo(monsterModel: MonsterModel) {
         viewModel.setCurrentModel(monsterModel)
         val dataPos =
@@ -287,16 +359,31 @@ class FragmentVideoToilet : Fragment() {
             setShowBuffering(PlayerView.SHOW_BUFFERING_ALWAYS)
             player = viewModel.getPlayer()
             keepScreenOn = true
-
         }
         try {
             if (viewModel.getCurrentModel() == null) {
                 viewModel.setCurrentModel(viewModel.getData(requireContext())[0])
             }
             if (!isVideoExist(viewModel.getCurrentModel()!!)) {
-                viewModel.playAudio(MediaItem.fromUri(viewModel.getCurrentModel()!!.content), onEnd = {
-                    Log.d("TAG", "setupPlayer: ")
-                })
+                dialogLoadingProgress?.show()
+                DownloadManagerApp.INSTANCE.makeRequestDownload(viewModel.getCurrentModel()!!.content,
+                    requireActivity().filesDir.path + "/video_source",
+                    "video${viewModel.getCurrentModel()!!.id}",
+                    onDownloadCompleted = {
+                        addIndexToListDownloadedVideo(viewModel.getCurrentModel()!!.id)
+                        showButtonCallAtController()
+                        dialogLoadingProgress?.dismiss()
+                        playVideoLocal(viewModel.getCurrentModel()!!)
+
+                    },
+                    onDownloadFailed = {
+                        hideButtonCallAtController()
+                        dialogLoadingProgress?.dismiss()
+                        playVideo(viewModel.getCurrentModel()!!)
+                    })
+            } else {
+                showButtonCallAtController()
+                playVideoLocal(viewModel.getCurrentModel()!!)
             }
 
 
@@ -304,6 +391,16 @@ class FragmentVideoToilet : Fragment() {
             e.printStackTrace()
         }
 
+    }
+
+    private fun addIndexToListDownloadedVideo(id: Int) {
+        val listDownloadedVideo =
+            AppSharePreference.INSTANCE.getListVideoDownloaded(mutableListOf()).toMutableList()
+        if (id !in listDownloadedVideo) {
+            listDownloadedVideo.add(id)
+            AppSharePreference.INSTANCE.saveListVideoDownloaded(listDownloadedVideo)
+            Log.d("TAG", "addIndexToListDownloadedVideo: "+AppSharePreference.INSTANCE.getListVideoDownloaded(mutableListOf()).toMutableList())
+        }
     }
 
     override fun onPause() {
@@ -316,7 +413,6 @@ class FragmentVideoToilet : Fragment() {
         super.onDestroy()
         viewModel.resetPlayer()
         requireActivity().unregisterReceiver(receiver)
-
     }
 
     private fun changeBackPressCallBack() {
@@ -331,7 +427,6 @@ class FragmentVideoToilet : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
-
     }
 
     private fun isVideoExist(file: MonsterModel): Boolean {

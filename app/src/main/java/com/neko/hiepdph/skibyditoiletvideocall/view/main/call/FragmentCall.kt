@@ -40,7 +40,7 @@ class FragmentCall : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         action = {
-            val model = OtherCallModel(0,R.drawable.ic_banner_progress_call,"Skibidi Toilet",R.raw.john_porn,4)
+            val model = OtherCallModel(0,R.drawable.ic_banner_progress_call,"Skibidi Toilet",R.raw.john_porn,"",4)
             val direction = FragmentCallDirections.actionFragmentCallToFragmentCallScreen(model)
             findNavController().navigate(direction)
         }
@@ -91,10 +91,10 @@ class FragmentCall : Fragment() {
             requireContext().checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
         ) {
             Log.d("TAG", "checkPermission: true")
-            if (!ActivityCompat.shouldShowRequestPermissionRationale(
+            if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
                     Manifest.permission.CAMERA
-                ) || !ActivityCompat.shouldShowRequestPermissionRationale(
+                ) && ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
                     Manifest.permission.RECORD_AUDIO
                 )
