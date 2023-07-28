@@ -111,13 +111,16 @@ fun Fragment.showNativeAds(
     }
     view?.let {
         it.showShimmer(true)
+        NativeAdsManager.isLoadingAds = true
         mNativeAdManager.loadAds(onLoadSuccess = { nativeAd ->
+            NativeAdsManager.isLoadingAds = false
             it.visibility = View.VISIBLE
             action?.invoke()
             it.showShimmer(false)
             it.setNativeAd(nativeAd)
             it.isVisible = true
         }, onLoadFail = { _ ->
+            NativeAdsManager.isLoadingAds = false
             action_fail?.invoke()
             it.errorShimmer()
             it.visibility = View.GONE

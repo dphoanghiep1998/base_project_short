@@ -18,6 +18,10 @@ class NativeAdsManager constructor(
     private var nativeAd: NativeAd? = null
     private var mAdLoader: AdLoader? = null
 
+    companion object {
+        var isLoadingAds = false
+    }
+
     val mNativeAd get() = nativeAd
 
     var handler: Handler? = null

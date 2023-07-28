@@ -9,11 +9,14 @@ import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.gianghv.libads.NativeAdsManager
 import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
+import com.neko.hiepdph.skibyditoiletvideocall.common.ConnectionType
 import com.neko.hiepdph.skibyditoiletvideocall.common.NativeTypeEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
@@ -24,11 +27,13 @@ import com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard.adapter.ViewPag
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard.child_fragment.FragmentOnboardChild1
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard.child_fragment.FragmentOnboardChild2
 import com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard.child_fragment.FragmentOnboardChild3
+import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 
 
 class FragmentOnBoard : Fragment() {
     private lateinit var binding: FragmentOnboardBinding
     private lateinit var viewpagerAdapter: ViewPagerAdapter
+    private val viewModel by activityViewModels<AppViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -42,16 +47,27 @@ class FragmentOnBoard : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        showNativeAds(binding.nativeAdSmallView, {
-            binding.btnNext.show()
-            binding.loadingAds.hide()
-        }, {
-            binding.btnNext.show()
-            binding.loadingAds.hide()
-        }, NativeTypeEnum.INTRO)
+        resetAdsWhenConnectivityChange()
+
     }
 
-
+    private fun resetAdsWhenConnectivityChange(){
+        viewModel.typeNetwork.observe(viewLifecycleOwner){conn ->
+            conn?.let {
+                if(it != ConnectionType.UNKNOWN && !NativeAdsManager.isLoadingAds){
+                    binding.btnNext.hide()
+                    binding.loadingAds.show()
+                    showNativeAds(binding.nativeAdSmallView, {
+                        binding.btnNext.show()
+                        binding.loadingAds.hide()
+                    }, {
+                        binding.btnNext.show()
+                        binding.loadingAds.hide()
+                    }, NativeTypeEnum.INTRO)
+                }
+            }
+        }
+    }
     private fun initView() {
         binding.btnNext.hide()
         initViewPager()

@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import androidx.recyclerview.widget.GridLayoutManager
@@ -14,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.gianghv.libads.NativeAdsManager
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference.Companion.INSTANCE
+import com.neko.hiepdph.skibyditoiletvideocall.common.ConnectionType
 import com.neko.hiepdph.skibyditoiletvideocall.common.NativeTypeEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
@@ -23,12 +26,14 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.showNativeAds
 import com.neko.hiepdph.skibyditoiletvideocall.common.supportDisplayLang
 import com.neko.hiepdph.skibyditoiletvideocall.common.supportedLanguages
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentLanguageBinding
+import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 import java.util.Locale
 
 class FragmentLanguageMain : Fragment() {
     private lateinit var binding: FragmentLanguageBinding
     private var currentLanguage = Locale.getDefault().language
     private var adapter: AdapterLanguage? = null
+    private val viewModel by activityViewModels<AppViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -42,6 +47,8 @@ class FragmentLanguageMain : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         changeBackPressCallBack()
+        resetAdsWhenConnectivityChange()
+
     }
 
     private fun initView() {
@@ -79,7 +86,7 @@ class FragmentLanguageMain : Fragment() {
         }, {
             binding.btnCheck.show()
             binding.loadingAds.hide()
-        }, type = NativeTypeEnum.GALLERY
+        }, type = NativeTypeEnum.LANGUAGE
         )
     }
 
@@ -101,7 +108,30 @@ class FragmentLanguageMain : Fragment() {
         return INSTANCE.getSavedLanguage(Locale.getDefault().language)
     }
 
+    private fun resetAdsWhenConnectivityChange(){
+        viewModel.typeNetwork.observe(viewLifecycleOwner){conn ->
+            conn?.let {
+                if(it != ConnectionType.UNKNOWN && !NativeAdsManager.isLoadingAds){
+                    binding.btnCheck.hide()
+                    binding.loadingAds.show()
+                    showNativeAds(binding.nativeAdMediumView, {
+                        Log.d("TAG", "initRecyclerView:true ")
+                        lifecycleScope.launchWhenResumed {
+                            binding.btnCheck.show()
+                            binding.loadingAds.hide()
+                        }
 
+                    }, {
+                        lifecycleScope.launchWhenResumed {
+                            binding.btnCheck.show()
+                            binding.loadingAds.hide()
+                        }
+                    }, type = NativeTypeEnum.LANGUAGE
+                    )
+                }
+            }
+        }
+    }
     private fun changeBackPressCallBack() {
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {

@@ -51,9 +51,9 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         dialogLoadingOpenAds = DialogFragmentLoadingOpenAds().onCreateDialog(this)
+        initAds()
         fetchRemoteConfig()
         setStatusColor()
-        initAds()
         handleAds()
         CustomApplication.app.isInside = false
         handler = Handler()
@@ -102,6 +102,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun checkAdsLoad() {
+        Log.d("TAG", "checkAdsLoad: " +status)
         if (status == 2) {
             if (openSplashAds?.isAdLoaded == true) {
                 handleAtLeast2Second(action = {
@@ -125,6 +126,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun handleAds() {
         if (!isInternetAvailable(this)) {
+            binding.loadingSplash.repeatCount = 0
             handleWhenAnimationDone(action = {
                 navigateToMain()
             })
@@ -139,6 +141,8 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun loadSplashAds() {
+        Log.d("TAG", "handleAds:3 ")
+
         openSplashAds?.loadAd(onAdLoadFail = {
             Log.d("TAG", "loadSplashAds: fail")
             if (!CustomApplication.app.isInside) {

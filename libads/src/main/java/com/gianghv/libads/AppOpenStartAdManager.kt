@@ -26,7 +26,8 @@ class AppOpenStartAdManager constructor(
     var isAdLoaded = false
     var handler: Handler? = null
     var runable: Runnable? = null
-    companion object{
+
+    companion object {
         var isShowingAd = false
     }
 
@@ -45,25 +46,36 @@ class AppOpenStartAdManager constructor(
         handler?.postDelayed(runable!!, Constants.TIME_OUT)
         isLoadingAd = true
         if (AdsConfigUtils(context).getDefConfigNumber() == 1) {
+            Log.d("TAG", "loadAd: 1")
             loadAdsPrepare(idOpenAds01, onAdLoader, onAdLoadFail = {
+                Log.d("TAG", "loadAd: 3")
                 loadAdsPrepare(idOpenAds02, onAdLoader, onAdLoadFail = {
+                    Log.d("TAG", "loadAd: 5")
                     isAdLoaded = false
                     if (handler == null) {
                         onAdLoadFail?.invoke()
+                    } else {
+                        runable?.let { handler?.removeCallbacks(it) }
+                        handler = null
+                        onAdLoadFail?.invoke()
                     }
-                    runable?.let { handler?.removeCallbacks(it) }
-                    handler = null
                 })
             })
         } else {
+            Log.d("TAG", "loadAd: 2")
             loadAdsPrepare(idOpenAds02, onAdLoader, onAdLoadFail = {
+                Log.d("TAG", "loadAd: 4")
                 loadAdsPrepare(idOpenAds01, onAdLoader, onAdLoadFail = {
+                    Log.d("TAG", "loadAd: 6")
                     isAdLoaded = false
                     if (handler == null) {
                         onAdLoadFail?.invoke()
+                    } else {
+                        runable?.let { handler?.removeCallbacks(it) }
+                        handler = null
+                        onAdLoadFail?.invoke()
                     }
-                    runable?.let { handler?.removeCallbacks(it) }
-                    handler = null
+
                 })
             })
         }
@@ -110,7 +122,7 @@ class AppOpenStartAdManager constructor(
     }
 
 
-     fun showAdIfAvailable(
+    fun showAdIfAvailable(
         activity: Activity, onShowAdCompleteListener: OnShowAdCompleteListener
     ) {
         if (isShowingAd) {

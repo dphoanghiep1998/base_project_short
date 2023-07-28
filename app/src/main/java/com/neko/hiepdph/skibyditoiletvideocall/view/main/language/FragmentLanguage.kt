@@ -1,14 +1,20 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.language
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gianghv.libads.NativeAdsManager
+import com.gianghv.libads.utils.Utils
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference.Companion.INSTANCE
+import com.neko.hiepdph.skibyditoiletvideocall.common.ConnectionType
 import com.neko.hiepdph.skibyditoiletvideocall.common.NativeTypeEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.hide
@@ -17,12 +23,14 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.showNativeAds
 import com.neko.hiepdph.skibyditoiletvideocall.common.supportDisplayLang
 import com.neko.hiepdph.skibyditoiletvideocall.common.supportedLanguages
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentLanguageBinding
+import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 import java.util.Locale
 
 class FragmentLanguage : Fragment() {
     private lateinit var binding: FragmentLanguageBinding
     private var currentLanguage = Locale.getDefault().language
     private var adapter: AdapterLanguage? = null
+    private val viewModel by activityViewModels<AppViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -36,6 +44,7 @@ class FragmentLanguage : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         changeBackPressCallBack()
+        resetAdsWhenConnectivityChange()
     }
 
     private fun initView() {
@@ -67,14 +76,31 @@ class FragmentLanguage : Fragment() {
         binding.rcvLanguage.layoutManager =
             GridLayoutManager(requireContext(), 2, RecyclerView.VERTICAL, false)
         adapter?.setCurrentLanguage(getCurrentLanguage())
-        showNativeAds(binding.nativeAdMediumView, {
-            binding.btnCheck.show()
-            binding.loadingAds.hide()
-        }, {
-            binding.btnCheck.show()
-            binding.loadingAds.hide()
-        }, type = NativeTypeEnum.GALLERY
-        )
+    }
+
+    private fun resetAdsWhenConnectivityChange(){
+        viewModel.typeNetwork.observe(viewLifecycleOwner){conn ->
+            conn?.let {
+                if(it != ConnectionType.UNKNOWN && !NativeAdsManager.isLoadingAds){
+                    binding.btnCheck.hide()
+                    binding.loadingAds.show()
+                    showNativeAds(binding.nativeAdMediumView, {
+                        Log.d("TAG", "initRecyclerView:true ")
+                        lifecycleScope.launchWhenResumed {
+                            binding.btnCheck.show()
+                            binding.loadingAds.hide()
+                        }
+
+                    }, {
+                        lifecycleScope.launchWhenResumed {
+                            binding.btnCheck.show()
+                            binding.loadingAds.hide()
+                        }
+                    }, type = NativeTypeEnum.LANGUAGE
+                    )
+                }
+            }
+        }
     }
 
     private fun handleUnSupportLang(mLanguageList: MutableList<Any>) {

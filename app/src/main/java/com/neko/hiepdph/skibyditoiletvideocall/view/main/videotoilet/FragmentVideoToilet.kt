@@ -124,7 +124,7 @@ class FragmentVideoToilet : Fragment() {
                 viewModel.setCurrentModel(viewModel.getData(requireContext())[0])
             }
             var index = viewModel.getData(requireContext()).indexOf(viewModel.getCurrentModel())
-
+            Log.d("TAG", "initButton: " +index)
             if (index < 39) {
                 index++
                 if (count in AppSharePreference.INSTANCE.getListUnlockPos(
@@ -189,6 +189,7 @@ class FragmentVideoToilet : Fragment() {
                     }
                 }
             } else {
+                index = 0
                 count = 0
                 if (!isVideoExist(viewModel.getData(requireContext())[index])) {
                     dialogLoadingProgress?.show()
