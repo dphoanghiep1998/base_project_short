@@ -86,4 +86,8 @@
   <string name="answer_20">Terima kasih untuk obrolan ini. Saya dengan mengulangi percakapan ini.</string>
   <string name="answer_21">Selamat datang, senang berbicara dengan Anda hari ini</string>
   <string name="unlock">MEMBUKA KUNCI</string>
+
+  <string name="loading_download">Aplikasi sedang mengunduh video untuk penggunaan berikutnya... Harap tunggu!</string>
+  <string name="download_fail">Terjadi kesalahan saat mengunduh video ini, silakan coba lagi nanti!</string>
+
 </resources>

@@ -87,4 +87,7 @@
   <string name="answer_21">Willkommen, es ist schön, heute mit Ihnen zu sprechen</string>
   <string name="unlock">FREISCHALTEN</string>
   <string name="permission">Die Anwendung benötigt Kamera- und Mikrofonberechtigungen, um ordnungsgemäß zu funktionieren!</string>
+  <string name="loading_download">Die App lädt das Video für die nächste Verwendung herunter... Bitte warten!</string>
+  <string name="download_fail">Beim Herunterladen dieses Videos ist ein Fehler aufgetreten. Bitte versuchen Sie es später erneut!</string>
+
 </resources>

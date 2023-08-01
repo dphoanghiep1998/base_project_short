@@ -144,7 +144,6 @@ class FragmentVideoToilet : Fragment() {
                                 requireActivity().filesDir.path + "/video_source",
                                 "video${viewModel.getData(requireContext())[index].id}",
                                 onDownloadCompleted = {
-                                    addIndexToListDownloadedVideo(viewModel.getCurrentModel()!!.id)
                                     showButtonCallAtController()
                                     dialogLoadingProgress?.dismiss()
                                     playVideoLocal(viewModel.getData(requireContext())[index])
@@ -168,7 +167,7 @@ class FragmentVideoToilet : Fragment() {
                             requireActivity().filesDir.path + "/video_source",
                             "video${viewModel.getData(requireContext())[index].id}",
                             onDownloadCompleted = {
-                                addIndexToListDownloadedVideo(viewModel.getCurrentModel()!!.id)
+
                                 showButtonCallAtController()
                                 dialogLoadingProgress?.dismiss()
                                 playVideoLocal(viewModel.getData(requireContext())[index])
@@ -190,7 +189,7 @@ class FragmentVideoToilet : Fragment() {
                 }
             } else {
                 index = 0
-                count = 0
+                count = 1
                 if (!isVideoExist(viewModel.getData(requireContext())[index])) {
                     dialogLoadingProgress?.show()
                     DownloadManagerApp.INSTANCE.makeRequestDownload(viewModel.getData(
@@ -199,7 +198,6 @@ class FragmentVideoToilet : Fragment() {
                         requireActivity().filesDir.path + "/video_source",
                         "video${viewModel.getData(requireContext())[index].id}",
                         onDownloadCompleted = {
-                            addIndexToListDownloadedVideo(viewModel.getCurrentModel()!!.id)
                             showButtonCallAtController()
                             dialogLoadingProgress?.dismiss()
                             playVideoLocal(viewModel.getData(requireContext())[index])
@@ -236,6 +234,7 @@ class FragmentVideoToilet : Fragment() {
             Log.d("TAG", "initButton: ")
             if (SystemClock.elapsedRealtime() - lastClickTime < 30000 && InterstitialSingleReqAdManager.isShowingAds) return@clickWithDebounce
             else showInterAds(action = {
+                viewModel.setCurrentModel(null)
                 requireContext().pushEvent("click_back_video")
                 findNavController().popBackStack()
             }, InterAdsEnum.FUNCTION)
@@ -260,7 +259,8 @@ class FragmentVideoToilet : Fragment() {
 
         requireActivity().findViewById<ImageView>(R.id.video_call_toilet).clickWithDebounce {
             val model = OtherCallModel(
-                0,
+                viewModel.getCurrentModel()!!.id,
+                viewModel.getCurrentModel()!!.image,
                 R.drawable.ic_banner_progress_call,
                 "Skibidi Toilet",
                 0,
@@ -269,6 +269,7 @@ class FragmentVideoToilet : Fragment() {
             )
             val direction =
                 FragmentVideoToiletDirections.actionFragmentVideoToiletToFragmentCallScreen(model)
+            viewModel.setCurrentModel(null)
             findNavController().navigate(direction)
         }
         if (firstTimeOpen) {
@@ -327,10 +328,26 @@ class FragmentVideoToilet : Fragment() {
 
     private fun showButtonCallAtController() {
         requireActivity().findViewById<ImageView>(R.id.video_call_toilet).show()
+        val anim = ScaleAnimation(
+            1.0f,
+            0.6f,
+            1.0f,
+            0.6f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f,
+            Animation.RELATIVE_TO_SELF,
+            0.5f
+        )
+        anim.duration = 600
+        anim.repeatCount = Animation.INFINITE
+        anim.repeatMode = Animation.REVERSE
+        requireActivity().findViewById<ImageView>(R.id.video_call_toilet).startAnimation(anim)
     }
 
     private fun hideButtonCallAtController() {
         requireActivity().findViewById<ImageView>(R.id.video_call_toilet).hide()
+        requireActivity().findViewById<ImageView>(R.id.video_call_toilet).clearAnimation()
+
 
     }
 
@@ -352,6 +369,8 @@ class FragmentVideoToilet : Fragment() {
         viewModel.playAudio(
             MediaItem.fromUri(viewModel.getCurrentModel()!!.content_local),
             onEnd = {})
+        addIndexToListDownloadedVideo(viewModel.getCurrentModel()!!.id)
+
     }
 
 
@@ -371,7 +390,6 @@ class FragmentVideoToilet : Fragment() {
                     requireActivity().filesDir.path + "/video_source",
                     "video${viewModel.getCurrentModel()!!.id}",
                     onDownloadCompleted = {
-                        addIndexToListDownloadedVideo(viewModel.getCurrentModel()!!.id)
                         showButtonCallAtController()
                         dialogLoadingProgress?.dismiss()
                         playVideoLocal(viewModel.getCurrentModel()!!)
@@ -412,6 +430,7 @@ class FragmentVideoToilet : Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
+        Log.d("TAG", "onDestroy: ")
         viewModel.resetPlayer()
         requireActivity().unregisterReceiver(receiver)
     }
@@ -422,6 +441,7 @@ class FragmentVideoToilet : Fragment() {
                 if (SystemClock.elapsedRealtime() - lastClickTime < 30000 && InterstitialSingleReqAdManager.isShowingAds) return
                 else showInterAds(action = {
                     requireContext().pushEvent("click_back_video")
+                    viewModel.setCurrentModel(null)
                     findNavController().popBackStack()
                 }, InterAdsEnum.FUNCTION)
                 lastClickTime = SystemClock.elapsedRealtime()

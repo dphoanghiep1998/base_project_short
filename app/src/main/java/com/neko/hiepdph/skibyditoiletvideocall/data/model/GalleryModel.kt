@@ -9,6 +9,7 @@ data class GalleryModel(
     val id: Int = -1,
     val name: String,
     val time: Long,
+    val videoId :Int,
     val videoLength: Long,
     val videoPath: Int,
     val videoUrl:String,
@@ -18,7 +19,7 @@ data class GalleryModel(
     fun toGalleryEntity(): GalleryEntity {
         val fileId = if (id == -1) 0 else id
         return GalleryEntity(
-            fileId, name, time, videoLength, videoPath,videoUrl, cameraVideoPath, videoType
+            fileId, name, time,videoId, videoLength, videoPath,videoUrl, cameraVideoPath, videoType
         )
     }
 }

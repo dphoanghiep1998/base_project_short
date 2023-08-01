@@ -87,4 +87,7 @@
   <string name="answer_21">Bienvenido, es un placer hablar contigo hoy.</string>
   <string name="unlock">DESBLOQUEAR</string>
   <string name="permission">¡La aplicación necesita permisos de cámara y micrófono para funcionar correctamente!</string>
+  <string name="loading_download">La aplicación está descargando el vídeo para su uso posterior... ¡Por favor, espera!</string>
+  <string name="download_fail">Se produjo un error al descargar este vídeo, ¡inténtalo más tarde!</string>
+
 </resources>

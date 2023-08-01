@@ -20,6 +20,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.gianghv.libads.AppOpenResumeAdManager
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
@@ -55,11 +56,13 @@ class FragmentCallScreen : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         action = {
+            AppOpenResumeAdManager.isShowingAd = false
             if (args == null && args.characterModel == null) {
                 val direction =
                     FragmentCallScreenDirections.actionFragmentCallScreenToFragmentScreenAccept(
                         OtherCallModel(
                             0,
+                            R.drawable.ic_1,
                             R.drawable.ic_banner_progress_call,
                             "Skibidi Toilet",
                             R.raw.john_porn,"",
@@ -128,12 +131,13 @@ class FragmentCallScreen : Fragment() {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.CAMERA
-                ) && ActivityCompat.shouldShowRequestPermissionRationale(
+                ) || ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.RECORD_AUDIO
                 )
             ) {
                 val dialogPermission = DialogConfirm(
                     requireContext(), onPressPositive = {
+                        AppOpenResumeAdManager.isShowingAd = true
                         cameraLauncher.launch(
                             Intent(
                                 Settings.ACTION_APPLICATION_DETAILS_SETTINGS,

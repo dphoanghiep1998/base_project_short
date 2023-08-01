@@ -87,4 +87,7 @@
   <string name="answer_21">환영합니다, 오늘 당신과 이야기하게 되어 기쁩니다.</string>
   <string name="unlock">터놓다</string>
   <string name="permission">애플리케이션은 카메라와 마이크 권한이 필요합니다. 제대로 작동하려면!</string>
+  <string name="loading_download">앱이 다음 사용을 위해 비디오를 다운로드 중입니다... 기다려주십시오!</string>
+  <string name="download_fail">이 비디오를 다운로드하는 중에 오류가 발생했습니다. 나중에 다시 시도하세요!</string>
+
 </resources>

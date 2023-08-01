@@ -5,8 +5,8 @@
   <string name="confirm">Video HOT cần xem quảng cáo để mở khóa!</string>
   <string name="confirm_close">Bạn có chắc chắn muốn thoát khỏi ứng dụng?</string>
   <string name="no">KHÔNG</string>
-  <string name="yes">Đúng</string>
-  <string name="watch">Xem</string>
+  <string name="yes">CÓ</string>
+  <string name="watch">XEM</string>
   <string name="loading_ads_new">Skybidi Toilet Video Call đang chạy, vui lòng đợi…</string>
   <string name="lock">KHÓA</string>
   <string name="welcome_back">Chào mừng trở lại!</string>
@@ -63,7 +63,7 @@
   <string name="question_19">Bạn có thích ứng dụng này?</string>
   <string name="question_20">Hẹn gặp lại</string>
   <string name="question_21">Cảm ơn bạn về cuộc trò chuyện này</string>
-  <string name="answer">Xin chào thân yêu của tôi?</string>
+  <string name="answer">Xin chào bạn thân yêu của tôi?</string>
   <string name="answer_1">Chào bạn của tôi bạn thế nào?</string>
   <string name="answer_2">Siêu tốt, cảm ơn bạn! Thật tuyệt khi nói chuyện với bạn ngày hôm nay</string>
   <string name="answer_3">Về cơ bản, tôi là nhà vệ sinh tuyệt vời nhất trên thế giới</string>
@@ -87,4 +87,8 @@
   <string name="answer_21">Chào mừng, rất vui được nói chuyện với bạn hôm nay</string>
   <string name="unlock">MỞ KHÓA</string>
   <string name="permission">Ứng dụng cần được cấp quyền Camera và quyền Micro để hoạt động đúng cách!</string>
+
+  <string name="loading_download">Ứng dụng đang tải video để sử dụng sau này... Vui lòng đợi!</string>
+  <string name="download_fail">Đã xảy ra lỗi khi tải video này, vui lòng thử lại sau!</string>
+
 </resources>

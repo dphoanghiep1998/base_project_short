@@ -63,7 +63,7 @@ class FragmentGallery : Fragment() {
     }
 
     private fun initRecyclerView() {
-        adapterGallery = AdapterGallery(onClickItem = {
+        adapterGallery = AdapterGallery(imageData = viewModel.getData(requireContext()),onClickItem = {
             Log.d("TAG", "initRecyclerView: "+it.cameraVideoPath)
             val direction = FragmentGalleryDirections.actionFragmentGalleryToFragmentPreview(it)
             findNavController().navigate(direction)

@@ -87,4 +87,7 @@
   <string name="answer_21">Bienvenue, c\'est agréable de parler avec vous aujourd\'hui</string>
   <string name="unlock">OUVRIR</string>
   <string name="permission">L\'application a besoin des autorisations pour l\'appareil photo et le micro pour fonctionner correctement !</string>
+  <string name="loading_download">L\'application télécharge la vidéo pour une utilisation ultérieure... Veuillez patienter !</string>
+  <string name="download_fail">Une erreur s\'est produite lors du téléchargement de cette vidéo, veuillez réessayer ultérieurement !</string>
+
 </resources>

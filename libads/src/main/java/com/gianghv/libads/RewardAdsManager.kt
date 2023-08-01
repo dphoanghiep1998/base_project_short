@@ -79,9 +79,11 @@ class RewardAdsManager(
                 requestAdsPrepare(mIDReward02, onAdLoader, onAdLoadFail = {
                     if (handler == null) {
                         onAdLoadFail?.invoke()
+                    }else{
+                        onAdLoadFail?.invoke()
+                        runable?.let { handler?.removeCallbacks(it) }
+                        handler = null
                     }
-                    runable?.let { handler?.removeCallbacks(it) }
-                    handler = null
                 })
             })
         } else {
@@ -89,9 +91,12 @@ class RewardAdsManager(
                 requestAdsPrepare(mIDReward01, onAdLoader, onAdLoadFail = {
                     if (handler == null) {
                         onAdLoadFail?.invoke()
+                    }else{
+                        onAdLoadFail?.invoke()
+                        runable?.let { handler?.removeCallbacks(it) }
+                        handler = null
                     }
-                    runable?.let { handler?.removeCallbacks(it) }
-                    handler = null
+
                 })
             })
         }

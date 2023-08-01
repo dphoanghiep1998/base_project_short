@@ -13,19 +13,26 @@ import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.gianghv.libads.AppOpenResumeAdManager
 import com.neko.hiepdph.skibyditoiletvideocall.R
+import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
 import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.common.navigateToPage
 import com.neko.hiepdph.skibyditoiletvideocall.common.showBannerAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentCallBinding
+import com.neko.hiepdph.skibyditoiletvideocall.view.main.message.FragmentMessageDirections
+import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
+import java.io.File
 
 
 class FragmentCall : Fragment() {
     private lateinit var binding: FragmentCallBinding
     private var action: (() -> Unit)? = null
+    private val viewModel by activityViewModels<AppViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -40,9 +47,67 @@ class FragmentCall : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         action = {
-            val model = OtherCallModel(0,R.drawable.ic_banner_progress_call,"Skibidi Toilet",R.raw.john_porn,"",4)
-            val direction = FragmentCallDirections.actionFragmentCallToFragmentCallScreen(model)
-            findNavController().navigate(direction)
+            AppOpenResumeAdManager.isShowingAd = false
+            val listVideoDownloaded =
+                AppSharePreference.INSTANCE.getListVideoDownloaded(mutableListOf())
+                    .toMutableList()
+            if (listVideoDownloaded.isEmpty()) {
+                val model = OtherCallModel(
+                    0,
+                    R.drawable.ic_1,
+                    R.drawable.ic_banner_progress_call,
+                    "Skibidi Toilet",
+                    R.raw.john_porn,
+                    "",
+                    4
+                )
+                val direction =
+                    FragmentCallDirections.actionFragmentCallToFragmentCallScreen(model)
+                findNavController().navigate(direction)
+            } else {
+                var index = 0
+                listVideoDownloaded.shuffle()
+                while (!File(viewModel.getData(requireContext())[listVideoDownloaded[0]].content_local).exists()) {
+                    listVideoDownloaded.remove(listVideoDownloaded[0])
+                    if (listVideoDownloaded.isEmpty()) {
+                        break
+                    } else {
+                        listVideoDownloaded.shuffle()
+                    }
+                }
+                AppSharePreference.INSTANCE.saveListVideoDownloaded(listVideoDownloaded)
+                if (listVideoDownloaded.isNotEmpty()) {
+                    index = listVideoDownloaded[0]
+                    Log.d("TAG", "initButton: " + index)
+
+                    val model = OtherCallModel(
+                        0,
+                        R.drawable.ic_1,
+                        R.drawable.ic_banner_progress_call,
+                        "Skibidi Toilet",
+                        0,
+                        viewModel.getData(requireContext())
+                            .find { it.id == index }?.content_local.toString(),
+                        4
+                    )
+                    val direction =
+                        FragmentCallDirections.actionFragmentCallToFragmentCallScreen(model)
+                    findNavController().navigate(direction)
+                } else {
+                    val model = OtherCallModel(
+                        0,
+                        R.drawable.ic_1,
+                        R.drawable.ic_banner_progress_call,
+                        "Skibidi Toilet",
+                        R.raw.john_porn,
+                        "",
+                        4
+                    )
+                    val direction =
+                        FragmentCallDirections.actionFragmentCallToFragmentCallScreen(model)
+                    findNavController().navigate(direction)
+                }
+            }
         }
     }
 
@@ -94,13 +159,14 @@ class FragmentCall : Fragment() {
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
                     Manifest.permission.CAMERA
-                ) && ActivityCompat.shouldShowRequestPermissionRationale(
+                ) || ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(),
                     Manifest.permission.RECORD_AUDIO
                 )
             ) {
                 val dialogPermission = DialogConfirm(
                     requireContext(), onPressPositive = {
+                        AppOpenResumeAdManager.isShowingAd = true
                         cameraLauncher.launch(
                             Intent(
                                 Settings.ACTION_APPLICATION_DETAILS_SETTINGS,

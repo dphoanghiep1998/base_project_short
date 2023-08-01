@@ -1,18 +1,15 @@
 package com.neko.hiepdph.skibyditoiletvideocall.view.main.onboard
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.activity.OnBackPressedCallback
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.gianghv.libads.NativeAdsManager
-import com.neko.hiepdph.skibyditoiletvideocall.BuildConfig
 import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
@@ -39,6 +36,9 @@ class FragmentOnBoard : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentOnboardBinding.inflate(inflater, container, false)
+        if (CustomApplication.app.isPassIntro) {
+            findNavController().navigate(R.id.fragmentHome)
+        }
         setStatusColor()
         changeBackPressCallBack()
         return binding.root
@@ -47,14 +47,16 @@ class FragmentOnBoard : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
-        resetAdsWhenConnectivityChange()
+        if (!CustomApplication.app.isPassIntro) {
+            resetAdsWhenConnectivityChange()
+        }
 
     }
 
-    private fun resetAdsWhenConnectivityChange(){
-        viewModel.typeNetwork.observe(viewLifecycleOwner){conn ->
+    private fun resetAdsWhenConnectivityChange() {
+        viewModel.typeNetwork.observe(viewLifecycleOwner) { conn ->
             conn?.let {
-                if(it != ConnectionType.UNKNOWN && !NativeAdsManager.isLoadingAds){
+                if (it != ConnectionType.UNKNOWN && !NativeAdsManager.isLoadingAds) {
                     binding.btnNext.hide()
                     binding.loadingAds.show()
                     showNativeAds(binding.nativeAdSmallView, {
@@ -68,6 +70,7 @@ class FragmentOnBoard : Fragment() {
             }
         }
     }
+
     private fun initView() {
         binding.btnNext.hide()
         initViewPager()
@@ -94,6 +97,7 @@ class FragmentOnBoard : Fragment() {
         binding.btnNext.setOnClickListener {
             val currentItem = binding.vpOnboard.currentItem
             if (binding.vpOnboard.currentItem == 2) {
+                CustomApplication.app.isPassIntro = true
                 AppSharePreference.INSTANCE.setPassSetting(true)
                 navigateToPage(R.id.fragmentOnBoard, R.id.fragmentHome)
             } else {
@@ -110,33 +114,5 @@ class FragmentOnBoard : Fragment() {
         )
         binding.vpOnboard.adapter = viewpagerAdapter
         binding.dotsIndicator.attachTo(binding.vpOnboard)
-    }
-
-    private fun insertAds() {
-        if (CustomApplication.app.mNativeAdManagerIntro == null) {
-            CustomApplication.app.mNativeAdManagerIntro = NativeAdsManager(
-                requireContext(), BuildConfig.native_intro_id1, BuildConfig.native_intro_id2
-            )
-        }
-        CustomApplication.app.nativeADIntro?.observe(viewLifecycleOwner) {
-            it?.let {
-                binding.nativeAdSmallView.setNativeAd(it)
-                binding.nativeAdSmallView.isVisible = true
-                binding.nativeAdSmallView.showShimmer(false)
-            }
-        }
-        if (CustomApplication.app.nativeADIntro?.value == null) {
-            CustomApplication.app.mNativeAdManagerIntro?.loadAds(onLoadSuccess = {
-                CustomApplication.app.nativeADIntro?.value = it
-                Log.d("TAG", "insertAds: true")
-                binding.btnNext.show()
-
-            }, onLoadFail = {
-                Log.d("TAG", "insertAds: fail")
-                binding.nativeAdSmallView.isVisible = false
-                binding.nativeAdSmallView.visibility = View.GONE
-                binding.btnNext.show()
-            })
-        }
     }
 }

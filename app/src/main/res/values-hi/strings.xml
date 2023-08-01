@@ -87,4 +87,8 @@
   <string name="answer_21">स्वागत है, आज आपसे बात करके अच्छा लगा</string>
   <string name="unlock">अनलॉक</string>
   <string name="permission">ऐप्लिकेशन को सही ढंग से काम करने के लिए कैमरा और माइक्रोफ़ोन की अनुमति की आवश्यकता है!</string>
+
+  <string name="loading_download">ऐप अगले उपयोग के लिए वीडियो डाउनलोड कर रहा है... कृपया प्रतीक्षा करें!</string>
+  <string name="download_fail">इस वीडियो को डाउनलोड करते समय कुछ त्रुटि हुई, कृपया बाद में प्रयास करें!</string>
+
 </resources>

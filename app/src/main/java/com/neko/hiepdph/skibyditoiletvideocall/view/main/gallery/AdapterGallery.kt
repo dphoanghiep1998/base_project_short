@@ -6,10 +6,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.GalleryModel
+import com.neko.hiepdph.skibyditoiletvideocall.data.model.MonsterModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.LayoutItemGalleryBinding
 import java.text.SimpleDateFormat
 
 class AdapterGallery(
+    private val imageData:MutableList<MonsterModel>,
     private val onClickItem: (GalleryModel) -> Unit,
     private val onClickShare: (GalleryModel) -> Unit,
     private val onClickDeleteItem: (GalleryModel) -> Unit
@@ -41,7 +43,7 @@ class AdapterGallery(
             val item = data[position]
             when (item.videoType) {
                 4 -> {
-                    binding.imvAvatar.setImageResource(R.drawable.ic_gallrey_skibidy)
+                    binding.imvAvatar.setImageResource(imageData[item.videoId].image)
                 }
 
                 0 -> {

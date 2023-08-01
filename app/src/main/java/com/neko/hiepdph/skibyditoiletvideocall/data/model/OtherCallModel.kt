@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class OtherCallModel(
+    val monster_id :Int,
     val image: Int,
     val circleImage: Int,
     val name: String,

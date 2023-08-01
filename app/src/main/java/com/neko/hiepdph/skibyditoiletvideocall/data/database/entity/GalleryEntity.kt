@@ -9,6 +9,7 @@ data class GalleryEntity(
     val id: Int = -1,
     val name: String,
     val time: Long,
+    val videoId :Int,
     val videoLength: Long,
     val videoPath: Int,
     val videoUrl:String,

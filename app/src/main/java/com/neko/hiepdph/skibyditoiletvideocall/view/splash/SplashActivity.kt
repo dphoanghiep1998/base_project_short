@@ -55,7 +55,6 @@ class SplashActivity : AppCompatActivity() {
         fetchRemoteConfig()
         setStatusColor()
         handleAds()
-        CustomApplication.app.isInside = false
         handler = Handler()
         runnable = Runnable {
             val defPos = FirebaseRemoteConfig.getInstance().getLong(AdsConfigUtils.DEF_POS)
@@ -107,7 +106,6 @@ class SplashActivity : AppCompatActivity() {
             if (openSplashAds?.isAdLoaded == true) {
                 handleAtLeast2Second(action = {
                     lifecycleScope.launchWhenResumed {
-                        dialogLoadingOpenAds?.show()
                         lifecycleScope.launch(Dispatchers.Main) {
                             delay(500)
                             openSplashAds?.showAdIfAvailable(
@@ -145,14 +143,14 @@ class SplashActivity : AppCompatActivity() {
 
         openSplashAds?.loadAd(onAdLoadFail = {
             Log.d("TAG", "loadSplashAds: fail")
-            if (!CustomApplication.app.isInside) {
+            if (!CustomApplication.app.isPassLang) {
                 openSplashAds?.isAdLoaded = false
                 status++
                 checkAdsLoad()
             }
         }, onAdLoader = {
             Log.d("TAG", "loadSplashAds: true")
-            if (!CustomApplication.app.isInside) {
+            if (!CustomApplication.app.isPassLang) {
                 openSplashAds?.isAdLoaded = true
                 status++
                 checkAdsLoad()
@@ -235,7 +233,7 @@ class SplashActivity : AppCompatActivity() {
         super.onDestroy()
         dialogLoadingOpenAds?.dismiss()
         openSplashAds = null
-        handler?.removeCallbacks { runnable }
+        runnable?.let { handler?.removeCallbacks (it) }
     }
 
 

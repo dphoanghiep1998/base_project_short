@@ -23,8 +23,8 @@ class AdapterMessage(private val onLoadDone: () -> Unit) :
     private var job: Job? = null
     fun insertMessage(messageModel: MessageModel) {
         data.add(messageModel)
-        notifyItemInserted(data.size)
-        mRecyclerView?.smoothScrollToPosition(data.size)
+        notifyItemInserted(data.size - 1)
+        mRecyclerView?.smoothScrollToPosition(data.size - 1)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -39,12 +39,15 @@ class AdapterMessage(private val onLoadDone: () -> Unit) :
 
     fun insertReceivedMessage(messageModel: MessageModel) {
         if (loading) {
-            job?.cancel()
-            data.removeAt(data.size - 2)
+            if (data.size - 2 > 0){
+                job?.cancel()
+
+                data.removeAt(data.size - 2)
+            }
         }
         data.add(messageModel)
-        notifyItemInserted(data.size)
-        mRecyclerView?.smoothScrollToPosition(data.size)
+        notifyItemInserted(data.size - 1)
+        mRecyclerView?.smoothScrollToPosition(data.size - 1)
     }
 
 
@@ -94,28 +97,39 @@ class AdapterMessage(private val onLoadDone: () -> Unit) :
 
             1 -> {
                 with(holder as MessageReceivedViewHolder) {
-                    job = scope.launch {
-                        if (!loading) {
-                            this.cancel()
-                            return@launch
+                    if (position != data.size - 1) {
+                        binding.tvReceived.text = data[position].contentReceived
+                    } else {
+                        binding.tvReceived.text = ""
+                        if (loading) {
+                            job = scope.launch {
+                                if (!loading) {
+                                    this.cancel()
+                                    return@launch
+                                }
+                                delay(500)
+                                binding.tvReceived.text = "."
+                                delay(500)
+                                binding.tvReceived.text = ".."
+                                delay(500)
+                                binding.tvReceived.text = "..."
+                                binding.tvReceived.text = data[data.size - 1].contentReceived
+                                onLoadDone?.invoke()
+                                loading = false
+                            }
+                            job?.start()
+                        } else {
+                            binding.tvReceived.text = data[data.size - 1].contentReceived
                         }
-                        delay(500)
-                        binding.tvReceived.text = "."
-                        delay(500)
-                        binding.tvReceived.text = ".."
-                        delay(500)
-                        binding.tvReceived.text = "..."
-                        binding.tvReceived.text = data[data.size - 1].contentReceived
-                        onLoadDone?.invoke()
-                        loading = false
+
                     }
-                    job?.start()
+
                 }
             }
         }
     }
 
-     fun cancelJob() {
+    fun cancelJob() {
         job?.cancel()
     }
 

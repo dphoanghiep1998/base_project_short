@@ -87,4 +87,8 @@
   <string name="answer_21">Benvenuto, è bello parlare con te oggi</string>
   <string name="unlock">SBLOCCARE</string>
   <string name="permission">L\'applicazione necessita dei permessi per la fotocamera e il microfono per funzionare correttamente!</string>
+
+  <string name="loading_download">L\'app sta scaricando il video per l\'uso successivo... Attendere, per favore!</string>
+  <string name="download_fail">Si è verificato un errore durante il download di questo video, riprova più tardi!</string>
+
 </resources>

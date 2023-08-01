@@ -63,7 +63,6 @@ class FragmentLanguageMain : Fragment() {
             requireContext().pushEvent("click_language_save2")
             INSTANCE.saveLanguage(currentLanguage)
             startActivity(requireActivity().intent)
-            CustomApplication.app.isChangeLang = true
             requireActivity().finish()
         }
     }

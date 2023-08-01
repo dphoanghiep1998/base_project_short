@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/video_call_toilet"
-        android:layout_width="@dimen/_30sdp"
-        android:layout_height="@dimen/_30sdp"
+        android:layout_width="@dimen/_50sdp"
+        android:layout_height="@dimen/_50sdp"
         android:layout_marginEnd="@dimen/_18sdp"
         android:layout_marginTop="@dimen/_12sdp"
         android:visibility="gone"

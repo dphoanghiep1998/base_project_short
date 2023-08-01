@@ -9,10 +9,12 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gianghv.libads.NativeAdsManager
-import com.gianghv.libads.utils.Utils
+import com.neko.hiepdph.skibyditoiletvideocall.CustomApplication
+import com.neko.hiepdph.skibyditoiletvideocall.R
 import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference.Companion.INSTANCE
 import com.neko.hiepdph.skibyditoiletvideocall.common.ConnectionType
 import com.neko.hiepdph.skibyditoiletvideocall.common.NativeTypeEnum
@@ -37,6 +39,9 @@ class FragmentLanguage : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         binding = FragmentLanguageBinding.inflate(inflater, container, false)
+        if (CustomApplication.app.isPassLang) {
+            findNavController().navigate(R.id.fragmentOnBoard)
+        }
         return binding.root
     }
 
@@ -44,7 +49,9 @@ class FragmentLanguage : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initView()
         changeBackPressCallBack()
-        resetAdsWhenConnectivityChange()
+        if (!CustomApplication.app.isPassLang) {
+            resetAdsWhenConnectivityChange()
+        }
     }
 
     private fun initView() {
@@ -55,6 +62,7 @@ class FragmentLanguage : Fragment() {
     private fun initButton() {
         binding.btnCheck.hide()
         binding.btnCheck.clickWithDebounce {
+            CustomApplication.app.isPassLang = true
             INSTANCE.saveIsSetLangFirst(true)
             INSTANCE.saveLanguage(currentLanguage)
             startActivity(requireActivity().intent)
@@ -78,10 +86,10 @@ class FragmentLanguage : Fragment() {
         adapter?.setCurrentLanguage(getCurrentLanguage())
     }
 
-    private fun resetAdsWhenConnectivityChange(){
-        viewModel.typeNetwork.observe(viewLifecycleOwner){conn ->
+    private fun resetAdsWhenConnectivityChange() {
+        viewModel.typeNetwork.observe(viewLifecycleOwner) { conn ->
             conn?.let {
-                if(it != ConnectionType.UNKNOWN && !NativeAdsManager.isLoadingAds){
+                if (it != ConnectionType.UNKNOWN && !NativeAdsManager.isLoadingAds) {
                     binding.btnCheck.hide()
                     binding.loadingAds.show()
                     showNativeAds(binding.nativeAdMediumView, {

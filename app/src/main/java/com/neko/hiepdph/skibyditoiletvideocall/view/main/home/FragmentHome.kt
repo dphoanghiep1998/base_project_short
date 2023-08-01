@@ -84,9 +84,6 @@ class FragmentHome : Fragment() {
         }
         binding.call.clickWithDebounce {
             showInterAds(action = {
-                val model = OtherCallModel(
-                    0, R.drawable.ic_banner_progress_call, "Skibidi Toilet", R.raw.john_porn, "", 4
-                )
                 navigateToPage(R.id.fragmentHome, R.id.fragmentCall)
             }, type = InterAdsEnum.FUNCTION)
 
@@ -99,6 +96,7 @@ class FragmentHome : Fragment() {
                 if (listVideoDownloaded.isEmpty()) {
                     val model = OtherCallModel(
                         0,
+                        R.drawable.ic_1,
                         R.drawable.ic_banner_progress_call,
                         "Skibidi Toilet",
                         R.raw.john_porn,
@@ -125,7 +123,8 @@ class FragmentHome : Fragment() {
                         Log.d("TAG", "initButton: "+index)
 
                         val model = OtherCallModel(
-                            0,
+                            index,
+                            viewModel.getData(requireContext())[index].image,
                             R.drawable.ic_banner_progress_call,
                             "Skibidi Toilet",
                             0,
@@ -139,6 +138,8 @@ class FragmentHome : Fragment() {
                     } else {
                         val model = OtherCallModel(
                             0,
+                            R.drawable.ic_1,
+
                             R.drawable.ic_banner_progress_call,
                             "Skibidi Toilet",
                             R.raw.john_porn,

@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
         }).onCreateDialog(this)
 
         hideNavigationBar()
-        checkInit()
+//        checkInit()
         initData()
         observeConnectivityChange()
         observeConnectionType()
@@ -63,23 +63,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkInit() {
-        val navHostFragment =
-            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
-
-        val controller = navHostFragment.navController
-        if (!AppSharePreference.INSTANCE.getSetLangFirst(false)) {
-            controller.navigate(R.id.fragmentLanguage)
-        } else {
-            if (!CustomApplication.app.isChangeLang) {
-                controller.navigate(R.id.fragmentOnBoard)
-            } else {
-                controller.navigate(R.id.fragmentHome)
-                CustomApplication.app.isChangeLang = false
-            }
-        }
-
-    }
+//    private fun checkInit() {
+//        val navHostFragment =
+//            (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment)
+//
+//        val controller = navHostFragment.navController
+//
+//        if (!AppSharePreference.INSTANCE.getSetLangFirst(false)) {
+//            controller.navigate(R.id.fragmentLanguage)
+//        } else {
+//            if (!CustomApplication.app.isChangeLang) {
+//                controller.navigate(R.id.fragmentOnBoard)
+//            } else {
+//                controller.navigate(R.id.fragmentHome)
+//                CustomApplication.app.isChangeLang = false
+//            }
+//        }
+//
+//    }
 
     private fun registerConnectivityListener() {
         connectivityListener = ConnectivityListener(applicationContext)
@@ -120,47 +121,7 @@ class MainActivity : AppCompatActivity() {
             )
 
             AppSharePreference.INSTANCE.saveListVideoPlayed(
-                mutableListOf(
-                    1,
-                    2,
-                    3,
-                    4,
-                    5,
-                    6,
-                    7,
-                    8,
-                    9,
-                    10,
-                    11,
-                    12,
-                    13,
-                    14,
-                    15,
-                    16,
-                    17,
-                    18,
-                    19,
-                    20,
-                    21,
-                    22,
-                    23,
-                    24,
-                    25,
-                    26,
-                    27,
-                    28,
-                    29,
-                    30,
-                    31,
-                    32,
-                    33,
-                    34,
-                    35,
-                    36,
-                    37,
-                    38,
-                    39,
-                )
+                (1..39).toList()
             )
         }
     }

@@ -87,4 +87,8 @@
   <string name="answer_21">Hoşgeldin bugün seninle konuşmak güzel</string>
   <string name="unlock">KİLİDİNİ AÇ</string>
   <string name="permission">Uygulama, düzgün çalışması için Kamera ve Mikrofon izinlerine ihtiyaç duyar!</string>
+
+  <string name="loading_download">Uygulama bir sonraki kullanım için videoyu indiriyor... Lütfen bekleyin!</string>
+  <string name="download_fail">Bu videoyu indirirken bir hata oluştu, lütfen daha sonra tekrar deneyin!</string>
+
 </resources>

@@ -18,9 +18,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gianghv.libads.AppOpenResumeAdManager
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.upstream.RawResourceDataSource
 import com.neko.hiepdph.skibyditoiletvideocall.R
+import com.neko.hiepdph.skibyditoiletvideocall.common.AppSharePreference
 import com.neko.hiepdph.skibyditoiletvideocall.common.DialogConfirm
 import com.neko.hiepdph.skibyditoiletvideocall.common.InterAdsEnum
 import com.neko.hiepdph.skibyditoiletvideocall.common.clickWithDebounce
@@ -30,9 +32,11 @@ import com.neko.hiepdph.skibyditoiletvideocall.common.showInterAds
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.MessageModel
 import com.neko.hiepdph.skibyditoiletvideocall.data.model.OtherCallModel
 import com.neko.hiepdph.skibyditoiletvideocall.databinding.FragmentMessageBinding
+import com.neko.hiepdph.skibyditoiletvideocall.view.main.home.FragmentHomeDirections
 import com.neko.hiepdph.skibyditoiletvideocall.viewmodel.AppViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.File
 
 @AndroidEntryPoint
 class FragmentMessage : Fragment() {
@@ -55,12 +59,69 @@ class FragmentMessage : Fragment() {
         initView()
         action = {
             showInterAds(action = {
-                val direction = FragmentMessageDirections.actionFragmentMessageToFragmentCallScreen(
-                    OtherCallModel(
-                        0, R.drawable.ic_banner_progress_call, "Skibidi Toilet", R.raw.john_porn, "",4
+                AppOpenResumeAdManager.isShowingAd = false
+                val listVideoDownloaded =
+                    AppSharePreference.INSTANCE.getListVideoDownloaded(mutableListOf())
+                        .toMutableList()
+                if (listVideoDownloaded.isEmpty()) {
+                    val model = OtherCallModel(
+                        0,
+                        R.drawable.ic_1,
+                        R.drawable.ic_banner_progress_call,
+                        "Skibidi Toilet",
+                        R.raw.john_porn,
+                        "",
+                        4
                     )
-                )
-                findNavController().navigate(direction)
+                    val direction =
+                        FragmentMessageDirections.actionFragmentMessageToFragmentCallScreen(model)
+                    findNavController().navigate(direction)
+                } else {
+                    var index = 0
+                    listVideoDownloaded.shuffle()
+                    while (!File(viewModel.getData(requireContext())[listVideoDownloaded[0]].content_local).exists()) {
+                        listVideoDownloaded.remove(listVideoDownloaded[0])
+                        if (listVideoDownloaded.isEmpty()) {
+                            break
+                        } else {
+                            listVideoDownloaded.shuffle()
+                        }
+                    }
+                    AppSharePreference.INSTANCE.saveListVideoDownloaded(listVideoDownloaded)
+                    if (listVideoDownloaded.isNotEmpty()) {
+                        index = listVideoDownloaded[0]
+                        Log.d("TAG", "initButton: " + index)
+
+                        val model = OtherCallModel(
+                            index,
+                            viewModel.getData(requireContext())[index].image,
+                            R.drawable.ic_banner_progress_call,
+                            "Skibidi Toilet",
+                            0,
+                            viewModel.getData(requireContext())
+                                .find { it.id == index }?.content_local.toString(),
+                            4
+                        )
+                        val direction =
+                            FragmentMessageDirections.actionFragmentMessageToFragmentCallScreen(model)
+                        findNavController().navigate(direction)
+                    } else {
+                        val model = OtherCallModel(
+                            0,
+                            R.drawable.ic_1,
+                            R.drawable.ic_banner_progress_call,
+                            "Skibidi Toilet",
+                            R.raw.john_porn,
+                            "",
+                            4
+                        )
+                        val direction =
+                            FragmentMessageDirections.actionFragmentMessageToFragmentCallScreen(model)
+                        findNavController().navigate(direction)
+                    }
+                }
+
+
             }, InterAdsEnum.CALL_VIDEO)
 
         }
@@ -167,12 +228,13 @@ class FragmentMessage : Fragment() {
             Log.d("TAG", "checkPermission: true")
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.CAMERA
-                ) && ActivityCompat.shouldShowRequestPermissionRationale(
+                ) || ActivityCompat.shouldShowRequestPermissionRationale(
                     requireActivity(), Manifest.permission.RECORD_AUDIO
                 )
             ) {
                 val dialogPermission = DialogConfirm(
                     requireContext(), onPressPositive = {
+                        AppOpenResumeAdManager.isShowingAd = true
                         cameraLauncher.launch(
                             Intent(
                                 Settings.ACTION_APPLICATION_DETAILS_SETTINGS,

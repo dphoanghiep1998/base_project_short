@@ -257,7 +257,7 @@ class AppViewModel @Inject constructor(val repo: AppRepo) : ViewModel() {
     }
 
 
-    fun setCurrentModel(monsterModel: MonsterModel) {
+    fun setCurrentModel(monsterModel: MonsterModel?) {
         currentModel = monsterModel
     }
 

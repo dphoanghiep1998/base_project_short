@@ -87,4 +87,8 @@
   <string name="answer_21">ようこそ、今日はお話しできてうれしいです</string>
   <string name="unlock">ロックを解除する</string>
   <string name="permission">アプリケーションは、正しく機能するためにカメラとマイクの許可が必要です！</string>
+
+  <string name="loading_download">次回の使用のためにアプリがビデオをダウンロードしています... しばらくお待ちください！</string>
+  <string name="download_fail">このビデオのダウンロード中にエラーが発生しました。後でお試しください！</string>
+
 </resources>
